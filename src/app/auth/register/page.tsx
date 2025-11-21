@@ -4,8 +4,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '@/store/slices/authSlice';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 
 export default function Register() {
   const dispatch = useDispatch();
@@ -34,10 +32,8 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-background_light dark:bg-background_dark">
-      <Navbar />
-      <main className="pt-16 flex items-center justify-center min-h-screen">
-        <div className="max-w-md w-full mx-4">
+    <div className="flex items-center justify-center min-h-screen py-12">
+      <div className="max-w-md w-full mx-4">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
             <h1 className="text-2xl font-bold text-center mb-6 text-gray-900 dark:text-white">Register</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -116,9 +112,7 @@ export default function Register() {
               </Link>
             </p>
           </div>
-        </div>
-      </main>
-      <Footer />
+      </div>
     </div>
   );
 }

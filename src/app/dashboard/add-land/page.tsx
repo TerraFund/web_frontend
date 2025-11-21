@@ -2,9 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Navbar from '@/components/Navbar';
-import Sidebar from '@/components/Sidebar';
-import Footer from '@/components/Footer';
 import { ChevronRight, ChevronLeft, MapPin, FileText, Sprout, Check } from 'lucide-react';
 
 export default function AddLandWizard() {
@@ -258,13 +255,9 @@ export default function AddLandWizard() {
   };
 
   return (
-    <div className="min-h-screen bg-background_light dark:bg-background_dark">
-      <Navbar />
-      <div className="pt-16 flex">
-        <Sidebar />
-        <main className="flex-1 p-8">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Add New Land</h1>
+    <div className="p-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Add New Land</h1>
 
             {/* Progress Bar */}
             <div className="mb-8">
@@ -329,10 +322,8 @@ export default function AddLandWizard() {
                 </button>
               )}
             </div>
-          </div>
-        </main>
+        </div>
       </div>
-      <Footer />
     </div>
   );
 }

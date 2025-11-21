@@ -2,11 +2,11 @@ import { NextResponse } from 'next/server';
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { action } = await request.json();
-    const { id } = params;
+    const { id } = await params;
 
     // Mock proposal update
     let status = 'pending';

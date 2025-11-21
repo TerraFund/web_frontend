@@ -3,9 +3,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import Navbar from '@/components/Navbar';
-import Sidebar from '@/components/Sidebar';
-import Footer from '@/components/Footer';
 import { CheckCircle, XCircle, MessageSquare, Eye } from 'lucide-react';
 
 export default function Proposals() {
@@ -46,13 +43,9 @@ export default function Proposals() {
   };
 
   return (
-    <div className="min-h-screen bg-background_light dark:bg-background_dark">
-      <Navbar />
-      <div className="pt-16 flex">
-        <Sidebar />
-        <main className="flex-1 p-8">
-          <div className="max-w-7xl mx-auto">
-            <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Proposals</h1>
+    <div className="p-8">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Proposals</h1>
 
             {user?.role === 'landowner' && (
               <div className="mb-6">
@@ -149,10 +142,8 @@ export default function Proposals() {
                 ))}
               </div>
             </div>
-          </div>
-        </main>
+        </div>
       </div>
-      <Footer />
     </div>
   );
 }

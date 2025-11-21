@@ -1,11 +1,13 @@
 'use client';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { Home, Map, FileText, MessageSquare, CreditCard, Settings, Users } from 'lucide-react';
 
 export default function Sidebar() {
+  const pathname = usePathname();
   const { user } = useSelector((state: RootState) => state.auth);
   const { darkMode } = useSelector((state: RootState) => state.ui);
 
@@ -44,19 +46,26 @@ export default function Sidebar() {
       </div>
       <nav className="px-4">
         <ul className="space-y-2">
-          {links.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className={`flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors ${
-                  darkMode ? 'text-text_primary' : 'text-gray-900'
-                }`}
-              >
-                <link.icon className="h-5 w-5" />
-                <span>{link.label}</span>
-              </Link>
-            </li>
-          ))}
+          {links.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                    isActive
+                      ? 'bg-primary text-white'
+                      : `hover:bg-gray-100 dark:hover:bg-gray-700 ${
+                          darkMode ? 'text-text_primary' : 'text-gray-900'
+                        }`
+                  }`}
+                >
+                  <link.icon className="h-5 w-5" />
+                  <span>{link.label}</span>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </nav>
     </aside>

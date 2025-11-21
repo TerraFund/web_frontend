@@ -26,12 +26,12 @@ export default function Modal() {
   if (!modalOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => dispatch(closeModal())} />
-      <div className={`relative ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} rounded-lg shadow-xl max-w-md w-full mx-4 p-6`}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center animate-in fade-in duration-300">
+      <div className="absolute inset-0 bg-black bg-opacity-50 animate-in fade-in duration-300" onClick={() => dispatch(closeModal())} />
+      <div className={`relative ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'} rounded-lg shadow-xl max-w-md w-full mx-4 p-6 animate-in zoom-in-95 duration-300`}>
         <button
           onClick={() => dispatch(closeModal())}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
         >
           <X className="h-6 w-6" />
         </button>

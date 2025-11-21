@@ -30,3 +30,30 @@ export const timeAgo = (date: string | Date): string => {
 
   return formatDate(past);
 };
+
+export const formatDuration = (days: number): string => {
+  if (days < 30) return `${days} days`;
+  if (days < 365) return `${Math.floor(days / 30)} months`;
+  return `${Math.floor(days / 365)} years`;
+};
+
+export const isDateInPast = (date: string | Date): boolean => {
+  return new Date(date) < new Date();
+};
+
+export const isDateInFuture = (date: string | Date): boolean => {
+  return new Date(date) > new Date();
+};
+
+export const addDays = (date: string | Date, days: number): Date => {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+};
+
+export const getDaysBetween = (date1: string | Date, date2: string | Date): number => {
+  const d1 = new Date(date1);
+  const d2 = new Date(date2);
+  const diffTime = Math.abs(d2.getTime() - d1.getTime());
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+};

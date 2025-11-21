@@ -5,7 +5,14 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "files.eol": "\n",
   "tailwindCSS.experimental.classRegex": [
     ["cn\\(([^)]*)\\)", "([\"'`][^\"'`]*.*?[\"'`])"]
-  ]
+  ],
+  "emmet.includeLanguages": {
+    "typescript": "html",
+    "typescriptreact": "html"
+  }
 }

@@ -48,6 +48,40 @@ NEXT_PUBLIC_API_URL=http://localhost:3001/api/v1
 NEXT_PUBLIC_MAPBOX_TOKEN=your_mapbox_token
 ```
 
+## API Documentation
+
+### Authentication
+- `POST /api/auth/login` - User login
+- `POST /api/auth/register` - User registration
+
+### Lands
+- `GET /api/lands` - Get all available lands
+- `POST /api/lands` - Create new land listing (landowners only)
+
+### Proposals
+- `GET /api/proposals` - Get user's proposals
+- `POST /api/proposals` - Create new proposal
+- `GET /api/proposals/[id]` - Get proposal details
+
+### Chat
+- `GET /api/chat/[conversationId]` - Get chat messages
+- `POST /api/chat/[conversationId]` - Send message
+
+### Payments
+- `POST /api/payments` - Process payment
+
+### Notifications
+- `GET /api/notifications` - Get user notifications
+- `POST /api/notifications` - Create notification
+
+### Reports
+- `GET /api/reports` - Get user reports
+- `POST /api/reports` - Generate report
+
+### Admin
+- `GET /api/admin/users` - Get all users (admin only)
+- `GET /api/admin/lands` - Get all lands (admin only)
+
 ## Contributing
 
 1. Fork the repository

@@ -1,3 +1,4 @@
+// Main landing page component for TerraFund platform
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 

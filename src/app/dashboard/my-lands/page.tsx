@@ -2,9 +2,6 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Navbar from '@/components/Navbar';
-import Sidebar from '@/components/Sidebar';
-import Footer from '@/components/Footer';
 import Button from '@/components/Button';
 import { MapPin, Edit, Eye, Trash2, Plus } from 'lucide-react';
 
@@ -48,14 +45,10 @@ export default function MyLands() {
   };
 
   return (
-    <div className="min-h-screen bg-background_light dark:bg-background_dark">
-      <Navbar />
-      <div className="pt-16 flex">
-        <Sidebar />
-        <main className="flex-1 p-8">
-          <div className="max-w-6xl mx-auto">
-            <div className="flex justify-between items-center mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">My Lands</h1>
+    <div className="p-8">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">My Lands</h1>
               <Link href="/dashboard/add-land">
                 <Button>
                   <Plus className="h-4 w-4 mr-2" />
@@ -128,10 +121,8 @@ export default function MyLands() {
                 ))}
               </div>
             )}
-          </div>
-        </main>
+        </div>
       </div>
-      <Footer />
     </div>
   );
 }

@@ -87,3 +87,53 @@ export const IRRIGATION_TYPES = [
   'Flood Irrigation',
   'Furrow',
 ] as const;
+
+// Payment Status
+export const PAYMENT_STATUS = {
+  PENDING: 'pending',
+  PROCESSING: 'processing',
+  COMPLETED: 'completed',
+  FAILED: 'failed',
+  REFUNDED: 'refunded',
+} as const;
+
+// Notification Types
+export const NOTIFICATION_TYPES = {
+  PROPOSAL: 'proposal',
+  PAYMENT: 'payment',
+  CONTRACT: 'contract',
+  SYSTEM: 'system',
+  MARKETING: 'marketing',
+} as const;
+
+// File Types
+export const FILE_TYPES = {
+  IMAGE: 'image',
+  DOCUMENT: 'document',
+  CONTRACT: 'contract',
+  CERTIFICATE: 'certificate',
+} as const;
+
+// Carbon Credit Status
+export const CARBON_STATUS = {
+  PENDING: 'pending',
+  VERIFIED: 'verified',
+  TRADED: 'traded',
+  RETIRED: 'retired',
+} as const;
+
+// Subscription Types
+export const SUBSCRIPTION_TYPES = {
+  FREE: 'free',
+  BASIC: 'basic',
+  PREMIUM: 'premium',
+  ENTERPRISE: 'enterprise',
+} as const;
+
+// Report Types
+export const REPORT_TYPES = {
+  FINANCIAL: 'financial',
+  CARBON: 'carbon',
+  SUSTAINABILITY: 'sustainability',
+  PERFORMANCE: 'performance',
+} as const;

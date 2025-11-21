@@ -1,4 +1,4 @@
-// User types
+// TypeScript type definitions for TerraFund platform
 export interface User {
   id: string;
   name: string;

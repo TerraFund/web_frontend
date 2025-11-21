@@ -20,19 +20,19 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Platform</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-primary">How it Works</a></li>
-              <li><a href="#" className="hover:text-primary">Browse Lands</a></li>
-              <li><a href="#" className="hover:text-primary">Invest</a></li>
-              <li><a href="#" className="hover:text-primary">List Land</a></li>
+              <li><a href="/#how-it-works" className="hover:text-primary">How it Works</a></li>
+              <li><a href="/dashboard/browse" className="hover:text-primary">Browse Lands</a></li>
+              <li><a href="/auth/register?role=investor" className="hover:text-primary">Invest</a></li>
+              <li><a href="/auth/register?role=landowner" className="hover:text-primary">List Land</a></li>
             </ul>
           </div>
           <div>
             <h4 className="font-semibold mb-4">Support</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-primary">Help Center</a></li>
-              <li><a href="#" className="hover:text-primary">Contact Us</a></li>
-              <li><a href="#" className="hover:text-primary">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-primary">Terms of Service</a></li>
+              <li><a href="/help" className="hover:text-primary">Help Center</a></li>
+              <li><a href="/contact" className="hover:text-primary">Contact Us</a></li>
+              <li><a href="/privacy" className="hover:text-primary">Privacy Policy</a></li>
+              <li><a href="/terms" className="hover:text-primary">Terms of Service</a></li>
             </ul>
           </div>
           <div>

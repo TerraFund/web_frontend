@@ -9,7 +9,7 @@ Thank you for your interest in contributing to TerraFund! We welcome contributio
 3. Install dependencies: `npm install`
 4. Create a feature branch: `git checkout -b feature/your-feature-name`
 5. Make your changes
-6. Run tests: `npm run lint && npm run type-check`
+6. Run tests: `npm run lint && npm run type-check && npm test`
 7. Commit your changes: `git commit -m "Add your message"`
 8. Push to your fork: `git push origin feature/your-feature-name`
 9. Open a Pull Request
@@ -23,6 +23,13 @@ Thank you for your interest in contributing to TerraFund! We welcome contributio
 - Use meaningful variable and function names
 - Add comments for complex logic
 - Keep functions small and focused
+
+### Testing
+
+- Write unit tests for new components and functions
+- Use Jest and React Testing Library
+- Aim for good test coverage
+- Run tests before committing
 
 ### Commit Messages
 

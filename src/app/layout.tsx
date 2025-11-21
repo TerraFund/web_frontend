@@ -8,6 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'TerraFund',
   description: 'Decentralized investment platform connecting landowners with investors',
+  manifest: '/manifest.webmanifest',
 }
 
 export default function RootLayout({

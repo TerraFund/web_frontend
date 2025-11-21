@@ -2,8 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
 import { Upload, FileText, X } from 'lucide-react';
 
 export default function KYCUpload() {
@@ -30,10 +28,8 @@ export default function KYCUpload() {
   };
 
   return (
-    <div className="min-h-screen bg-background_light dark:bg-background_dark">
-      <Navbar />
-      <main className="pt-16 flex items-center justify-center min-h-screen py-12">
-        <div className="max-w-2xl w-full mx-4">
+    <div className="flex items-center justify-center min-h-screen py-12">
+      <div className="max-w-2xl w-full mx-4">
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
             <h1 className="text-2xl font-bold text-center mb-6 text-gray-900 dark:text-white">
               Upload KYC Documents
@@ -97,9 +93,7 @@ export default function KYCUpload() {
               {uploading ? 'Uploading...' : 'Submit Documents'}
             </button>
           </div>
-        </div>
-      </main>
-      <Footer />
+      </div>
     </div>
   );
 }

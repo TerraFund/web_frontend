@@ -1,0 +1,137 @@
+{
+  "app_name": "TerraFund",
+  "version": "1.0",
+  "micro_interaction_map": {
+    "global_components": {
+      "navbar": {
+        "elements": ["logo", "nav_links", "login_button", "register_button", "dark_light_toggle", "search_bar", "notifications_icon", "user_avatar_dropdown"],
+        "interactions": {
+          "hover": {"link_hover_color": "#0B6E4F", "underline": true, "transition": "0.2s ease-in-out"},
+          "click": {"dropdown_open": true, "animation": "fade-slide", "duration": 0.3},
+          "dark_light_toggle": {"animation": "slide-toggle", "duration": 0.3, "background_change_light": "#F9FAFB", "background_change_dark": "#0A0F0D"},
+          "notifications_icon": {"pulse_on_new": true, "tooltip_fade": true},
+          "search_bar": {"focus_expand": true, "suggestion_autocomplete_slide": true}
+        },
+        "light_mode": {"background": "#FFFFFF", "text_primary": "#111827", "link_hover": "#0B6E4F", "shadow": "0 4px 6px rgba(0,0,0,0.1)"},
+        "dark_mode": {"background": "#1E3932", "text_primary": "#FFFFFF", "link_hover": "#F4A261", "shadow": "0 4px 6px rgba(0,0,0,0.6)"}
+      },
+      "sidebar": {
+        "elements": ["dashboard_link", "my_lands", "proposals", "payments", "profile", "settings"],
+        "interactions": {"collapse_expand": true, "hover_highlight": true, "active_indicator": true},
+        "light_mode": {"background": "#FFFFFF", "text_primary": "#111827", "active_color": "#0B6E4F"},
+        "dark_mode": {"background": "#1E3932", "text_primary": "#FFFFFF", "active_color": "#F4A261"}
+      },
+      "footer": {
+        "elements": ["social_icons", "links", "newsletter_form", "legal_text"],
+        "interactions": {"icon_hover_scale": 1.05, "form_submit_spinner": true, "success_toast": true},
+        "light_mode": {"background": "#F9FAFB", "text_primary": "#111827"},
+        "dark_mode": {"background": "#0A0F0D", "text_primary": "#D1D5DB"}
+      },
+      "modal": {
+        "interactions": {"open_fade_scale": true, "close_fade_scale": true, "esc_close": true, "overlay_click_close": true, "focus_trap": true, "scroll_lock": true},
+        "light_mode": {"background": "#FFFFFF", "text_primary": "#111827", "shadow": "0 10px 25px rgba(0,0,0,0.1)"},
+        "dark_mode": {"background": "#111827", "text_primary": "#FFFFFF", "shadow": "0 10px 25px rgba(0,0,0,0.6)"}
+      },
+      "toast": {
+        "types": ["success", "error", "info", "warning"],
+        "animations": {"slide_in_right": true, "auto_dismiss": 5, "pause_on_hover": true},
+        "light_mode": {"success_bg": "#0B6E4F", "error_bg": "#DC2626", "text_primary": "#FFFFFF"},
+        "dark_mode": {"success_bg": "#0B6E4F", "error_bg": "#DC2626", "text_primary": "#FFFFFF"}
+      }
+    },
+    "pages": {
+      "landing_page": {
+        "sections": {
+          "hero": {
+            "elements": ["headline", "subheadline", "cta_button", "hero_image", "background_animation"],
+            "interactions": {"cta_hover": {"scale": 1.05, "color_transition": true}, "cta_click_scroll": true},
+            "light_mode": {"background": "#F9FAFB", "text_primary": "#111827", "cta_button_bg": "#0B6E4F", "cta_hover_bg": "#F4A261"},
+            "dark_mode": {"background": "#0A0F0D", "text_primary": "#FFFFFF", "cta_button_bg": "#0B6E4F", "cta_hover_bg": "#F4A261"}
+          },
+          "how_it_works": {
+            "elements": ["3_step_cards", "icons", "titles", "descriptions"],
+            "interactions": {"cards_fade_in_scroll": true, "card_hover_scale_shadow": true, "tooltip_hints": true},
+            "light_mode": {"card_bg": "#FFFFFF", "text_primary": "#111827"},
+            "dark_mode": {"card_bg": "#111827", "text_primary": "#FFFFFF"}
+          },
+          "testimonials": {
+            "elements": ["carousel_cards", "avatar", "quote_text", "author_name"],
+            "interactions": {"swipe_enabled": true, "auto_slide": true, "pause_on_hover": true, "keyboard_nav": true},
+            "light_mode": {"card_bg": "#FFFFFF", "text_primary": "#111827"},
+            "dark_mode": {"card_bg": "#111827", "text_primary": "#FFFFFF"}
+          }
+        }
+      },
+      "auth_pages": {
+        "register_page": {
+          "elements": ["name_input", "email_input", "phone_input", "password_input", "role_selection_dropdown", "submit_button"],
+          "interactions": {
+            "field_focus": true,
+            "field_error_shake": true,
+            "tooltip_hints": true,
+            "submit_loading_spinner": true,
+            "success_checkmark": true
+          },
+          "light_mode": {"background": "#F9FAFB", "card_bg": "#FFFFFF", "text_primary": "#111827", "input_bg": "#FFFFFF", "border_color": "#D1D5DB"},
+          "dark_mode": {"background": "#0A0F0D", "card_bg": "#111827", "text_primary": "#FFFFFF", "input_bg": "#1E3932", "border_color": "#374151"}
+        },
+        "login_page": {
+          "elements": ["email_input", "password_input", "forgot_password_link", "submit_button"],
+          "interactions": {"input_focus": true, "forgot_password_hover": true, "submit_loading_spinner": true},
+          "light_mode": {"background": "#F9FAFB", "text_primary": "#111827", "input_bg": "#FFFFFF", "border_color": "#D1D5DB"},
+          "dark_mode": {"background": "#0A0F0D", "text_primary": "#FFFFFF", "input_bg": "#1E3932", "border_color": "#374151"}
+        },
+        "kyc_upload_page": {
+          "elements": ["file_dropzone", "instructions_text", "preview_thumbnail", "remove_file_button"],
+          "interactions": {"drag_hover_scale": true, "upload_progress_bar": true, "success_checkmark": true},
+          "light_mode": {"background": "#F9FAFB", "card_bg": "#FFFFFF", "text_primary": "#111827"},
+          "dark_mode": {"background": "#0A0F0D", "card_bg": "#111827", "text_primary": "#FFFFFF"}
+        }
+      },
+      "dashboard_pages": {
+        "landowner_dashboard": {
+          "elements": ["overview_cards", "interactive_map", "recent_proposals_list", "quick_actions_button"],
+          "interactions": {"cards_hover": true, "map_marker_hover": true, "proposal_action_click": true, "infinite_scroll_load": true},
+          "light_mode": {"background": "#F9FAFB", "card_bg": "#FFFFFF", "text_primary": "#111827"},
+          "dark_mode": {"background": "#0A0F0D", "card_bg": "#111827", "text_primary": "#FFFFFF"}
+        },
+        "investor_dashboard": {
+          "elements": ["available_lands_feed", "filters_panel", "proposal_inbox", "chat_notifications"],
+          "interactions": {"land_card_hover": true, "filter_slide_in": true, "infinite_scroll_load": true},
+          "light_mode": {"background": "#F9FAFB", "card_bg": "#FFFFFF", "text_primary": "#111827"},
+          "dark_mode": {"background": "#0A0F0D", "card_bg": "#111827", "text_primary": "#FFFFFF"}
+        },
+        "admin_dashboard": {
+          "elements": ["users_table", "lands_table", "analytics_charts", "dispute_panel", "activity_feed"],
+          "interactions": {"table_row_hover": true, "modal_open_close": true, "chart_draw_animation": true},
+          "light_mode": {"background": "#F9FAFB", "card_bg": "#FFFFFF", "text_primary": "#111827"},
+          "dark_mode": {"background": "#0A0F0D", "card_bg": "#111827", "text_primary": "#FFFFFF"}
+        }
+      },
+      "land_creation_wizard": {
+        "elements": ["step_1_land_details", "step_2_upload_docs", "step_3_crop_water_suitability", "step_4_preview_publish"],
+        "interactions": {"step_progress_bar": true, "file_preview": true, "publish_confetti": true},
+        "light_mode": {"background": "#F9FAFB", "card_bg": "#FFFFFF", "text_primary": "#111827"},
+        "dark_mode": {"background": "#0A0F0D", "card_bg": "#111827", "text_primary": "#FFFFFF"}
+      },
+      "proposal_flow": {
+        "elements": ["investor_proposal_modal", "landowner_proposal_list"],
+        "interactions": {"submit_spinner": true, "success_toast": true, "modal_open_close": true, "card_hover": true, "accept_reject_flash": true},
+        "light_mode": {"background": "#F9FAFB", "card_bg": "#FFFFFF", "text_primary": "#111827"},
+        "dark_mode": {"background": "#0A0F0D", "card_bg": "#111827", "text_primary": "#FFFFFF"}
+      },
+      "chat_interface": {
+        "elements": ["sidebar_conversations", "messages_list", "message_input", "send_button", "attachment_button", "typing_indicator"],
+        "interactions": {"message_send_slide_in": true, "incoming_message_slide_in": true, "typing_animation": true, "scroll_to_latest": true},
+        "light_mode": {"background": "#F9FAFB", "message_bg_sent": "#0B6E4F", "message_bg_received": "#FFFFFF", "text_primary": "#111827"},
+        "dark_mode": {"background": "#0A0F0D", "message_bg_sent": "#0B6E4F", "message_bg_received": "#111827", "text_primary": "#FFFFFF"}
+      },
+      "payment_and_contract": {
+        "elements": ["contract_modal", "digital_signature_canvas", "escrow_modal", "payment_history_table"],
+        "interactions": {"signature_draw_follow_cursor": true, "payment_success_confetti": true, "contract_open_fade_scale": true},
+        "light_mode": {"background": "#F9FAFB", "card_bg": "#FFFFFF", "text_primary": "#111827"},
+        "dark_mode": {"background": "#0A0F0D", "card_bg": "#111827", "text_primary": "#FFFFFF"}
+      }
+    }
+  }
+}

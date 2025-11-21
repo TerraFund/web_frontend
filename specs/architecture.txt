@@ -1,0 +1,273 @@
+title Land Investment & Utilization Platform - Full System Architecture
+
+// User Layer
+Users [icon: users, color: black] {
+  Landowner [icon: user]
+  Investor [icon: user-check]
+  Admin [icon: user-cog]
+}
+
+// Frontend Layer
+Frontend [icon: monitor, color: blue] {
+  Web App [icon: react]
+  Mobile App [icon: react, label: "React Native"]
+}
+
+// Application Layer
+Application [icon: layers, color: green] {
+  Onboarding & Verification [icon: check-circle] {
+    "Signup/Login" [icon: log-in]
+    Role Selection [icon: users]
+    KYC Verification [icon: id-card]
+    Land Verification [icon: map-pin]
+    Investor Verification [icon: shield]
+  }
+  Land Listing & Discovery [icon: map] {
+    Land Listing [icon: file-plus]
+    Media Upload [icon: image]
+    Map & Search [icon: map]
+    Filter & Calendar [icon: filter]
+  }
+  Matching Engine [icon: brain] {
+    AI Recommendation Engine [icon: openai]
+    Automated Alerts [icon: bell]
+  }
+  Proposal & Negotiation [icon: file-text] {
+    Proposal Submission [icon: send]
+    Negotiation [icon: message-square]
+    "In-app Chat" [icon: message-circle]
+    Document Sharing [icon: file]
+  }
+  Project Management [icon: layout] {
+    Milestone Tracking [icon: flag]
+    Progress Reports [icon: bar-chart]
+    Media Updates [icon: camera]
+    Revenue Dashboard [icon: pie-chart]
+  }
+  Payments & Revenue Sharing [icon: dollar-sign] {
+    Escrow System [icon: lock]
+    Revenue Distribution [icon: divide]
+    Transaction History [icon: list]
+    Smart Contracts [icon: ethereum]
+    "Multi-currency Support" [icon: globe]
+  }
+  Notifications & Alerts [icon: bell]
+  Security & Privacy [icon: shield]
+  Admin & Analytics [icon: activity] {
+    User Monitoring [icon: eye]
+    Fraud Detection [icon: alert-triangle]
+    Compliance [icon: file-check]
+    Dispute Management [icon: help-circle]
+    Platform Analytics [icon: bar-chart-2]
+  }
+  "Offline & Low-Connectivity" [icon: wifi-off] {
+    Offline Drafts [icon: file]
+    "Auto-sync" [icon: refresh-cw]
+    SMS Updates [icon: message-square]
+    Minimal Bandwidth Mode [icon: feather]
+  }
+}
+
+// Data Layer
+Data Layer [icon: database, color: orange] {
+  PostgreSQL [icon: postgres]
+  MongoDB [icon: mongodb]
+  Redis [icon: redis]
+  Media Storage [icon: aws-s3]
+}
+
+// Integration & Infra Layer
+Integration & Infra [icon: cloud, color: purple] {
+  External APIs [icon: plug] {
+    Stripe [icon: stripe]
+    PayPal [icon: paypal]
+    Smart Contract API [icon: ethereum]
+    Map API [icon: map]
+  }
+  AI Subsystems [icon: cpu] {
+    Recommendation Engine [icon: openai]
+    NLP Summarization [icon: file-text]
+    Predictive Analytics [icon: trending-up]
+  }
+  Messaging & Queue [icon: message-square] {
+    RabbitMQ [icon: rabbit]
+    AWS SQS [icon: aws-sqs]
+    WebSockets [icon: wifi]
+  }
+  Cloud Infrastructure [icon: aws-cloud] {
+    EC2 [icon: aws-ec2]
+    Lambda [icon: aws-lambda]
+    RDS [icon: aws-rds]
+    S3 [icon: aws-s3]
+    CloudFront [icon: aws-cloudfront]
+    Elastic Beanstalk [icon: aws-elastic-beanstalk]
+  }
+  "Monitoring & CI/CD" [icon: activity] {
+    CloudWatch [icon: aws-cloudwatch]
+    Sentry [icon: sentry]
+    Prometheus [icon: prometheus]
+    Grafana [icon: grafana]
+    GitHub Actions [icon: github]
+    GitLab CI [icon: gitlab]
+  }
+}
+
+// Security & Compliance Layer (cross-cutting, but shown as a group for clarity)
+Security & Compliance [icon: shield, color: red] {
+  HTTPS [icon: lock]
+  Encryption [icon: key]
+  RBAC [icon: users]
+  Backups [icon: database]
+  Penetration Testing [icon: search]
+  Data Residency [icon: globe]
+  Legal Checks [icon: file-check]
+}
+
+// Connections
+
+// User interactions
+Admin > Web App
+
+Web App > Onboarding & Verification
+Mobile App > Onboarding & Verification
+
+Web App > Land Listing & Discovery
+Mobile App > Land Listing & Discovery
+
+Web App > Proposal & Negotiation
+Mobile App > Proposal & Negotiation
+
+Web App > Project Management
+Mobile App > Project Management
+
+Web App > Payments & Revenue Sharing
+Mobile App > Payments & Revenue Sharing
+
+
+Web App > "Offline & Low-Connectivity"
+Mobile App > "Offline & Low-Connectivity"
+
+// Admin access
+Admin > Admin & Analytics
+
+// Application module flows
+Onboarding & Verification > Admin & Analytics: verification events
+Onboarding & Verification > Security & Privacy
+Onboarding & Verification > PostgreSQL
+
+Land Listing & Discovery > Matching Engine: land data
+Land Listing & Discovery > MongoDB: media metadata
+Land Listing & Discovery > Media Storage: media files
+Land Listing & Discovery > Map API
+
+Matching Engine > Notifications & Alerts: match found
+
+Matching Engine > Proposal & Negotiation: recommended matches
+
+Proposal & Negotiation > Notifications & Alerts: proposal status
+Proposal & Negotiation > Project Management: accepted proposal
+
+Project Management > Notifications & Alerts: milestone events
+Project Management > Payments & Revenue Sharing: milestone triggers
+
+Payments & Revenue Sharing > Stripe
+Payments & Revenue Sharing > PayPal
+Payments & Revenue Sharing > Smart Contract API
+Payments & Revenue Sharing > Notifications & Alerts: payment events
+
+Payments & Revenue Sharing > Admin & Analytics: payment data
+
+Notifications & Alerts > Messaging & Queue: event bus
+Notifications & Alerts > Redis: real-time notifications
+
+Security & Privacy > All: enforce access, encryption, auditing
+
+Admin & Analytics > AI Subsystems
+
+"Offline & Low-Connectivity" > Redis: sync
+
+// Data Layer connections
+Onboarding & Verification > PostgreSQL
+Land Listing & Discovery > PostgreSQL
+Proposal & Negotiation > PostgreSQL
+Project Management > PostgreSQL
+Payments & Revenue Sharing > PostgreSQL
+
+// Integration & Infra connections
+Application > Messaging & Queue: event-driven orchestration
+Application > Cloud Infrastructure
+Application > "Monitoring & CI/CD"
+
+AI Recommendation Engine > Messaging & Queue: trigger match events
+AI Recommendation Engine > Project Management: pre-populate tasks
+AI Recommendation Engine > Admin & Analytics: feedback loop
+
+Project Management > Payments & Revenue Sharing: milestone triggers
+
+// Security & Compliance cross-cutting
+All > Security & Compliance
+
+// Monitoring & CI/CD
+Cloud Infrastructure > "Monitoring & CI/CD"
+Application > "Monitoring & CI/CD"
+Landowner > Frontend
+Investor > Frontend
+Admin & Analytics > Data Layer
+Frontend > Onboarding & Verification
+Frontend > Land Listing & Discovery
+Frontend > Proposal & Negotiation
+Frontend > Project Management
+Frontend > Payments & Revenue Sharing
+Frontend > Notifications & Alerts
+Frontend > "Offline & Low-Connectivity"
+Project Management < Payments & Revenue Sharing: payment status
+AI Recommendation Engine < Payments & Revenue Sharing: payment outcomes
+Users > Frontend
+Frontend > Onboarding & Verification
+Frontend > Land Listing & Discovery
+Frontend > Proposal & Negotiation
+Frontend > Project Management
+Frontend > Payments & Revenue Sharing
+Frontend > "Offline & Low-Connectivity"
+Users > Frontend
+Frontend > Onboarding & Verification
+Frontend > Land Listing & Discovery
+Frontend > Proposal & Negotiation
+Frontend > Project Management
+Frontend > Payments & Revenue Sharing
+Frontend > "Offline & Low-Connectivity"
+Users > Frontend
+Frontend > Onboarding & Verification
+Frontend > Land Listing & Discovery
+Frontend > Proposal & Negotiation
+Frontend > Project Management
+Frontend > Payments & Revenue Sharing
+Frontend > "Offline & Low-Connectivity"
+Users > Frontend
+Frontend > Onboarding & Verification
+Frontend > Land Listing & Discovery
+Frontend > Proposal & Negotiation
+Frontend > Project Management
+Frontend > Payments & Revenue Sharing
+Frontend > "Offline & Low-Connectivity"
+Users > Frontend
+Frontend > Onboarding & Verification
+Frontend > Land Listing & Discovery
+Frontend > Proposal & Negotiation
+Frontend > Project Management
+Frontend > Payments & Revenue Sharing
+Frontend > "Offline & Low-Connectivity"
+Users > Frontend
+Frontend > Onboarding & Verification
+Frontend > Land Listing & Discovery
+Frontend > Proposal & Negotiation
+Frontend > Project Management
+Frontend > Payments & Revenue Sharing
+Frontend > "Offline & Low-Connectivity"
+Users > Frontend
+Frontend > Onboarding & Verification
+Frontend > Land Listing & Discovery
+Frontend > Proposal & Negotiation
+Frontend > Project Management
+Frontend > Payments & Revenue Sharing
+Frontend > "Offline & Low-Connectivity"

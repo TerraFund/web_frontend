@@ -1,0 +1,741 @@
+{
+  "app_name": "TerraFund",
+  "version": "1.0",
+  "sequence_diagrams": {
+    "meta": {
+      "animation_guidelines": {
+        "page_transition": {"type": "fade-slide", "duration_ms": 500, "ease": "ease-in-out"},
+        "modal_open": {"type": "fade-scale", "duration_ms": 400},
+        "modal_close": {"type": "fade-scale", "duration_ms": 300},
+        "button_hover_scale": 1.05,
+        "card_hover_scale": 1.02,
+        "toast_auto_dismiss_ms": 5000,
+        "confetti": {"duration_ms": 600, "particles": 100}
+      },
+      "ui_state_tokens": ["default","focus","active","disabled","loading","success","error","empty","offline","network_error"]
+    },
+    "flows": [
+      {
+        "id": "register_and_kyc_flow",
+        "role": "any",
+        "entry_page": "register_page",
+        "success_end": "user_onboarding_complete",
+        "steps": [
+          {
+            "step": 1,
+            "action": "user_types_into_field",
+            "target": "name_input",
+            "ui_events": [
+              {"event": "input_focus", "animation": {"border_color": "#0B6E4F", "duration_ms": 200}},
+              {"event": "typing", "aria_live": "polite"}
+            ],
+            "api_calls": [],
+            "state_change": "field_value_set"
+          },
+          {
+            "step": 2,
+            "action": "user_fills_all_fields_and_clicks_submit",
+            "target": "submit_button",
+            "ui_events": [
+              {"event": "click", "animation": {"ripple": true, "scale": 0.98, "duration_ms": 100}},
+              {"event": "set_state", "value": "loading", "component": "submit_button", "show_spinner": true}
+            ],
+            "api_calls": [
+              {"endpoint": "/api/v1/auth/register", "method": "POST", "payload": {"name","email","phone","password","role"}}
+            ],
+            "on_success": {
+              "ui_events": [
+                {"event": "success_checkmark", "animation": {"type": "scale", "duration_ms": 400}},
+                {"event": "toast", "type": "success", "message": "Registration successful. Please verify email.", "auto_dismiss_ms": 5000}
+              ],
+              "state_change": "user_created",
+              "next": "email_verification_prompt"
+            },
+            "on_error": {
+              "conditions": [
+                {"type": "validation_error", "ui": [{"event": "field_error_shake", "duration_ms": 300}, {"event": "error_toast", "message":"Please check highlighted fields."}]},
+                {"type": "network_error", "ui": [{"event": "toast", "type": "error", "message":"Network error — try again."}]}
+              ]
+            }
+          },
+          {
+            "step": 3,
+            "action": "user_verifies_email",
+            "target": "email_verification_link",
+            "ui_events": [
+              {"event": "click", "animation": {"fade_slide": true, "duration_ms": 300}}
+            ],
+            "api_calls": [
+              {"endpoint": "/api/v1/auth/verify", "method": "POST", "payload": {"token"}}
+            ],
+            "on_success": {
+              "ui_events": [
+                {"event": "modal_open", "component": "kyc_upload_prompt", "animation_ms": 400},
+                {"event": "toast", "type": "info", "message":"Upload KYC to continue", "auto_dismiss_ms": 5000}
+              ],
+              "next": "kyc_upload"
+            },
+            "on_error": {"ui_events":[{"event":"toast","type":"error","message":"Invalid/expired verification link."}]}
+          },
+          {
+            "step": 4,
+            "action": "user_uploads_kyc_documents",
+            "target": "kyc_upload_page/file_dropzone",
+            "ui_events": [
+              {"event": "file_drag_enter", "animation": {"scale": 1.02, "border_color": "#F4A261", "duration_ms": 150}},
+              {"event": "file_drop", "animation": {"thumbnail_preview_fade": true}}
+            ],
+            "api_calls": [
+              {"endpoint": "/api/v1/user/upload-kyc", "method": "POST", "payload": {"file"}, "upload_using": "signed_s3_url"}
+            ],
+            "on_progress": [
+              {"ui_events": [{"event": "upload_progress_bar", "value_percent": "dynamic"}]}
+            ],
+            "on_success": {
+              "ui_events": [
+                {"event": "success_checkmark", "animation": {"fade_scale": true, "duration_ms": 400}},
+                {"event": "toast", "type": "success", "message":"KYC uploaded — verification pending"}
+              ],
+              "state_change": "kyc_uploaded",
+              "next": "kyc_verification_pending"
+            },
+            "on_error": [
+              {"type": "file_type_invalid", "ui": [{"event": "toast", "type": "error", "message": "Invalid file type."}]},
+              {"type": "file_size_exceeded", "ui": [{"event":"toast","type":"error","message":"File too large (max 15MB)."}]},
+              {"type":"network_error","ui":[{"event":"toast","type":"error","message":"Upload failed. Check connection."}]}
+            ]
+          },
+          {
+            "step": 5,
+            "action": "background_process_verifies_kyc (async)",
+            "target": "backend/kyc_verification_service",
+            "ui_events": [
+              {"event": "show_status_badge", "component": "profile/kyc_status", "value": "pending", "animation": {"pulse": true}}
+            ],
+            "api_calls": [
+              {"endpoint": "/api/v1/verify/user-identity/:id", "method": "GET"}
+            ],
+            "on_success": {
+              "ui_events": [
+                {"event": "update_status_badge", "value": "verified", "animation": {"color_flash": "#0B6E4F"}},
+                {"event": "toast", "type": "success", "message": "KYC verified — access unlocked"}
+              ],
+              "state_change": "kyc_verified",
+              "next": "authenticated_dashboard_redirect"
+            },
+            "on_error": {
+              "ui_events": [
+                {"event": "update_status_badge", "value": "rejected", "animation": {"color_flash":"#DC2626"}},
+                {"event": "modal_open", "component": "kyc_rejection_modal", "animation_ms": 400}
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "land_creation_wizard_flow",
+        "role": "landowner",
+        "entry_page": "land_creation_wizard/step1",
+        "success_end": "land_published",
+        "steps": [
+          {
+            "step": 1,
+            "action": "open_wizard",
+            "target": "add_land_button",
+            "ui_events": [
+              {"event": "click", "animation": {"ripple": true}},
+              {"event": "page_transition", "animation_ms": 500}
+            ],
+            "on_open": {
+              "ui_events": [
+                {"event": "wizard_modal_open", "animation_ms": 400},
+                {"event": "focus", "target": "land_name_input"}
+              ]
+            }
+          },
+          {
+            "step": 2,
+            "action": "fill_land_details",
+            "target": "step1_fields",
+            "fields": ["land_name","size","coordinates","region","soil_type","elevation","water_source"],
+            "ui_events": [
+              {"event": "auto_geocode", "trigger": "coordinates_input", "api": "mapbox_reverse_geocoding"},
+              {"event": "validate_coordinates", "on_invalid": [{"ui_event":"field_error_shake"},{"toast":"Invalid coordinates"}]}
+            ],
+            "api_calls": [],
+            "on_next": {"ui_events": [{"event": "step_transition", "animation_ms": 300, "progress_bar_update": 25}]}
+          },
+          {
+            "step": 3,
+            "action": "upload_ownership_documents",
+            "target": "step2_file_dropzone",
+            "ui_events": [
+              {"event": "drag_hover", "animation": {"scale": 1.02}},
+              {"event": "file_preview_grid", "animation": {"thumbnail_fade_in": true}}
+            ],
+            "api_calls": [
+              {"endpoint": "/api/v1/land/upload-documents", "method": "POST", "payload":["title_deed","images"], "use_signed_urls": true}
+            ],
+            "on_progress": [{"ui_events":[{"event":"upload_progress_bar","value_percent":"dynamic"}]}],
+            "on_success": {"ui_events":[{"event":"toast","type":"success","message":"Documents uploaded"}],"next":"step3"},
+            "on_error": [{"type":"file_error","ui":[{"event":"toast","type":"error","message":"Upload failed."}]}]
+          },
+          {
+            "step": 4,
+            "action": "fill_crop_water_suitability",
+            "target": "step3_fields",
+            "fields": ["recommended_crops","irrigation_type","rainfall_mm","soil_ph","fertility_index"],
+            "ui_events": [
+              {"event": "ai_recommendation_suggestion", "animation": {"highlight": true}, "api_call": {"endpoint": "/api/v1/ai/recommendation", "method": "POST", "payload": {"region","soil_type","size"}}}
+            ],
+            "on_receive_ai": {
+              "ui_events": [
+                {"event": "inline_suggestion_chip", "animation": {"slide_in_ms": 250}},
+                {"event": "tooltip", "message": "AI-suggested crops (click to apply)"}
+              ]
+            },
+            "on_next": {"ui_events":[{"event":"step_transition","progress_bar_update":75}]}
+          },
+          {
+            "step": 5,
+            "action": "preview_and_publish",
+            "target": "step4_preview",
+            "ui_events": [
+              {"event": "render_preview_card", "animation": {"fade_in": true}},
+              {"event": "publish_button_click", "animation": {"scale": 0.98}}
+            ],
+            "api_calls": [
+              {"endpoint": "/api/v1/land/create", "method": "POST", "payload": {"all_fields","documents_s3_urls"}}
+            ],
+            "on_success": {
+              "ui_events": [
+                {"event": "publish_success_confetti", "animation_detail": {"particles": 100, "duration_ms": 600}},
+                {"event": "toast", "type": "success", "message": "Land published — visible to investors"}
+              ],
+              "state_change": "land_published",
+              "next": "redirect_to_land_details"
+            },
+            "on_error": [
+              {"type":"validation_error","ui":[{"event":"field_error_shake"},{"toast":"Please fix highlighted fields"}]},
+              {"type":"network_error","ui":[{"event":"toast","type":"error","message":"Publish failed. Try again."}]}
+            ]
+          },
+          {
+            "edge_cases": [
+              {"case":"invalid_coordinates","behavior":[{"ui":"show_inline_error"},{"prevent_next":true}]},
+              {"case":"missing_documents","behavior":[{"ui":"show_error_modal","message":"Ownership documents required"}]},
+              {"case":"ai_recommendation_unavailable","behavior":[{"ui":"toast","type":"warning","message":"AI suggestions currently offline"}]}
+            ]
+          }
+        ]
+      },
+      {
+        "id": "investor_browse_and_send_proposal_flow",
+        "role": "investor",
+        "entry_page": "investor_dashboard/available_lands_feed",
+        "success_end": "proposal_sent_and_received",
+        "steps": [
+          {
+            "step": 1,
+            "action": "open_lands_feed",
+            "target": "available_lands_feed",
+            "ui_events": [
+              {"event": "page_transition", "animation_ms": 500},
+              {"event": "skeleton_loader", "duration_ms": 400}
+            ],
+            "api_calls": [
+              {"endpoint": "/api/v1/land/list", "method": "GET", "query": {"page":1,"filters":{}}}
+            ],
+            "on_success": {
+              "ui_events":[{"event":"render_land_cards","animation":"stagger_fade_in","stagger_ms":80}],
+              "state_change":"lands_loaded"
+            },
+            "on_error": [{"type":"network_error","ui":[{"event":"toast","type":"error","message":"Failed to load lands."}]}]
+          },
+          {
+            "step": 2,
+            "action": "apply_filters",
+            "target": "filters_panel",
+            "ui_events": [
+              {"event": "filter_slide_in", "animation_ms": 300},
+              {"event": "filter_change", "animation": {"chip_highlight": true}}
+            ],
+            "api_calls": [
+              {"endpoint": "/api/v1/land/filter", "method": "POST", "payload": {"size","region","soil_quality","water_source","roi_estimate"}}
+            ],
+            "on_success": {"ui_events":[{"event":"render_filtered_results","animation":"fade_in"}],"state_change":"filtered_results"}
+          },
+          {
+            "step": 3,
+            "action": "open_land_detail",
+            "target": "land_card/click",
+            "ui_events": [
+              {"event": "card_click", "animation": {"scale": 1.02}},
+              {"event": "open_land_detail_page", "animation": {"page_transition": true}}
+            ],
+            "api_calls": [{"endpoint": "/api/v1/land/:id", "method": "GET"}],
+            "on_success": {"ui_events":[{"event":"render_land_detail","animation":"fade_in"}]}
+          },
+          {
+            "step": 4,
+            "action": "click_send_proposal",
+            "target": "send_proposal_button",
+            "ui_events": [
+              {"event": "modal_open", "component": "investor_proposal_modal", "animation_ms": 400},
+              {"event": "focus", "target": "amount_input"}
+            ],
+            "on_open": {}
+          },
+          {
+            "step": 5,
+            "action": "fill_and_submit_proposal",
+            "target": "investor_proposal_modal",
+            "ui_events": [
+              {"event":"field_focus","animation_ms":200},
+              {"event":"submit_click","animation":{"scale":0.98}}
+            ],
+            "api_calls": [
+              {"endpoint": "/api/v1/proposal/send", "method": "POST", "payload": {"investor_id","land_id","amount","duration","message"}}
+            ],
+            "on_success": {
+              "ui_events": [
+                {"event":"modal_close","animation_ms":300},
+                {"event":"toast","type":"success","message":"Proposal sent to landowner","auto_dismiss_ms":5000},
+                {"event":"update_proposals_sidebar","animation":"pulse"}
+              ],
+              "state_change":"proposal_sent",
+              "next":"notify_landowner"
+            },
+            "on_error": [
+              {"type":"duplicate_proposal","ui":[{"event":"error_modal","message":"You already have an active proposal for this land."}]},
+              {"type":"invalid_amount","ui":[{"event":"field_error_shake","message":"Enter a valid amount."}]},
+              {"type":"network_error","ui":[{"event":"toast","type":"error","message":"Failed to send proposal."}]}
+            ]
+          },
+          {
+            "step": 6,
+            "action": "ai_scoring_of_proposal (background)",
+            "target": "proposal_scoring_service",
+            "api_calls": [
+              {"endpoint": "/api/v1/ai/proposal-score", "method": "POST", "payload": {"proposal_id","investor_history"}}
+            ],
+            "on_result": {
+              "ui_events": [
+                {"event":"update_proposal_card","element":"score_badge","animation":"pulse_small"},
+                {"event":"tooltip","message":"AI score (higher = more likely to succeed)"}
+              ],
+              "state_change":"proposal_scored"
+            }
+          },
+          {
+            "edge_cases": [
+              {"case":"investor_offline_at_submit","behavior":[{"ui":"warn_offline_save_draft","api":"save_draft_proposal"}]},
+              {"case":"stripe_payment_setup_missing_when_required","behavior":[{"ui":"open_payment_setup_modal"}]}
+            ]
+          }
+        ]
+      },
+      {
+        "id": "landowner_review_and_accept_proposal",
+        "role": "landowner",
+        "entry_page": "landowner_dashboard/recent_proposals_list",
+        "success_end": "contract_created_and_signed",
+        "steps": [
+          {
+            "step": 1,
+            "action": "receive_notification_of_new_proposal",
+            "target": "notifications_icon + recent_proposals_list",
+            "ui_events": [
+              {"event":"bell_pulse","animation_ms":300},
+              {"event":"toast","type":"info","message":"New proposal from <InvestorName>","action_label":"View"}
+            ],
+            "api_calls": [{"endpoint": "/api/v1/proposal/my-received", "method": "GET"}]
+          },
+          {
+            "step": 2,
+            "action": "open_proposal_detail",
+            "target": "proposal_card/click",
+            "ui_events": [
+              {"event":"card_expand","animation":{"slide_in":true,"duration_ms":300}},
+              {"event":"render_proposal_detail","animation":"fade_in"}
+            ],
+            "on_open": {}
+          },
+          {
+            "step": 3,
+            "action": "review_proposal_documents_and_ai_score",
+            "target": "proposal_detail_panel",
+            "ui_events": [
+              {"event":"open_documents_viewer","animation":{"fade_in":true}},
+              {"event":"ai_score_highlight","animation":{"color_flash":"#F4A261"}}
+            ],
+            "api_calls": [
+              {"endpoint": "/api/v1/verify/land-title/:id", "method": "POST", "payload": {"title_docs"}}
+            ],
+            "on_error": [{"type":"title_verification_pending","ui":[{"event":"badge","value":"Pending"}]}]
+          },
+          {
+            "step": 4,
+            "action": "accept_proposal",
+            "target": "accept_button",
+            "ui_events": [
+              {"event":"click","animation":{"scale":0.98}},
+              {"event":"show_confirm_modal","component":"accept_proposal_confirm","animation_ms":300}
+            ],
+            "on_confirm": {
+              "api_calls": [
+                {"endpoint": "/api/v1/proposal/accept/:id", "method": "PATCH"}
+              ],
+              "on_success": {
+                "ui_events": [
+                  {"event":"toast","type":"success","message":"Proposal accepted — creating contract"},
+                  {"event":"update_proposal_card","status":"accepted","animation":"color_flash"}
+                ],
+                "state_change":"proposal_accepted",
+                "next":"contract_generation"
+              },
+              "on_error": {"ui_events":[{"event":"toast","type":"error","message":"Failed to accept proposal."}]}
+            }
+          },
+          {
+            "step": 5,
+            "action": "generate_contract",
+            "target": "contract_service",
+            "ui_events": [
+              {"event":"show_loader_modal","message":"Generating contract..."}
+            ],
+            "api_calls": [
+              {"endpoint": "/api/v1/contract/create", "method": "POST", "payload": {"proposal_id","terms"}}
+            ],
+            "on_success": {
+              "ui_events":[
+                {"event":"modal_open","component":"contract_preview_modal","animation_ms":400},
+                {"event":"render_contract_pdf","animation":"fade_in"}
+              ],
+              "state_change":"contract_ready"
+            },
+            "on_error": {"ui_events":[{"event":"toast","type":"error","message":"Contract generation failed."}]}
+          },
+          {
+            "step": 6,
+            "action": "digital_sign_contract (landowner then investor)",
+            "target": "contract_preview_modal/digital_signature_canvas",
+            "ui_events": [
+              {"event":"open_signature_canvas","animation":{"fade_in":true}},
+              {"event":"user_draws_signature","animation":{"line_follow_cursor":true}}
+            ],
+            "api_calls": [
+              {"endpoint": "/api/v1/contract/sign/:id", "method": "POST", "payload": {"signature_data","user_id"}}
+            ],
+            "on_success": {
+              "ui_events":[
+                {"event":"toast","type":"success","message":"Contract signed by party"},
+                {"event":"if_all_signed","condition":true,"then":[{"event":"toast","type":"success","message":"All parties signed — escrow ready"}]}
+              ],
+              "state_change":"contract_signed"
+            },
+            "on_error": {"ui_events":[{"event":"toast","type":"error","message":"Signature failed. Try again."}]}
+          },
+          {
+            "step": 7,
+            "action": "escrow_payment_flow (investor deposits)",
+            "target": "payment_gateway/escrow",
+            "ui_events": [
+              {"event":"open_escrow_modal","animation_ms":400,"focus":"payment_method_input"},
+              {"event":"show_payment_breakdown","animation":"fade_in"}
+            ],
+            "api_calls": [
+              {"endpoint": "/api/v1/payment/escrow/pay", "method": "POST", "payload": {"contract_id","amount","payment_method"}}
+            ],
+            "on_success": {
+              "ui_events":[
+                {"event":"payment_success_confetti","animation_ms":600},
+                {"event":"toast","type":"success","message":"Funds deposited to escrow"}
+              ],
+              "state_change":"escrow_funded",
+              "next":"await_release_conditions"
+            },
+            "on_error": [
+              {"type":"payment_failed","ui":[{"event":"toast","type":"error","message":"Payment failed"}]},
+              {"type":"insufficient_funds","ui":[{"event":"modal_open","message":"Add payment method"}]}
+            ]
+          },
+          {
+            "edge_cases": [
+              {"case":"one_party_refuses_to_sign","behavior":[{"ui":"open_dispute_modal","api":"create_dispute"}]},
+              {"case":"escrow_timeout","behavior":[{"ui":"notify_admin","api":"admin_flag"}]}
+            ]
+          }
+        ]
+      },
+      {
+        "id": "chat_real_time_flow",
+        "role": ["landowner","investor"],
+        "entry_page": "chat_interface",
+        "success_end": "message_delivered_acknowledged",
+        "steps": [
+          {
+            "step": 1,
+            "action": "open_chat_sidebar",
+            "target": "chat_sidebar",
+            "ui_events": [
+              {"event":"slide_in","animation_ms":300},
+              {"event":"fetch_conversations","api_call":"/api/v1/chat/conversations"}
+            ],
+            "on_success": {"ui_events":[{"event":"render_conversation_list","animation":"stagger_fade"}]}
+          },
+          {
+            "step": 2,
+            "action": "select_conversation",
+            "target": "conversation_item",
+            "ui_events": [
+              {"event":"click","animation":{"bg_highlight":true}},
+              {"event":"fetch_messages","api_call":"/api/v1/chat/messages/:conversationId"}
+            ],
+            "on_success": {"ui_events":[{"event":"render_messages","animation":"fade_in","then":{"event":"scroll_to_latest","animation_ms":200}}]}
+          },
+          {
+            "step": 3,
+            "action": "type_and_send_message",
+            "target": "message_input/send_button",
+            "ui_events": [
+              {"event":"typing_indicator_local","animation":"dots"},
+              {"event":"click_send","animation":{"scale":0.98}}
+            ],
+            "api_calls": [
+              {"endpoint": "/api/v1/chat/send-message", "method": "POST", "payload": {"conversationId","senderId","content","attachments"}}
+            ],
+            "real_time": {
+              "websocket_emit": {"event":"new_message","payload":"message_object"},
+              "websocket_listen_remote": {"event":"message_ack","ui_update":"show_delivered_tick"}
+            },
+            "on_success": {
+              "ui_events":[
+                {"event":"message_appear","animation":{"slide_in_from_right":true,"duration_ms":300}},
+                {"event":"play_send_sound","if_user_prefers_sound":true}
+              ],
+              "state_change":"message_sent"
+            },
+            "on_error": {"ui_events":[{"event":"toast","type":"error","message":"Message failed. Retry."},{"event":"mark_message_failed","icon":"retry"}]}
+          },
+          {
+            "step": 4,
+            "action": "recipient_receives_message",
+            "target": "recipient_client",
+            "real_time": {
+              "websocket_listen": {"event":"new_message"},
+              "ui_events": [
+                {"event":"incoming_message_slide_in","animation_ms":300},
+                {"event":"unread_badge_increment","component":"conversation_item"},
+                {"event":"desktop_notification_or_push","if_user_off_tab":true}
+              ]
+            }
+          },
+          {
+            "edge_cases": [
+              {"case":"user_offline","behavior":[{"ui":"store_message_locally","api":"queue_for_retry"}]},
+              {"case":"attachment_too_large","behavior":[{"ui":"error_toast","message":"Attachment exceeds size limit."}]}
+            ]
+          }
+        ]
+      },
+      {
+        "id": "admin_flag_and_verify_flow",
+        "role": "admin",
+        "entry_page": "admin_dashboard/lands_table",
+        "success_end": "land_verified_or_flagged",
+        "steps": [
+          {
+            "step": 1,
+            "action": "open_lands_table",
+            "target": "admin/lands_table",
+            "ui_events": [
+              {"event":"skeleton_loader","duration_ms":400},
+              {"event":"render_table","animation":"fade_in"}
+            ],
+            "api_calls": [
+              {"endpoint": "/api/v1/admin/lands", "method": "GET"}
+            ]
+          },
+          {
+            "step": 2,
+            "action": "select_listing_and_open_review_modal",
+            "target": "table_row/action_review",
+            "ui_events": [
+              {"event":"modal_open","component":"land_review_modal","animation_ms":400},
+              {"event":"load_documents_viewer","animation":"fade_in"}
+            ],
+            "api_calls": [
+              {"endpoint": "/api/v1/land/:id", "method": "GET"}
+            ]
+          },
+          {
+            "step": 3,
+            "action": "verify_title_using_external_api",
+            "target": "verify/land-title",
+            "ui_events": [
+              {"event":"show_status","component":"verification_status","value":"in_progress","animation":"pulse"}
+            ],
+            "api_calls": [
+              {"endpoint": "/api/v1/verify/land-title/:id", "method": "POST", "payload": {"title_docs"}, "external_api":"government_registry (future)"}
+            ],
+            "on_success": {
+              "ui_events":[{"event":"update_status","value":"verified","animation":"color_flash_green"},{"event":"toast","type":"success","message":"Title verified"}],
+              "state_change":"land_verified"
+            },
+            "on_error": {
+              "ui_events":[{"event":"update_status","value":"failed","animation":"color_flash_red"},{"event":"modal_open","component":"flag_listing_modal"}],
+              "state_change":"land_flagged"
+            }
+          },
+          {
+            "edge_cases": [
+              {"case":"external_api_timeout","behavior":[{"ui":"show_retry_button","api_attempts":3}]},
+              {"case":"partial_match_found","behavior":[{"ui":"show_manual_review_notes_section"}]}
+            ]
+          }
+        ]
+      },
+      {
+        "id": "ai_recommendation_visual_flow",
+        "role": ["investor","landowner"],
+        "entry_point": "dashboard_or_land_wizard",
+        "purpose": "show AI recommendations and how UI responds",
+        "steps": [
+          {
+            "step": 1,
+            "action": "trigger_ai_suggestion",
+            "trigger_sources": ["land_wizard_on_field_complete","investor_filter_change","background_periodic_update"],
+            "api_calls": [
+              {"endpoint": "/api/v1/ai/recommendation", "method": "POST", "payload": {"region","soil_type","size","investor_profile"}}
+            ],
+            "ui_events": [
+              {"event":"show_skeleton_suggestion_card","duration_ms":300}
+            ]
+          },
+          {
+            "step": 2,
+            "action": "receive_ai_response",
+            "ui_events": [
+              {"event":"render_recommendation_chip","animation":{"slide_in_ms":250}},
+              {"event":"highlight_suggested_items_on_map","animation":"pulse_marker"}
+            ],
+            "visuals": [
+              {"element":"recommendation_badge","text":"Match: 87%","tooltip":"Based on soil, water, and predicted ROI"},
+              {"element":"proposal_score_bar","range":[0,100],"value":87}
+            ],
+            "interactions": [
+              {"action":"click_apply","behavior":"populate_fields_with_suggestion","animation":"slide_in_applied_chip"},
+              {"action":"dismiss","behavior":"fade_out_suggestion"}
+            ]
+          },
+          {
+            "step": 3,
+            "action": "ai_rate_limit_or_failure",
+            "on_error": [
+              {"type":"rate_limit","ui":[{"event":"small_warning_toast","message":"AI suggestions temporarily limited"}]},
+              {"type":"service_down","ui":[{"event":"info_banner","message":"AI services offline — manual input only"}]}
+            ]
+          }
+        ]
+      },
+      {
+        "id": "smart_contract_and_escrow_release_flow",
+        "role": ["landowner","investor","admin"],
+        "entry_page": "contract_page",
+        "success_end": "escrow_released_and_payment_transferred",
+        "steps": [
+          {
+            "step": 1,
+            "action": "all_parties_have_signed_contract",
+            "ui_events": [
+              {"event":"contract_status_update","value":"fully_signed","animation":"color_flash_green"},
+              {"event":"toast","type":"info","message":"Contract signed by all parties — ready for escrow release"}
+            ],
+            "state_change":"contract_fully_signed"
+          },
+          {
+            "step": 2,
+            "action": "check_release_conditions",
+            "target": "backend/conditions_engine",
+            "api_calls": [
+              {"endpoint": "/api/v1/contract/:id/conditions", "method": "GET"}
+            ],
+            "ui_events": [
+              {"event":"show_conditions_panel","animation":"fade_in"}
+            ],
+            "possible_conditions": ["time_elapsed","milestone_verified","admin_manual_release","dispute_free"]
+          },
+          {
+            "step": 3,
+            "action": "release_request_initiated",
+            "trigger": ["landowner_request","auto_on_condition","admin_action"],
+            "ui_events": [
+              {"event":"show_confirm_modal","component":"release_confirm","animation_ms":300}
+            ],
+            "on_confirm": {
+              "api_calls": [
+                {"endpoint": "/api/v1/payment/escrow/release", "method": "POST", "payload": {"contract_id","release_reason"}}
+              ],
+              "on_success": {
+                "ui_events":[
+                  {"event":"payment_release_animation","type":"progress_ring","duration_ms":1200},
+                  {"event":"confetti","animation_ms":600},
+                  {"event":"toast","type":"success","message":"Escrow released — funds are on the way"}
+                ],
+                "state_change":"escrow_released"
+              },
+              "on_error": [
+                {"type":"insufficient_escrow","ui":[{"event":"toast","type":"error","message":"Escrow has insufficient funds"}]},
+                {"type":"release_failed_network","ui":[{"event":"toast","type":"error","message":"Release failed. Try again."}]}
+              ]
+            }
+          },
+          {
+            "edge_cases": [
+              {"case":"dispute_open_by_investor","behavior":[{"ui":"halt_release","api":"notify_admin","open_dispute_modal":true}]},
+              {"case":"admin_force_release","behavior":[{"ui":"record_action_in_audit_log","api":"audit_log_create"}]}
+            ],
+            "audit": {"log_on_every_release_attempt": true}
+          }
+        ]
+      },
+      {
+        "id": "error_handling_and_offline_fallbacks",
+        "role": "all",
+        "purpose": "global patterns for offline or error conditions",
+        "patterns": [
+          {
+            "pattern": "network_request_fails",
+            "behavior": [
+              {"ui":"toast_error","message":"Network error. Retrying..."},
+              {"api":"retry_with_exponential_backoff:max_attempts=3"},
+              {"ui_after_retries_fail":"show_offline_banner_with_retry_button"}
+            ]
+          },
+          {
+            "pattern": "user_offline_during_form_submission",
+            "behavior": [
+              {"ui":"save_form_to_local_storage","animation":"toast_info","message":"Saved locally — will sync when back online"},
+              {"api":"queue_request_for_background_sync"}
+            ]
+          },
+          {
+            "pattern": "token_expired",
+            "behavior":[
+              {"ui":"show_session_expired_modal","action":"redirect_to_login_after_confirm"},
+              {"api":"attempt_refresh_with_refresh_token","on_failure":"force_logout"}
+            ]
+          },
+          {
+            "pattern": "file_upload_interrupted",
+            "behavior":[
+              {"ui":"show_partial_upload_error","offer":"resume_upload_if_supported"},
+              {"api":"multipart_resume_allowed"}
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

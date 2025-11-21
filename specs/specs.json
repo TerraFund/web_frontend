@@ -1,0 +1,158 @@
+{
+  "app_name": "TerraFund",
+  "version": "1.0",
+  "goal": "Design a complete end-to-end architecture, system design, and full specification (frontend + backend) for TerraFund v1 — a decentralized investment platform connecting landowners with unused land to investors with capital, ensuring transparency, traceability, and trust through AI, smart contracts, and verified KYC.",
+  "architecture_type": "Modular microservices + RESTful APIs (v1) + AI recommendation engine + Smart contract integration (future phase)",
+  "frontend": {
+    "framework": "Next.js 15 (React 19 + TypeScript)",
+    "state_management": "Redux Toolkit + React Query",
+    "styling": "TailwindCSS + ShadCN UI + Framer Motion",
+    "authentication": "JWT-based, role-aware routing",
+    "primary_colors": {
+      "primary": "#0B6E4F",
+      "secondary": "#1E3932",
+      "accent": "#F4A261",
+      "background_light": "#F9FAFB",
+      "background_dark": "#0A0F0D",
+      "text_primary": "#FFFFFF",
+      "text_secondary": "#D1D5DB"
+    },
+    "typography": {
+      "font_family": "Inter, sans-serif",
+      "heading_weight": 700,
+      "body_weight": 400,
+      "line_height": 1.6
+    },
+    "ui_components": [
+      "Navbar with login/register",
+      "Role-based dashboard (Landowner / Investor / Admin)",
+      "Interactive map (Mapbox) with region and land markers",
+      "Land creation wizard (multi-step form)",
+      "Proposal inbox & sent proposals list",
+      "Chat interface (real-time)",
+      "KYC verification upload screen",
+      "Admin panel with analytics dashboard",
+      "Dark/light mode toggle",
+      "Responsive mobile layout"
+    ],
+    "user_flows": {
+      "landowner_flow": [
+        "Register → Verify Email → Upload KYC → Add Land Details → Upload Ownership Documents → Publish Land → Receive Proposals → Accept/Reject → Chat → Contract/Payment → Review"
+      ],
+      "investor_flow": [
+        "Register → Verify Email → Upload KYC → Browse Lands → Filter/Search → Send Proposal → Chat → Contract Signing → Escrow Payment → Review"
+      ],
+      "admin_flow": [
+        "Login → Manage Users/Lands → Verify Listings → Handle Disputes → Monitor Activity → Flag/Hide Suspicious Content"
+      ]
+    }
+  },
+  "api_specification": {
+    "base_url": "/api/v1",
+    "authentication_and_user_management": {
+      "auth/register": "POST - Register user (role = landowner or investor)",
+      "auth/login": "POST - Login user and receive token",
+      "auth/verify": "POST - Verify email or phone number",
+      "auth/me": "GET - Retrieve authenticated user profile",
+      "user/update-profile": "PATCH - Update user information",
+      "user/upload-kyc": "POST - Upload ID documents (National ID, Passport)"
+    },
+    "land_management": {
+      "land/create": "POST - Add new land listing (location, size, crop suitability, docs)",
+      "land/upload-documents": "POST - Upload proof of ownership (title deed, UPI)",
+      "land/my-lands": "GET - View owned land listings",
+      "land/update/:id": "PATCH - Edit land details",
+      "land/delete/:id": "DELETE - Remove land listing",
+      "land/publish/:id": "PATCH - Make land visible to investors"
+    },
+    "land_discovery": {
+      "land/list": "GET - Retrieve all available lands",
+      "land/filter": "POST - Search lands (size, region, elevation, water, soil quality)",
+      "land/:id": "GET - View single land details",
+      "land/owner/:ownerId": "GET - Get lands from specific owner"
+    },
+    "proposals_and_matching": {
+      "proposal/send": "POST - Investor sends investment proposal to land owner",
+      "proposal/my-received": "GET - Landowner views received proposals",
+      "proposal/my-sent": "GET - Investor views sent proposals",
+      "proposal/accept/:id": "PATCH - Landowner accepts proposal",
+      "proposal/reject/:id": "PATCH - Landowner rejects proposal",
+      "proposal/cancel/:id": "PATCH - Investor cancels proposal"
+    },
+    "chat_and_communication": {
+      "chat/start": "POST - Create chat upon accepted proposal",
+      "chat/send-message": "POST - Send message",
+      "chat/conversations": "GET - List user conversations",
+      "chat/messages/:conversationId": "GET - Retrieve conversation messages"
+    },
+    "verification_and_trust": {
+      "verify/land-title/:id": "POST - Upload title for verification with government APIs (future)",
+      "verify/user-identity/:id": "GET - Check user identity verification status",
+      "review/user/:id": "POST - Leave review after deal completion"
+    },
+    "payments_and_contracts": {
+      "contract/create": "POST - Generate contract template between landowner and investor",
+      "contract/sign/:id": "POST - Digital signature endpoint",
+      "payment/escrow/pay": "POST - Investor deposits funds in escrow",
+      "payment/escrow/release": "POST - Release funds after agreement"
+    },
+    "admin_panel": {
+      "admin/users": "GET - View all users",
+      "admin/lands": "GET - View all land listings",
+      "admin/flag/listing/:id": "PATCH - Hide suspicious land",
+      "admin/verify/land/:id": "PATCH - Mark land as verified"
+    }
+  },
+  "backend": {
+    "framework": "Node.js 22 + Express.js + TypeScript",
+    "database": {
+      "primary": "PostgreSQL (type-safe schema with Prisma ORM)",
+      "secondary": "MongoDB (chat logs, documents, analytics)"
+    },
+    "security": [
+      "JWT + Refresh tokens",
+      "Argon2 password hashing",
+      "Role-based access control",
+      "CSRF + XSS + SQL Injection prevention",
+      "Helmet & CORS policies",
+      "Input sanitization"
+    ],
+    "services": {
+      "file_storage": "AWS S3 with signed URLs (encrypted, lifecycle policy)",
+      "notifications": "WebSocket + FCM for push",
+      "payment_gateway": "Stripe / Paystack",
+      "blockchain_integration": "Ethereum (for contract storage & signing - phase 2)",
+      "geo_location": "Mapbox API for geospatial mapping"
+    },
+    "ai_modules": {
+      "recommendation_engine": "TensorFlow-based model for land-investor matching using features like region, ROI, soil type, size, water source, crop suitability",
+      "proposal_scoring": "AI ranking system for evaluating investor proposals based on historical success and credibility",
+      "fraud_detection": "Anomaly detection on land titles and user behavior"
+    },
+    "logging_and_monitoring": {
+      "log_management": "Winston + CloudWatch",
+      "error_tracking": "Sentry",
+      "performance_monitoring": "Prometheus + Grafana",
+      "auditing": "Immutable logs for KYC, verification, and payments"
+    }
+  },
+  "data_schema": {
+    "tables": {
+      "users": ["id", "name", "email", "phone", "role", "kyc_status", "created_at", "updated_at"],
+      "lands": ["id", "owner_id", "location", "size", "crop_suitability", "soil_quality", "water_source", "status", "verified", "published"],
+      "proposals": ["id", "investor_id", "land_id", "amount", "duration", "message", "status", "created_at"],
+      "contracts": ["id", "proposal_id", "terms", "signed", "pdf_url", "hash"],
+      "payments": ["id", "contract_id", "amount", "status", "escrow_release_date"],
+      "chats": ["id", "user1_id", "user2_id", "proposal_id", "last_message"],
+      "messages": ["id", "chat_id", "sender_id", "content", "timestamp"],
+      "reviews": ["id", "reviewer_id", "target_id", "rating", "comment"]
+    }
+  },
+  "devops": {
+    "environment": ["Dev", "Staging", "Production"],
+    "ci_cd": "GitHub Actions for tests, linting, deployment to AWS Elastic Beanstalk",
+    "containerization": "Docker + Kubernetes (EKS)",
+    "scalability": "Load-balanced microservices, caching with Redis, async queues with RabbitMQ"
+  },
+  "output_expectation": "Generate the full system design document for TerraFund v1: architecture diagram, API gateway routing, database schema, backend service structure, AI pipeline, full UI/UX spec, state management design, payment and smart contract flow, admin control logic, logging/monitoring setup, and development roadmap for MVP → AI → Blockchain phase."
+}

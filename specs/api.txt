@@ -1,0 +1,47 @@
+Authentication & User Management
+auth/register   POST    Register user (role = landowner or investor)
+auth/login  POST    Login user and receive token
+auth/verify POST    Verify email / phone
+auth/me GET Get user profile
+user/update-profile PATCH   Update user information
+user/upload-kyc POST    Upload ID documents (National ID, Passport)
+Land Management (Land Owners)
+land/create POST    Add land: location, size, crop suitability, ownership docs
+land/upload-documents   POST    Upload proof of land ownership (Title deed, UPI document)
+land/my-lands   GET Landowner views their listed lands
+land/update/:id PATCH   Edit land details
+land/delete/:id DELETE  Remove land listing
+land/publish/:id    PATCH   Make land visible to investors
+s
+Land Discovery (Investors)
+land/list   GET Get all available lands
+land/filter POST    Search lands by size, region, type, elevation, water source, soil quality
+land/:id    GET View land details
+land/owner/:ownerId GET View all land from a specific owner
+Investment Proposals / Deal Matching
+proposal/send   POST    Investor sends investment proposal to land owner
+proposal/my-received    GET Landowner views proposals sent to them
+proposal/my-sent    GET Investor views proposals they made
+proposal/accept/:id PATCH   Landowner accepts proposal
+proposal/reject/:id PATCH   Landowner rejects proposal
+proposal/cancel/:id PATCH   Investor cancels proposal before acceptance
+Chat / Communication
+chat/start  POST    Create chat between landowner & investor after proposal accepted
+chat/send-message   POST    Send message
+chat/conversations  GET List user conversations
+chat/messages/:conversationId   GET Get messages in conversation
+Verification & Trust Layer
+verify/land-title/:id   POST    Upload title to government system (later API integration with Minagri / RLMUA)
+verify/user-identity/:id    GET Check identity verification status
+review/user/:id POST    Users can review each other after deal completion
+Payments / Contracts (Phase 2)
+contract/create POST    Generate contract template between landowner & investor
+contract/sign/:id   POST    Digital signature
+payment/escrow/pay  POST    Investor deposits funds in escrow
+payment/escrow/release  POST    Release funds after agreement
+Admin Panel
+admin/users GET View all users
+admin/lands GET View all land listings
+admin/flag/listing/:id  PATCH   Hide suspicious land
+admin/verify/land/:id   PATCH   Mark land as verified
+Collapse

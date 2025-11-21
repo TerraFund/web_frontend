@@ -2,6 +2,8 @@ import { cn } from '@/lib/utils';
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
+  variant?: 'default' | 'elevated' | 'outlined';
+  hover?: boolean;
 }
 
 interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -16,10 +18,21 @@ interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
-export function Card({ className, children, ...props }: CardProps) {
+export function Card({ className, children, variant = 'default', hover = false, ...props }: CardProps) {
+  const variantClasses = {
+    default: 'bg-white dark:bg-gray-800 shadow-md',
+    elevated: 'bg-white dark:bg-gray-800 shadow-lg',
+    outlined: 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700',
+  };
+
   return (
     <div
-      className={cn('bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden', className)}
+      className={cn(
+        'rounded-lg overflow-hidden transition-shadow duration-200',
+        variantClasses[variant],
+        hover && 'hover:shadow-lg',
+        className
+      )}
       {...props}
     >
       {children}

@@ -1,4 +1,4 @@
-import { MetadataRoute } from 'next';
+import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -29,8 +29,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: 'https://terrafund.com/dashboard/browse',
       lastModified: new Date(),
-      changeFrequency: 'daily',
+      changeFrequency: 'weekly',
       priority: 0.9,
     },
-  ];
+    {
+      url: 'https://terrafund.com/dashboard/add-land',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+  ]
 }

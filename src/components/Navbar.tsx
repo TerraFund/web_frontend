@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
 import { toggleDarkMode } from '@/store/slices/uiSlice';
-import { Sun, Moon, Bell, Search, User } from 'lucide-react';
+import { Sun, Moon, Search, User } from 'lucide-react';
+import NotificationDropdown from './NotificationDropdown';
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -41,9 +42,7 @@ export default function Navbar() {
 
             {isAuthenticated ? (
               <>
-                <button className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700">
-                  <Bell className="h-5 w-5" />
-                </button>
+                <NotificationDropdown />
                 <div className="relative">
                   <button className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700">
                     <User className="h-5 w-5" />

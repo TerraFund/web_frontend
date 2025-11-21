@@ -1,0 +1,40 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "terrafund",
+    "landowner",
+    "investor",
+    "kyc",
+    "minagri",
+    "rlmua",
+    "mapbox",
+    "shadcn",
+    "reduxjs",
+    "tanstack",
+    "lucide",
+    "nextjs",
+    "vercel",
+    "dockerfile",
+    "dockerignore",
+    "dependabot",
+    "editorconfig",
+    "nvmrc",
+    "prettierignore",
+    "tailwindcss",
+    "typescript",
+    "eslint",
+    "markdownlint",
+    "cspell"
+  ],
+  "ignorePaths": [
+    "node_modules/**",
+    ".next/**",
+    "coverage/**",
+    "build/**",
+    "dist/**",
+    "*.log",
+    ".env*",
+    "package-lock.json"
+  ]
+}

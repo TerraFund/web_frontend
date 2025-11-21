@@ -1,69 +1,31 @@
 import { NextResponse } from 'next/server';
 
-const mockMessages = [
+const mockConversations = [
   {
     id: '1',
-    chat_id: '1',
-    sender_id: '1',
-    content: 'Hello! Interested in your land.',
-    timestamp: '2024-01-15T10:00:00Z',
+    participants: ['user1', 'user2'],
+    landId: '1',
+    landTitle: 'Coffee Farm Plot #5',
+    lastMessage: 'Thank you for your interest in my land.',
+    lastMessageTime: '2025-11-21T11:30:00Z',
+    unreadCount: 2,
+    status: 'active',
+  },
+  {
+    id: '2',
+    participants: ['user1', 'user3'],
+    landId: '2',
+    landTitle: 'Maize Field #12',
+    lastMessage: 'When can we schedule a site visit?',
+    lastMessageTime: '2025-11-20T16:45:00Z',
+    unreadCount: 0,
+    status: 'active',
   },
 ];
 
-export async function GET(request: Request) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const conversationId = searchParams.get('conversationId');
-
-    if (conversationId) {
-      // Return messages for specific conversation
-      return NextResponse.json({
-        success: true,
-        data: mockMessages.filter(m => m.chat_id === conversationId),
-      });
-    }
-
-    // Return conversations
-    const mockConversations = [
-      {
-        id: '1',
-        user1_id: '1',
-        user2_id: '2',
-        proposal_id: '1',
-        last_message: 'Hello! Interested in your land.',
-      },
-    ];
-
-    return NextResponse.json({
-      success: true,
-      data: mockConversations,
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, error: 'Failed to fetch chat data' },
-      { status: 500 }
-    );
-  }
-}
-
-export async function POST(request: Request) {
-  try {
-    const body = await request.json();
-
-    const newMessage = {
-      id: Date.now().toString(),
-      ...body,
-      timestamp: new Date().toISOString(),
-    };
-
-    return NextResponse.json({
-      success: true,
-      data: newMessage,
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, error: 'Failed to send message' },
-      { status: 500 }
-    );
-  }
+export async function GET() {
+  return NextResponse.json({
+    success: true,
+    data: mockConversations,
+  });
 }

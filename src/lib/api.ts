@@ -1,4 +1,5 @@
-// Mock API functions - in real app would make actual HTTP requests
+// Mock API functions for TerraFund platform
+// In production, these would make actual HTTP requests to the backend
 
 export const api = {
   auth: {

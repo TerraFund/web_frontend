@@ -3,9 +3,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import Navbar from '@/components/Navbar';
-import Sidebar from '@/components/Sidebar';
-import Footer from '@/components/Footer';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import { User, Shield, FileText, Star } from 'lucide-react';
@@ -32,13 +29,9 @@ export default function Profile() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-background_light dark:bg-background_dark">
-      <Navbar />
-      <div className="pt-16 flex">
-        <Sidebar />
-        <main className="flex-1 p-8">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Profile</h1>
+    <div className="p-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Profile</h1>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Profile Info */}
@@ -175,10 +168,8 @@ export default function Profile() {
                 </div>
               </div>
             </div>
-          </div>
-        </main>
+        </div>
       </div>
-      <Footer />
     </div>
   );
 }

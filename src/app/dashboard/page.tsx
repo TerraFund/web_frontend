@@ -4,9 +4,6 @@ import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { RootState } from '@/store';
-import Navbar from '@/components/Navbar';
-import Sidebar from '@/components/Sidebar';
-import Footer from '@/components/Footer';
 
 export default function Dashboard() {
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
@@ -23,15 +20,11 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-background_light dark:bg-background_dark">
-      <Navbar />
-      <div className="pt-16 flex">
-        <Sidebar />
-        <main className="flex-1 p-8">
-          <div className="max-w-7xl mx-auto">
-            <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">
-              Welcome back, {user.name}!
-            </h1>
+    <div className="p-8">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">
+          Welcome back, {user.name}!
+        </h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
@@ -117,10 +110,8 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-          </div>
-        </main>
+        </div>
       </div>
-      <Footer />
     </div>
   );
 }

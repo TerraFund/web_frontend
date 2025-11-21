@@ -11,6 +11,7 @@ export { default as Modal } from './Modal';
 export { default as Toast } from './Toast';
 export { default as Loading } from './Loading';
 export { default as Error } from './Error';
+export { default as ErrorBoundary } from './ErrorBoundary';
 export { Card, CardHeader, CardContent, CardFooter } from './Card';
 
 // Feature Components

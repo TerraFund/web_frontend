@@ -31,9 +31,9 @@ export default function Profile() {
   return (
     <div className="p-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Profile</h1>
+         <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Profile</h1>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Profile Info */}
               <div className="lg:col-span-2 space-y-6">
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
@@ -164,10 +164,9 @@ export default function Profile() {
                         <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{review.date}</p>
                       </div>
                     ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+         </div>
+       </div>
+     </div>
         </div>
       </div>
     </div>

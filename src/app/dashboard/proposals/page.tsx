@@ -45,9 +45,9 @@ export default function Proposals() {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Proposals</h1>
+         <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Proposals</h1>
 
-            {user?.role === 'landowner' && (
+         {user?.role === 'landowner' && (
               <div className="mb-6">
                 <div className="border-b border-gray-200 dark:border-gray-700">
                   <nav className="-mb-px flex space-x-8">
@@ -140,10 +140,9 @@ export default function Proposals() {
                     </div>
                   </div>
                 ))}
-              </div>
-            </div>
-        </div>
-      </div>
+         </div>
+       </div>
+     </div>
     </div>
   );
 }

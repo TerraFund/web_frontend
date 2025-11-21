@@ -257,10 +257,10 @@ export default function AddLandWizard() {
   return (
     <div className="p-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Add New Land</h1>
+         <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Add New Land</h1>
 
-            {/* Progress Bar */}
-            <div className="mb-8">
+         {/* Progress Bar */}
+         <div className="mb-8">
               <div className="flex items-center justify-between mb-4">
                 {steps.map((step) => {
                   const Icon = step.icon;
@@ -287,15 +287,15 @@ export default function AddLandWizard() {
                   style={{ width: `${(currentStep / 4) * 100}%` }}
                 ></div>
               </div>
-            </div>
+         </div>
 
-            {/* Step Content */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-8 mb-8">
+         {/* Step Content */}
+         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-8 mb-8">
               {renderStepContent()}
-            </div>
+         </div>
 
-            {/* Navigation */}
-            <div className="flex justify-between">
+         {/* Navigation */}
+         <div className="flex justify-between">
               <button
                 onClick={handlePrev}
                 disabled={currentStep === 1}
@@ -321,9 +321,8 @@ export default function AddLandWizard() {
                   <Check className="h-5 w-5 ml-2" />
                 </button>
               )}
-            </div>
-        </div>
-      </div>
-    </div>
+         </div>
+       </div>
+     </div>
   );
 }

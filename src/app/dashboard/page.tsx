@@ -24,9 +24,9 @@ export default function Dashboard() {
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">
           Welcome back, {user.name}!
-        </h1>
+         </h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                   {user.role === 'landowner' ? 'My Lands' : 'Available Lands'}
@@ -51,9 +51,9 @@ export default function Dashboard() {
                 </h3>
                 <p className="text-3xl font-bold text-primary">$125,000</p>
               </div>
-            </div>
+         </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
                   Recent Activity
@@ -107,10 +107,9 @@ export default function Dashboard() {
                   <button className="w-full border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                     View Profile
                   </button>
-                </div>
-              </div>
-            </div>
-        </div>
+         </div>
+       </div>
+     </div>
       </div>
     </div>
   );

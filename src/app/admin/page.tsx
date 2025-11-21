@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Button from '@/components/Button';
 import { Users, Map, BarChart3, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
 
@@ -29,8 +29,8 @@ export default function AdminDashboard() {
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Admin Dashboard</h1>
 
-            {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <div className="flex items-center">
                   <Users className="h-8 w-8 text-primary mr-3" />
@@ -67,10 +67,10 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               </div>
-            </div>
+        </div>
 
-            {/* Tabs */}
-            <div className="mb-6">
+        {/* Tabs */}
+        <div className="mb-6">
               <div className="border-b border-gray-200 dark:border-gray-700">
                 <nav className="-mb-px flex space-x-8">
                   {[
@@ -93,10 +93,10 @@ export default function AdminDashboard() {
                   ))}
                 </nav>
               </div>
-            </div>
+        </div>
 
-            {/* Tab Content */}
-            {activeTab === 'users' && (
+        {/* Tab Content */}
+        {activeTab === 'users' && (
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
                 <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                   <h2 className="text-lg font-semibold text-gray-900 dark:text-white">User Management</h2>
@@ -182,61 +182,60 @@ export default function AdminDashboard() {
                   </table>
                 </div>
               </div>
-            )}
+        )}
 
-            {activeTab === 'overview' && (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                  <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Recent Activity</h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center space-x-3">
-                      <CheckCircle className="h-5 w-5 text-green-500" />
-                      <div>
-                        <p className="text-sm text-gray-900 dark:text-white">New user registered: Sarah Smith</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">2 hours ago</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <AlertTriangle className="h-5 w-5 text-yellow-500" />
-                      <div>
-                        <p className="text-sm text-gray-900 dark:text-white">Land verification pending: Coffee Farm #5</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">4 hours ago</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <XCircle className="h-5 w-5 text-red-500" />
-                      <div>
-                        <p className="text-sm text-gray-900 dark:text-white">Proposal rejected: Maize Field #12</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">1 day ago</p>
-                      </div>
-                    </div>
+        {activeTab === 'overview' && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+              <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Recent Activity</h3>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <div>
+                    <p className="text-sm text-gray-900 dark:text-white">New user registered: Sarah Smith</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">2 hours ago</p>
                   </div>
                 </div>
-
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                  <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">System Health</h3>
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600 dark:text-gray-400">Server Status</span>
-                      <span className="text-sm font-medium text-green-600">Online</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600 dark:text-gray-400">Database</span>
-                      <span className="text-sm font-medium text-green-600">Healthy</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600 dark:text-gray-400">API Response Time</span>
-                      <span className="text-sm font-medium text-yellow-600">120ms</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-sm text-gray-600 dark:text-gray-400">Active Users</span>
-                      <span className="text-sm font-medium text-blue-600">47</span>
-                    </div>
+                <div className="flex items-center space-x-3">
+                  <AlertTriangle className="h-5 w-5 text-yellow-500" />
+                  <div>
+                    <p className="text-sm text-gray-900 dark:text-white">Land verification pending: Coffee Farm #5</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">4 hours ago</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <XCircle className="h-5 w-5 text-red-500" />
+                  <div>
+                    <p className="text-sm text-gray-900 dark:text-white">Proposal rejected: Maize Field #12</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">1 day ago</p>
                   </div>
                 </div>
               </div>
-            )}
-        </div>
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+              <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">System Health</h3>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Server Status</span>
+                  <span className="text-sm font-medium text-green-600">Online</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Database</span>
+                  <span className="text-sm font-medium text-green-600">Healthy</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">API Response Time</span>
+                  <span className="text-sm font-medium text-yellow-600">120ms</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Active Users</span>
+                  <span className="text-sm font-medium text-blue-600">47</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

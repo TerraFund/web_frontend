@@ -20,12 +20,12 @@ export default function Settings() {
 
   return (
     <div className="p-8">
-      <div className="max-w-4xl mx-auto">
+       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Settings</h1>
 
-            <div className="space-y-8">
-              {/* Notifications */}
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        <div className="space-y-8">
+        {/* Notifications */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center mb-6">
                   <Bell className="h-5 w-5 mr-2" />
                   Notifications
@@ -56,10 +56,10 @@ export default function Settings() {
                     />
                   </div>
                 </div>
-              </div>
+        </div>
 
-              {/* Appearance */}
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        {/* Appearance */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center mb-6">
                   <Palette className="h-5 w-5 mr-2" />
                   Appearance
@@ -78,10 +78,10 @@ export default function Settings() {
                     />
                   </div>
                 </div>
-              </div>
+        </div>
 
-              {/* Language */}
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        {/* Language */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center mb-6">
                   <Globe className="h-5 w-5 mr-2" />
                   Language & Region
@@ -101,10 +101,10 @@ export default function Settings() {
                     </select>
                   </div>
                 </div>
-              </div>
+        </div>
 
-              {/* Security */}
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+        {/* Security */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center mb-6">
                   <Shield className="h-5 w-5 mr-2" />
                   Security
@@ -116,15 +116,14 @@ export default function Settings() {
                     Delete Account
                   </Button>
                 </div>
-              </div>
+        </div>
 
-              {/* Save Button */}
-              <div className="flex justify-end">
+        {/* Save Button */}
+        <div className="flex justify-end">
                 <Button onClick={handleSave}>Save Settings</Button>
-              </div>
-            </div>
         </div>
       </div>
     </div>
+  </div>
   );
 }

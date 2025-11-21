@@ -1,9 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Navbar from '@/components/Navbar';
-import Sidebar from '@/components/Sidebar';
-import Footer from '@/components/Footer';
 import Map from '@/components/Map';
 import LandCard from '@/components/LandCard';
 import LandFilters from '@/components/LandFilters';
@@ -52,14 +49,10 @@ export default function BrowseLands() {
   };
 
   return (
-    <div className="min-h-screen bg-background_light dark:bg-background_dark">
-      <Navbar />
-      <div className="pt-16 flex">
-        <Sidebar />
-        <main className="flex-1 p-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex justify-between items-center mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Browse Lands</h1>
+    <div className="p-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Browse Lands</h1>
               <button
                 onClick={() => setShowFilters(!showFilters)}
                 className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-accent transition-colors"
@@ -120,10 +113,8 @@ export default function BrowseLands() {
                 </div>
               </div>
             </div>
-          </div>
-        </main>
+        </div>
       </div>
-      <Footer />
     </div>
   );
 }

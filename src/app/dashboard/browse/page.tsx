@@ -3,12 +3,16 @@
 import { useState, lazy, Suspense } from 'react';
 import LandCard from '@/components/LandCard';
 import LandFilters from '@/components/LandFilters';
+import { Search, Filter, MapPin, Grid, List, SortAsc } from 'lucide-react';
 
 const Map = lazy(() => import('@/components/Map'));
 
 export default function BrowseLands() {
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({});
+  const [searchQuery, setSearchQuery] = useState('');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [sortBy, setSortBy] = useState('newest');
 
   const mockLands = [
     {
@@ -20,6 +24,8 @@ export default function BrowseLands() {
       soilQuality: 'Excellent',
       waterSource: 'River',
       elevation: 1800,
+      price: 1500,
+      image: '/lands/coffee-farm.jpg',
     },
     {
       id: '2',
@@ -30,6 +36,8 @@ export default function BrowseLands() {
       soilQuality: 'Good',
       waterSource: 'Well',
       elevation: 1500,
+      price: 1200,
+      image: '/lands/maize-field.jpg',
     },
     {
       id: '3',
@@ -40,8 +48,16 @@ export default function BrowseLands() {
       soilQuality: 'Excellent',
       waterSource: 'Lake',
       elevation: 1200,
+      price: 1800,
+      image: '/lands/fruit-orchard.jpg',
     },
   ];
+
+  const filteredLands = mockLands.filter(land =>
+    land.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    land.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    land.cropSuitability.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handleFiltersChange = (newFilters: any) => {
     setFilters(newFilters);
@@ -50,72 +66,195 @@ export default function BrowseLands() {
   };
 
   return (
-    <div className="p-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Browse Lands</h1>
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-accent transition-colors"
-              >
-                {showFilters ? 'Hide Filters' : 'Show Filters'}
-              </button>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">Browse Lands</h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300">Discover investment opportunities in sustainable agriculture</p>
+        </div>
+
+        {/* Search and Controls */}
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-8">
+          <div className="flex flex-col lg:flex-row gap-4">
+            {/* Search Bar */}
+            <div className="flex-1 relative">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Search by location, crop type, or land name..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-12 pr-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+              />
             </div>
 
-            {showFilters && (
-              <div className="mb-8">
-                <LandFilters onFiltersChange={handleFiltersChange} />
+            {/* Controls */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className={`flex items-center gap-2 px-4 py-3 rounded-xl font-medium transition-all duration-200 ${
+                  showFilters
+                    ? 'bg-primary text-white'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                }`}
+              >
+                <Filter className="w-5 h-5" />
+                Filters
+              </button>
+
+              <div className="flex items-center border border-gray-200 dark:border-gray-700 rounded-xl">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-3 rounded-l-xl transition-all duration-200 ${
+                    viewMode === 'grid'
+                      ? 'bg-primary text-white'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  }`}
+                >
+                  <Grid className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`p-3 rounded-r-xl transition-all duration-200 ${
+                    viewMode === 'list'
+                      ? 'bg-primary text-white'
+                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  }`}
+                >
+                  <List className="w-5 h-5" />
+                </button>
+              </div>
+
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent"
+              >
+                <option value="newest">Newest First</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="size">Size</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Filters Panel */}
+          {showFilters && (
+            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+              <LandFilters onFiltersChange={handleFiltersChange} />
+            </div>
+          )}
+        </div>
+
+        {/* Results Count */}
+        <div className="flex items-center justify-between mb-6">
+          <p className="text-gray-600 dark:text-gray-300">
+            Showing <span className="font-semibold text-gray-900 dark:text-white">{filteredLands.length}</span> lands
+          </p>
+          <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+            <MapPin className="w-4 h-4" />
+            Central Kenya • Rift Valley • Western Kenya
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2">
+            <div className={`grid gap-6 ${
+              viewMode === 'grid'
+                ? 'grid-cols-1 md:grid-cols-2'
+                : 'grid-cols-1'
+            }`}>
+              {filteredLands.map((land) => (
+                <LandCard
+                  key={land.id}
+                  {...land}
+                  onClick={() => console.log('View land:', land.id)}
+                />
+              ))}
+            </div>
+
+            {filteredLands.length === 0 && (
+              <div className="text-center py-12">
+                <MapPin className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No lands found</h3>
+                <p className="text-gray-600 dark:text-gray-300">Try adjusting your search criteria or filters</p>
               </div>
             )}
+          </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-              <div className="lg:col-span-2">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {mockLands.map((land) => (
-                    <LandCard
-                      key={land.id}
-                      {...land}
-                      onClick={() => console.log('View land:', land.id)}
-                    />
-                  ))}
+          <div className="lg:col-span-1 space-y-6">
+            {/* Map View */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                <MapPin className="w-5 h-5 text-primary" />
+                Map View
+              </h3>
+              <Suspense fallback={<div className="h-64 bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse"></div>}>
+                <Map
+                  center={[-1.2864, 36.8172]}
+                  zoom={8}
+                  markers={filteredLands.map(land => ({
+                    id: land.id,
+                    position: [-1.2864 + Math.random() * 0.1, 36.8172 + Math.random() * 0.1],
+                    title: land.title,
+                  }))}
+                />
+              </Suspense>
+            </div>
+
+            {/* Quick Stats */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Market Overview</h3>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Total Lands</span>
+                  <span className="text-lg font-bold text-primary">{mockLands.length}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Average Price</span>
+                  <span className="text-lg font-bold text-accent">$1,500/acre</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Regions</span>
+                  <span className="text-lg font-bold text-secondary">3</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600 dark:text-gray-400">Total Area</span>
+                  <span className="text-lg font-bold text-primary">90 acres</span>
                 </div>
               </div>
+            </div>
 
-              <div className="lg:col-span-1">
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Map View</h3>
-                  <Suspense fallback={<div className="h-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>}>
-                    <Map
-                      center={[-1.2864, 36.8172]}
-                      zoom={8}
-                      markers={mockLands.map(land => ({
-                        id: land.id,
-                        position: [-1.2864 + Math.random() * 0.1, 36.8172 + Math.random() * 0.1], // Mock positions
-                        title: land.title,
-                      }))}
-                    />
-                  </Suspense>
+            {/* Recent Activity */}
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Recent Activity</h3>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+                  <div>
+                    <p className="text-sm text-gray-900 dark:text-white">New land listing in Central Kenya</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">2 hours ago</p>
+                  </div>
                 </div>
-
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Stats</h3>
-                  <div className="space-y-3">
-                    <div className="flex justify-between">
-                      <span className="text-sm text-gray-600 dark:text-gray-400">Total Lands</span>
-                      <span className="text-sm font-medium text-gray-900 dark:text-white">{mockLands.length}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm text-gray-600 dark:text-gray-400">Average Size</span>
-                      <span className="text-sm font-medium text-gray-900 dark:text-white">30 acres</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm text-gray-600 dark:text-gray-400">Regions</span>
-                      <span className="text-sm font-medium text-gray-900 dark:text-white">3</span>
-                    </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                  <div>
+                    <p className="text-sm text-gray-900 dark:text-white">Investment proposal submitted</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">5 hours ago</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full mt-2"></div>
+                  <div>
+                    <p className="text-sm text-gray-900 dark:text-white">Contract signed for Fruit Orchard</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">1 day ago</p>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
         </div>
       </div>
     </div>

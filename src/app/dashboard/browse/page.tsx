@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import Map from '@/components/Map';
+import { useState, lazy, Suspense } from 'react';
 import LandCard from '@/components/LandCard';
 import LandFilters from '@/components/LandFilters';
+
+const Map = lazy(() => import('@/components/Map'));
 
 export default function BrowseLands() {
   const [showFilters, setShowFilters] = useState(false);
@@ -83,15 +84,17 @@ export default function BrowseLands() {
               <div className="lg:col-span-1">
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Map View</h3>
-                  <Map
-                    center={[-1.2864, 36.8172]}
-                    zoom={8}
-                    markers={mockLands.map(land => ({
-                      id: land.id,
-                      position: [-1.2864 + Math.random() * 0.1, 36.8172 + Math.random() * 0.1], // Mock positions
-                      title: land.title,
-                    }))}
-                  />
+                  <Suspense fallback={<div className="h-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>}>
+                    <Map
+                      center={[-1.2864, 36.8172]}
+                      zoom={8}
+                      markers={mockLands.map(land => ({
+                        id: land.id,
+                        position: [-1.2864 + Math.random() * 0.1, 36.8172 + Math.random() * 0.1], // Mock positions
+                        title: land.title,
+                      }))}
+                    />
+                  </Suspense>
                 </div>
 
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">

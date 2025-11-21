@@ -1,3 +1,4 @@
+// User types
 export interface User {
   id: string;
   name: string;
@@ -9,6 +10,7 @@ export interface User {
   updated_at: string;
 }
 
+// Land types
 export interface Land {
   id: string;
   owner_id: string;
@@ -23,6 +25,7 @@ export interface Land {
   published: boolean;
 }
 
+// Proposal types
 export interface Proposal {
   id: string;
   investor_id: string;
@@ -34,6 +37,7 @@ export interface Proposal {
   created_at: string;
 }
 
+// Chat types
 export interface Chat {
   id: string;
   user1_id: string;
@@ -49,3 +53,43 @@ export interface Message {
   content: string;
   timestamp: string;
 }
+
+// API Response types
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  error?: string;
+}
+
+// Form types
+export interface RegisterForm {
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+  role: 'landowner' | 'investor';
+}
+
+export interface LoginForm {
+  email: string;
+  password: string;
+}
+
+export interface LandForm {
+  name: string;
+  size: string;
+  coordinates: string;
+  region: string;
+  soilType: string;
+  elevation: string;
+  waterSource: string;
+  recommendedCrops: string;
+  irrigationType: string;
+  rainfall: string;
+  soilPh: string;
+  fertilityIndex: string;
+}
+
+// UI State types
+export type Theme = 'light' | 'dark';
+export type LoadingState = 'idle' | 'loading' | 'success' | 'error';

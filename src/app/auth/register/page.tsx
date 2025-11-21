@@ -2,11 +2,13 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '@/store/slices/authSlice';
 
 export default function Register() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -29,6 +31,7 @@ export default function Register() {
       updated_at: new Date().toISOString(),
     };
     dispatch(setCredentials({ user: mockUser, token: 'mock-token' }));
+    router.push('/dashboard');
   };
 
   return (

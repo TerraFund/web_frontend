@@ -1,0 +1,227 @@
+'use client';
+
+import { useState } from 'react';
+import Navbar from '@/components/Navbar';
+import Sidebar from '@/components/Sidebar';
+import Footer from '@/components/Footer';
+import Button from '@/components/Button';
+import { CreditCard, Download, Eye, Lock } from 'lucide-react';
+
+export default function Payments() {
+  const [activeTab, setActiveTab] = useState<'history' | 'methods'>('history');
+
+  const mockPayments = [
+    {
+      id: '1',
+      type: 'escrow_deposit',
+      amount: 25000,
+      status: 'completed',
+      date: '2024-01-15',
+      description: 'Escrow deposit for Maize Field #12',
+      contractId: 'C-001',
+    },
+    {
+      id: '2',
+      type: 'escrow_release',
+      amount: 25000,
+      status: 'pending',
+      date: '2024-01-20',
+      description: 'Escrow release for Maize Field #12',
+      contractId: 'C-001',
+    },
+    {
+      id: '3',
+      type: 'revenue_share',
+      amount: 1250,
+      status: 'completed',
+      date: '2024-01-10',
+      description: 'Revenue share from Coffee Farm #5',
+      contractId: 'C-002',
+    },
+  ];
+
+  const mockPaymentMethods = [
+    {
+      id: '1',
+      type: 'card',
+      last4: '4242',
+      brand: 'Visa',
+      expiry: '12/25',
+      isDefault: true,
+    },
+    {
+      id: '2',
+      type: 'paypal',
+      email: 'john.doe@example.com',
+      isDefault: false,
+    },
+  ];
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'completed':
+        return 'text-green-600 bg-green-100';
+      case 'pending':
+        return 'text-yellow-600 bg-yellow-100';
+      case 'failed':
+        return 'text-red-600 bg-red-100';
+      default:
+        return 'text-gray-600 bg-gray-100';
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background_light dark:bg-background_dark">
+      <Navbar />
+      <div className="pt-16 flex">
+        <Sidebar />
+        <main className="flex-1 p-8">
+          <div className="max-w-6xl mx-auto">
+            <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Payments</h1>
+
+            {/* Tabs */}
+            <div className="mb-6">
+              <div className="border-b border-gray-200 dark:border-gray-700">
+                <nav className="-mb-px flex space-x-8">
+                  <button
+                    onClick={() => setActiveTab('history')}
+                    className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                      activeTab === 'history'
+                        ? 'border-primary text-primary'
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
+                  >
+                    Payment History
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('methods')}
+                    className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                      activeTab === 'methods'
+                        ? 'border-primary text-primary'
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
+                  >
+                    Payment Methods
+                  </button>
+                </nav>
+              </div>
+            </div>
+
+            {activeTab === 'history' && (
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+                <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Transaction History</h2>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-gray-50 dark:bg-gray-700">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Date</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Description</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Amount</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                      {mockPayments.map((payment) => (
+                        <tr key={payment.id}>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{payment.date}</td>
+                          <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
+                            <div>
+                              <p className="font-medium">{payment.description}</p>
+                              <p className="text-gray-500 dark:text-gray-400 text-xs">Contract: {payment.contractId}</p>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                            ${payment.amount.toLocaleString()}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full capitalize ${getStatusColor(payment.status)}`}>
+                              {payment.status}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <button className="text-primary hover:text-accent mr-2">
+                              <Eye className="h-4 w-4 inline mr-1" />
+                              View
+                            </button>
+                            <button className="text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200">
+                              <Download className="h-4 w-4 inline mr-1" />
+                              Receipt
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'methods' && (
+              <div className="space-y-6">
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Payment Methods</h2>
+                    <Button>Add New Method</Button>
+                  </div>
+
+                  <div className="space-y-4">
+                    {mockPaymentMethods.map((method) => (
+                      <div key={method.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                        <div className="flex items-center space-x-3">
+                          {method.type === 'card' ? (
+                            <CreditCard className="h-8 w-8 text-gray-400" />
+                          ) : (
+                            <div className="h-8 w-8 bg-blue-600 rounded flex items-center justify-center">
+                              <span className="text-white font-bold text-sm">P</span>
+                            </div>
+                          )}
+                          <div>
+                            {method.type === 'card' ? (
+                              <>
+                                <p className="font-medium text-gray-900 dark:text-white">
+                                  {method.brand} **** {method.last4}
+                                </p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">
+                                  Expires {method.expiry}
+                                </p>
+                              </>
+                            ) : (
+                              <>
+                                <p className="font-medium text-gray-900 dark:text-white">PayPal</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">{method.email}</p>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          {method.isDefault && (
+                            <span className="text-xs bg-primary text-white px-2 py-1 rounded">Default</span>
+                          )}
+                          <Button variant="outline" size="sm">Edit</Button>
+                          <Button variant="outline" size="sm" className="text-red-600 hover:text-red-800">Remove</Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+                  <div className="flex items-center">
+                    <Lock className="h-5 w-5 text-yellow-600 mr-2" />
+                    <p className="text-sm text-yellow-800 dark:text-yellow-200">
+                      All payment information is encrypted and stored securely. We never store full card details.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </main>
+      </div>
+      <Footer />
+    </div>
+  );
+}

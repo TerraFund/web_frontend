@@ -207,8 +207,11 @@ export default function AddLandWizard() {
                     >
                       <div className="w-1.5 h-1.5 bg-accent rounded-full mt-2 flex-shrink-0"></div>
                       <span>{rec}</span>
-          </div>
-        )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
         {/* Confetti Animation */}
         {showConfetti && (
@@ -233,8 +236,35 @@ export default function AddLandWizard() {
               </div>
             ))}
           </div>
+            )}
+          </div>
         )}
       </div>
+
+      {/* Confetti Animation */}
+      {showConfetti && (
+        <div className="fixed inset-0 pointer-events-none z-50">
+          {Array.from({ length: 100 }).map((_, i) => (
+            <div
+              key={i}
+              className="absolute animate-bounce"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `-10px`,
+                animationDelay: `${Math.random() * 2}s`,
+                animationDuration: `${1 + Math.random() * 2}s`,
+              }}
+            >
+              <div
+                className="w-2 h-2 rounded-full"
+                style={{
+                  backgroundColor: ['#0B6E4F', '#F4A261', '#1E3932'][Math.floor(Math.random() * 3)],
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

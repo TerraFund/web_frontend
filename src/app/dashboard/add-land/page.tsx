@@ -191,7 +191,6 @@ export default function AddLandWizard() {
       case 3:
         return (
           <div className="space-y-6">
-            {/* AI Recommendations */}
             {aiRecommendations.length > 0 && (
               <div className="bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 rounded-lg p-4 animate-in slide-in-from-bottom-4 duration-500">
                 <div className="flex items-center mb-3">
@@ -212,8 +211,25 @@ export default function AddLandWizard() {
                 </div>
               </div>
             )}
+        </div>
+      );
+     }
+      case 4:
+        return (
+          <div className="space-y-6">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Review & Publish</h3>
+            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+              <p><strong>Land Name:</strong> {formData.name || 'Not provided'}</p>
+              <p><strong>Size:</strong> {formData.size ? `${formData.size} acres` : 'Not provided'}</p>
+              <p><strong>Location:</strong> {formData.coordinates || 'Not provided'}</p>
+              <p><strong>Region:</strong> {formData.region || 'Not provided'}</p>
+              <p><strong>Elevation:</strong> {formData.elevation ? `${formData.elevation}m` : 'Not provided'}</p>
+            </div>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              By publishing, your land will be listed on the TerraFund platform for potential investors and partners.
+            </p>
           </div>
-        )}
+        );
       default:
         return null;
     }
@@ -243,7 +259,7 @@ export default function AddLandWizard() {
                   </span>
                   {step.id < 4 && <ChevronRight className="h-4 w-4 mx-2 text-gray-400" />}
                 </div>
-              );
+
             })}
           </div>
           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">

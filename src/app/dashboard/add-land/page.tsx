@@ -212,8 +212,7 @@ export default function AddLandWizard() {
               </div>
             )}
         </div>
-      );
-     }
+       );
       case 4:
         return (
           <div className="space-y-6">
@@ -230,10 +229,10 @@ export default function AddLandWizard() {
             </p>
           </div>
         );
-      default:
-        return null;
-    }
-  };
+     default:
+       return null;
+     }
+   };
 
   return (
     <div className="p-8">

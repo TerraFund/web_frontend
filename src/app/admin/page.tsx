@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Button from '@/components/Button';
-import { Users, Map, BarChart3, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
+import { Users, Map, BarChart3, AlertTriangle, CheckCircle, XCircle, Eye, Edit, Ban } from 'lucide-react';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'lands' | 'analytics'>('overview');
@@ -31,7 +31,7 @@ export default function AdminDashboard() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 animate-in slide-in-from-bottom-4 duration-500">
                 <div className="flex items-center">
                   <Users className="h-8 w-8 text-primary mr-3" />
                   <div>
@@ -40,7 +40,7 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               </div>
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 animate-in slide-in-from-bottom-4 duration-500 delay-100">
                 <div className="flex items-center">
                   <Map className="h-8 w-8 text-accent mr-3" />
                   <div>
@@ -49,7 +49,7 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               </div>
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 animate-in slide-in-from-bottom-4 duration-500 delay-200">
                 <div className="flex items-center">
                   <BarChart3 className="h-8 w-8 text-secondary mr-3" />
                   <div>
@@ -58,7 +58,7 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               </div>
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 animate-in slide-in-from-bottom-4 duration-500 delay-300">
                 <div className="flex items-center">
                   <AlertTriangle className="h-8 w-8 text-yellow-500 mr-3" />
                   <div>
@@ -113,29 +113,38 @@ export default function AdminDashboard() {
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                      {mockUsers.map((user) => (
-                        <tr key={user.id}>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{user.name}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{user.email}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{user.role}</td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                              user.status === 'verified'
-                                ? 'bg-green-100 text-green-800'
-                                : 'bg-yellow-100 text-yellow-800'
-                            }`}>
-                              {user.status}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{user.joined}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button className="text-primary hover:text-accent mr-2">Edit</button>
-                            <button className="text-red-600 hover:text-red-800">Suspend</button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
+                     <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                       {mockUsers.map((user, index) => (
+                         <tr key={user.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 animate-in slide-in-from-bottom-4 duration-300" style={{ animationDelay: `${index * 50}ms` }}>
+                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{user.name}</td>
+                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{user.email}</td>
+                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 capitalize">{user.role}</td>
+                           <td className="px-6 py-4 whitespace-nowrap">
+                             <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
+                               user.status === 'verified'
+                                 ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                                 : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                             }`}>
+                               {user.status}
+                             </span>
+                           </td>
+                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{user.joined}</td>
+                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                             <div className="flex items-center space-x-2">
+                               <button className="p-1 text-primary hover:text-accent transition-colors hover:scale-110" title="View Details">
+                                 <Eye className="h-4 w-4" />
+                               </button>
+                               <button className="p-1 text-blue-600 hover:text-blue-800 transition-colors hover:scale-110" title="Edit User">
+                                 <Edit className="h-4 w-4" />
+                               </button>
+                               <button className="p-1 text-red-600 hover:text-red-800 transition-colors hover:scale-110" title="Suspend User">
+                                 <Ban className="h-4 w-4" />
+                               </button>
+                             </div>
+                           </td>
+                         </tr>
+                       ))}
+                     </tbody>
                   </table>
                 </div>
               </div>
@@ -157,28 +166,34 @@ export default function AdminDashboard() {
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                      {mockLands.map((land) => (
-                        <tr key={land.id}>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{land.title}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{land.owner}</td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                              land.status === 'verified'
-                                ? 'bg-green-100 text-green-800'
-                                : 'bg-yellow-100 text-yellow-800'
-                            }`}>
-                              {land.status}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{land.listed}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button className="text-primary hover:text-accent mr-2">Verify</button>
-                            <button className="text-red-600 hover:text-red-800">Hide</button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
+                     <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                       {mockLands.map((land, index) => (
+                         <tr key={land.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 animate-in slide-in-from-bottom-4 duration-300" style={{ animationDelay: `${index * 50}ms` }}>
+                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{land.title}</td>
+                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{land.owner}</td>
+                           <td className="px-6 py-4 whitespace-nowrap">
+                             <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
+                               land.status === 'verified'
+                                 ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                                 : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                             }`}>
+                               {land.status}
+                             </span>
+                           </td>
+                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{land.listed}</td>
+                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                             <div className="flex items-center space-x-2">
+                               <button className="px-3 py-1 bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-200 dark:hover:bg-green-800 rounded-md transition-all duration-200 hover:scale-105 text-xs" title="Verify Land">
+                                 Verify
+                               </button>
+                               <button className="px-3 py-1 bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-900 dark:text-red-200 dark:hover:bg-red-800 rounded-md transition-all duration-200 hover:scale-105 text-xs" title="Hide Land">
+                                 Hide
+                               </button>
+                             </div>
+                           </td>
+                         </tr>
+                       ))}
+                     </tbody>
                   </table>
                 </div>
               </div>

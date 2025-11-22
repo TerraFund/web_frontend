@@ -1,11 +1,14 @@
 'use client';
 
-import { useState } from 'react';
-import { Send, Paperclip, MoreVertical } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Send, Paperclip, MoreVertical, Loader2 } from 'lucide-react';
 
 export default function Chat() {
   const [selectedConversation, setSelectedConversation] = useState('1');
   const [message, setMessage] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [messages, setMessages] = useState(mockMessages);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const mockConversations = [
     { id: '1', name: 'Sarah Johnson', lastMessage: 'Looking forward to our partnership!', time: '2m ago', unread: 2 },
@@ -21,11 +24,40 @@ export default function Chat() {
     { id: '5', sender: 'Sarah Johnson', content: 'That sounds perfect! Looking forward to our partnership!', timestamp: '10:40 AM', isMe: false },
   ];
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   const handleSendMessage = () => {
     if (message.trim()) {
-      // Mock send
-      console.log('Sending message:', message);
+      const newMessage = {
+        id: Date.now().toString(),
+        sender: 'Me',
+        content: message,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        isMe: true,
+      };
+      setMessages(prev => [...prev, newMessage]);
       setMessage('');
+
+      // Simulate typing indicator
+      setIsTyping(true);
+      setTimeout(() => {
+        setIsTyping(false);
+        // Simulate response
+        const responseMessage = {
+          id: (Date.now() + 1).toString(),
+          sender: 'Sarah Johnson',
+          content: 'Thank you for the information! I\'ll review the details.',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          isMe: false,
+        };
+        setMessages(prev => [...prev, responseMessage]);
+      }, 2000);
     }
   };
 
@@ -76,9 +108,13 @@ export default function Chat() {
 
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {mockMessages.map((msg) => (
-                <div key={msg.id} className={`flex ${msg.isMe ? 'justify-end' : 'justify-start'}`}>
-                  <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+              {messages.map((msg, index) => (
+                <div
+                  key={msg.id}
+                  className={`flex animate-in ${msg.isMe ? 'justify-end slide-in-from-right-4' : 'justify-start slide-in-from-left-4'} duration-300`}
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg shadow-sm ${
                     msg.isMe
                       ? 'bg-primary text-white'
                       : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white'
@@ -90,29 +126,59 @@ export default function Chat() {
                   </div>
                 </div>
               ))}
+
+              {/* Typing Indicator */}
+              {isTyping && (
+                <div className="flex justify-start animate-in slide-in-from-left-4 duration-300">
+                  <div className="bg-gray-200 dark:bg-gray-700 px-4 py-2 rounded-lg">
+                    <div className="flex items-center space-x-1">
+                      <div className="flex space-x-1">
+                        <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                        <div className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      </div>
+                      <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">Sarah is typing...</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div ref={messagesEndRef} />
             </div>
 
             {/* Message Input */}
             <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
               <div className="flex items-center space-x-2">
-                <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 hover:scale-110">
                   <Paperclip className="h-5 w-5" />
                 </button>
-                <input
-                  type="text"
-                  placeholder="Type a message..."
-                  className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                />
-                <button
-                  onClick={handleSendMessage}
-                  disabled={!message.trim()}
-                  className="p-2 bg-primary text-white rounded-lg hover:bg-accent transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <Send className="h-5 w-5" />
-                </button>
+                <div className="flex-1 relative">
+                  <input
+                    type="text"
+                    placeholder="Type a message..."
+                    className="w-full px-3 py-2 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-200"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                  />
+                  {message.trim() && (
+                    <button
+                      onClick={handleSendMessage}
+                      className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 bg-primary text-white rounded-md hover:bg-accent transition-all duration-200 hover:scale-105"
+                    >
+                      <Send className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+                {!message.trim() && (
+                  <button
+                    onClick={handleSendMessage}
+                    disabled
+                    className="p-2 bg-gray-300 dark:bg-gray-600 text-gray-500 rounded-lg cursor-not-allowed"
+                  >
+                    <Send className="h-5 w-5" />
+                  </button>
+                )}
               </div>
             </div>
           </div>

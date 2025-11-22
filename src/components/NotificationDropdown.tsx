@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { Bell, MessageSquare, CheckCircle, AlertTriangle } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Bell, MessageSquare, CheckCircle, AlertTriangle, X } from 'lucide-react';
 
 interface Notification {
   id: string;
@@ -41,6 +41,26 @@ export default function NotificationDropdown() {
     },
   ]);
 
+  // Simulate real-time notifications
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Randomly add new notifications (simulating real-time)
+      if (Math.random() < 0.1) { // 10% chance every 30 seconds
+        const newNotification: Notification = {
+          id: Date.now().toString(),
+          type: ['message', 'proposal', 'system'][Math.floor(Math.random() * 3)] as any,
+          title: 'New Notification',
+          message: 'You have a new update',
+          timestamp: 'Just now',
+          read: false,
+        };
+        setNotifications(prev => [newNotification, ...prev.slice(0, 9)]); // Keep max 10
+      }
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const unreadCount = notifications.filter(n => !n.read).length;
 
   const markAsRead = (id: string) => {
@@ -66,38 +86,53 @@ export default function NotificationDropdown() {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+        className="relative p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 hover:scale-110"
       >
-        <Bell className="h-6 w-6" />
+        <Bell className={`h-6 w-6 transition-all duration-200 ${unreadCount > 0 ? 'animate-pulse' : ''}`} />
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-            {unreadCount}
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-in zoom-in duration-300">
+            {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
+        <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 animate-in slide-in-from-top-4 duration-300">
           <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Notifications</h3>
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Notifications</h3>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            {unreadCount > 0 && (
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                {unreadCount} unread notification{unreadCount !== 1 ? 's' : ''}
+              </p>
+            )}
           </div>
 
           <div className="max-h-96 overflow-y-auto">
             {notifications.length === 0 ? (
-              <div className="p-4 text-center text-gray-500 dark:text-gray-400">
-                No notifications
+              <div className="p-8 text-center text-gray-500 dark:text-gray-400">
+                <Bell className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                <p>No notifications yet</p>
               </div>
             ) : (
-              notifications.map((notification) => (
+              notifications.map((notification, index) => (
                 <div
                   key={notification.id}
-                  className={`p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer ${
-                    !notification.read ? 'bg-blue-50 dark:bg-blue-900/20' : ''
-                  }`}
+                  className={`p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-all duration-200 hover:scale-[1.02] animate-in slide-in-from-bottom-4`}
+                  style={{ animationDelay: `${index * 50}ms` }}
                   onClick={() => markAsRead(notification.id)}
                 >
                   <div className="flex items-start space-x-3">
-                    {getIcon(notification.type)}
+                    <div className="flex-shrink-0">
+                      {getIcon(notification.type)}
+                    </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-gray-900 dark:text-white">
                         {notification.title}
@@ -110,7 +145,7 @@ export default function NotificationDropdown() {
                       </p>
                     </div>
                     {!notification.read && (
-                      <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 mt-2"></div>
+                      <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 mt-2 animate-pulse"></div>
                     )}
                   </div>
                 </div>
@@ -119,8 +154,8 @@ export default function NotificationDropdown() {
           </div>
 
           <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-            <button className="text-sm text-primary hover:text-accent">
-              View all notifications
+            <button className="text-sm text-primary hover:text-accent transition-colors duration-200 hover:underline">
+              View all notifications →
             </button>
           </div>
         </div>

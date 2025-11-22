@@ -1,12 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronRight, ChevronLeft, MapPin, FileText, Sprout, Check } from 'lucide-react';
+import { ChevronRight, ChevronLeft, MapPin, FileText, Sprout, Check, Sparkles, Loader2 } from 'lucide-react';
+import Map from '@/components/Map';
 
 export default function AddLandWizard() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
+  const [aiRecommendations, setAiRecommendations] = useState<string[]>([]);
+  const [isLoadingAI, setIsLoadingAI] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     size: '',
@@ -42,9 +46,36 @@ export default function AddLandWizard() {
   };
 
   const handleSubmit = () => {
-    // Mock submission
-    router.push('/dashboard');
+    // Mock submission with confetti
+    setShowConfetti(true);
+    setTimeout(() => {
+      setShowConfetti(false);
+      router.push('/dashboard');
+    }, 2000);
   };
+
+  const getAIRecommendations = async () => {
+    if (!formData.region || !formData.soilType || !formData.size) return;
+
+    setIsLoadingAI(true);
+    // Mock AI API call - in real app this would call your AI service
+    setTimeout(() => {
+      const recommendations = [
+        `Based on ${formData.region} climate: Consider maize and beans for optimal yield`,
+        `Soil pH ${formData.soilPh || 'unknown'} suggests ${formData.soilPh > 6.5 ? 'alkaline-tolerant' : 'acid-loving'} crops`,
+        `With ${formData.size} acres: Recommended irrigation system - ${formData.irrigationType || 'drip irrigation'}`,
+        `Elevation ${formData.elevation}m: Suitable for coffee and tea cultivation`
+      ];
+      setAiRecommendations(recommendations);
+      setIsLoadingAI(false);
+    }, 1500);
+  };
+
+  useEffect(() => {
+    if (currentStep === 3) {
+      getAIRecommendations();
+    }
+  }, [currentStep, formData.region, formData.soilType, formData.size]);
 
   const renderStepContent = () => {
     switch (currentStep) {
@@ -57,9 +88,10 @@ export default function AddLandWizard() {
               </label>
               <input
                 type="text"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-200"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                placeholder="e.g., Green Valley Farm"
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -69,9 +101,10 @@ export default function AddLandWizard() {
                 </label>
                 <input
                   type="number"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-200"
                   value={formData.size}
                   onChange={(e) => setFormData({ ...formData, size: e.target.value })}
+                  placeholder="100"
                 />
               </div>
               <div>
@@ -80,8 +113,8 @@ export default function AddLandWizard() {
                 </label>
                 <input
                   type="text"
-                  placeholder="Lat, Lng"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  placeholder="-1.2864, 36.8172"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-200"
                   value={formData.coordinates}
                   onChange={(e) => setFormData({ ...formData, coordinates: e.target.value })}
                 />
@@ -94,9 +127,10 @@ export default function AddLandWizard() {
                 </label>
                 <input
                   type="text"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-200"
                   value={formData.region}
                   onChange={(e) => setFormData({ ...formData, region: e.target.value })}
+                  placeholder="e.g., Rift Valley"
                 />
               </div>
               <div>
@@ -105,9 +139,27 @@ export default function AddLandWizard() {
                 </label>
                 <input
                   type="number"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-200"
                   value={formData.elevation}
                   onChange={(e) => setFormData({ ...formData, elevation: e.target.value })}
+                  placeholder="1500"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Location Preview
+              </label>
+              <div className="h-64 rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600">
+                <Map
+                  center={formData.coordinates ? formData.coordinates.split(',').map(c => parseFloat(c.trim())) as [number, number] : [-1.2864, 36.8172]}
+                  zoom={12}
+                  markers={formData.coordinates ? [{
+                    id: 'land-location',
+                    position: formData.coordinates.split(',').map(c => parseFloat(c.trim())) as [number, number],
+                    title: formData.name || 'Land Location',
+                    description: `${formData.size} acres in ${formData.region}`
+                  }] : []}
                 />
               </div>
             </div>
@@ -139,119 +191,53 @@ export default function AddLandWizard() {
       case 3:
         return (
           <div className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Recommended Crops
-              </label>
-              <input
-                type="text"
-                placeholder="e.g., Maize, Beans, Coffee"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
-                value={formData.recommendedCrops}
-                onChange={(e) => setFormData({ ...formData, recommendedCrops: e.target.value })}
-              />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Irrigation Type
-                </label>
-                <select
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
-                  value={formData.irrigationType}
-                  onChange={(e) => setFormData({ ...formData, irrigationType: e.target.value })}
-                >
-                  <option value="">Select type</option>
-                  <option value="rainfed">Rainfed</option>
-                  <option value="drip">Drip Irrigation</option>
-                  <option value="sprinkler">Sprinkler</option>
-                  <option value="flood">Flood Irrigation</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Average Rainfall (mm/year)
-                </label>
-                <input
-                  type="number"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
-                  value={formData.rainfall}
-                  onChange={(e) => setFormData({ ...formData, rainfall: e.target.value })}
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Soil pH
-                </label>
-                <input
-                  type="number"
-                  step="0.1"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
-                  value={formData.soilPh}
-                  onChange={(e) => setFormData({ ...formData, soilPh: e.target.value })}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Fertility Index
-                </label>
-                <input
-                  type="number"
-                  min="1"
-                  max="10"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
-                  value={formData.fertilityIndex}
-                  onChange={(e) => setFormData({ ...formData, fertilityIndex: e.target.value })}
-                />
-              </div>
-            </div>
+            {/* AI Recommendations */}
+            {aiRecommendations.length > 0 && (
+              <div className="bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 rounded-lg p-4 animate-in slide-in-from-bottom-4 duration-500">
+                <div className="flex items-center mb-3">
+                  <Sparkles className="w-5 h-5 text-accent mr-2" />
+                  <h3 className="font-semibold text-gray-900 dark:text-white">AI Recommendations</h3>
+                </div>
+                <div className="space-y-2">
+                  {aiRecommendations.map((rec, index) => (
+                    <div
+                      key={index}
+                      className="flex items-start space-x-2 text-sm text-gray-700 dark:text-gray-300 animate-in slide-in-from-bottom-4"
+                      style={{ animationDelay: `${index * 100}ms` }}
+                    >
+                      <div className="w-1.5 h-1.5 bg-accent rounded-full mt-2 flex-shrink-0"></div>
+                      <span>{rec}</span>
           </div>
-        );
-      case 4:
-        return (
-          <div className="space-y-6">
-            <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
-              <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Review Your Land Details</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                <div>
-                  <span className="font-medium text-gray-700 dark:text-gray-300">Name:</span>
-                  <span className="ml-2 text-gray-900 dark:text-white">{formData.name || 'Not provided'}</span>
-                </div>
-                <div>
-                  <span className="font-medium text-gray-700 dark:text-gray-300">Size:</span>
-                  <span className="ml-2 text-gray-900 dark:text-white">{formData.size || 'Not provided'} acres</span>
-                </div>
-                <div>
-                  <span className="font-medium text-gray-700 dark:text-gray-300">Region:</span>
-                  <span className="ml-2 text-gray-900 dark:text-white">{formData.region || 'Not provided'}</span>
-                </div>
-                <div>
-                  <span className="font-medium text-gray-700 dark:text-gray-300">Soil Type:</span>
-                  <span className="ml-2 text-gray-900 dark:text-white">{formData.soilType || 'Not provided'}</span>
-                </div>
-                <div>
-                  <span className="font-medium text-gray-700 dark:text-gray-300">Recommended Crops:</span>
-                  <span className="ml-2 text-gray-900 dark:text-white">{formData.recommendedCrops || 'Not provided'}</span>
-                </div>
-                <div>
-                  <span className="font-medium text-gray-700 dark:text-gray-300">Irrigation:</span>
-                  <span className="ml-2 text-gray-900 dark:text-white">{formData.irrigationType || 'Not provided'}</span>
-                </div>
+        )}
+
+        {/* Confetti Animation */}
+        {showConfetti && (
+          <div className="fixed inset-0 pointer-events-none z-50">
+            {Array.from({ length: 100 }).map((_, i) => (
+              <div
+                key={i}
+                className="absolute animate-bounce"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `-10px`,
+                  animationDelay: `${Math.random() * 2}s`,
+                  animationDuration: `${1 + Math.random() * 2}s`,
+                }}
+              >
+                <div
+                  className="w-2 h-2 rounded-full"
+                  style={{
+                    backgroundColor: ['#0B6E4F', '#F4A261', '#1E3932'][Math.floor(Math.random() * 3)],
+                  }}
+                />
               </div>
-            </div>
-            <div className="flex items-center">
-              <input type="checkbox" id="publish" className="mr-2" />
-              <label htmlFor="publish" className="text-sm text-gray-700 dark:text-gray-300">
-                I agree to publish this land listing for investors to view
-              </label>
-            </div>
+            ))}
           </div>
-        );
-      default:
-        return null;
-    }
+        )}
+      </div>
+    </div>
+  );
+}
   };
 
   return (

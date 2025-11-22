@@ -214,6 +214,79 @@ export default function AddLandWizard() {
             )}
           </div>
         )}
+    default:
+      return null;
+  }
+};
+
+  return (
+    <div className="p-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Add New Land</h1>
+
+        {/* Progress Bar */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            {steps.map((step) => {
+              const Icon = step.icon;
+              return (
+                <div key={step.id} className="flex items-center">
+                  <div className={`flex items-center justify-center w-10 h-10 rounded-full ${
+                    currentStep >= step.id ? 'bg-primary text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-400'
+                  }`}>
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <span className={`ml-2 text-sm font-medium ${
+                    currentStep >= step.id ? 'text-primary' : 'text-gray-400'
+                  }`}>
+                    {step.title}
+                  </span>
+                  {step.id < 4 && <ChevronRight className="h-4 w-4 mx-2 text-gray-400" />}
+                </div>
+              );
+            })}
+          </div>
+          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+            <div
+              className="bg-primary h-2 rounded-full transition-all duration-300"
+              style={{ width: `${(currentStep / 4) * 100}%` }}
+            ></div>
+          </div>
+        </div>
+
+        {/* Step Content */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-8 mb-8">
+          {renderStepContent()}
+        </div>
+
+        {/* Navigation */}
+        <div className="flex justify-between">
+          <button
+            onClick={handlePrev}
+            disabled={currentStep === 1}
+            className="flex items-center px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <ChevronLeft className="h-5 w-5 mr-2" />
+            Previous
+          </button>
+          {currentStep < 4 ? (
+            <button
+              onClick={handleNext}
+              className="flex items-center px-6 py-3 bg-primary text-white rounded-lg hover:bg-accent transition-colors"
+            >
+              Next
+              <ChevronRight className="h-5 w-5 ml-2" />
+            </button>
+          ) : (
+            <button
+              onClick={handleSubmit}
+              className="flex items-center px-6 py-3 bg-primary text-white rounded-lg hover:bg-accent transition-colors"
+            >
+              Publish Land
+              <Check className="h-5 w-5 ml-2" />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Confetti Animation */}
@@ -241,78 +314,5 @@ export default function AddLandWizard() {
         </div>
       )}
     </div>
-  );
-}
-
-  return (
-    <div className="p-8">
-      <div className="max-w-4xl mx-auto">
-         <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Add New Land</h1>
-
-         {/* Progress Bar */}
-         <div className="mb-8">
-              <div className="flex items-center justify-between mb-4">
-                {steps.map((step) => {
-                  const Icon = step.icon;
-                  return (
-                    <div key={step.id} className="flex items-center">
-                      <div className={`flex items-center justify-center w-10 h-10 rounded-full ${
-                        currentStep >= step.id ? 'bg-primary text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-400'
-                      }`}>
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <span className={`ml-2 text-sm font-medium ${
-                        currentStep >= step.id ? 'text-primary' : 'text-gray-400'
-                      }`}>
-                        {step.title}
-                      </span>
-                      {step.id < 4 && <ChevronRight className="h-4 w-4 mx-2 text-gray-400" />}
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                <div
-                  className="bg-primary h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${(currentStep / 4) * 100}%` }}
-                ></div>
-              </div>
-         </div>
-
-         {/* Step Content */}
-         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-8 mb-8">
-              {renderStepContent()}
-         </div>
-
-         {/* Navigation */}
-         <div className="flex justify-between">
-              <button
-                onClick={handlePrev}
-                disabled={currentStep === 1}
-                className="flex items-center px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <ChevronLeft className="h-5 w-5 mr-2" />
-                Previous
-              </button>
-              {currentStep < 4 ? (
-                <button
-                  onClick={handleNext}
-                  className="flex items-center px-6 py-3 bg-primary text-white rounded-lg hover:bg-accent transition-colors"
-                >
-                  Next
-                  <ChevronRight className="h-5 w-5 ml-2" />
-                </button>
-              ) : (
-                <button
-                  onClick={handleSubmit}
-                  className="flex items-center px-6 py-3 bg-primary text-white rounded-lg hover:bg-accent transition-colors"
-                >
-                  Publish Land
-                  <Check className="h-5 w-5 ml-2" />
-                </button>
-              )}
-         </div>
-       </div>
-     </div>
   );
 }

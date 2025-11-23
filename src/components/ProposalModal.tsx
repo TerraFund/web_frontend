@@ -54,12 +54,13 @@ export default function ProposalModal({ landId, landTitle, onSubmit }: ProposalM
 
   // Auto-save draft
   useEffect(() => {
-    if (formData.amount || formData.duration || formData.message) {
+    const hasContent = formData.amount || formData.duration || formData.message;
+    if (hasContent) {
       const draftKey = `proposal_draft_${landId}`;
       localStorage.setItem(draftKey, JSON.stringify(formData));
       setHasDraft(true);
     }
-  }, [formData, landId]);
+  }, [formData.amount, formData.duration, formData.message, landId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

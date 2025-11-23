@@ -36,7 +36,7 @@ const uiSlice = createSlice({
     setSidebarOpen: (state, action: PayloadAction<boolean>) => {
       state.sidebarOpen = action.payload;
     },
-    openModal: (state, action: PayloadAction<string>) => {
+    openModal: (state, action: PayloadAction<React.ReactNode>) => {
       state.modalOpen = true;
       state.modalContent = action.payload;
     },

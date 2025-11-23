@@ -1,4 +1,5 @@
 // Main landing page component for TerraFund platform
+import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { MapPin, Users, Shield, TrendingUp, Leaf, Award, CheckCircle, ArrowRight } from 'lucide-react';
@@ -30,11 +31,11 @@ export default function Home() {
               TerraFund bridges the gap between landowners with unused land and investors seeking profitable, eco-friendly opportunities in agriculture.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-in slide-in-from-bottom-4 duration-1000 delay-400">
-              <button className="group bg-white text-primary px-8 py-4 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                Get Started Free
-                <ArrowRight className="inline w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-              </button>
+             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-in slide-in-from-bottom-4 duration-1000 delay-400">
+               <Link href="/auth/register" className="group bg-white text-primary px-8 py-4 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 inline-flex items-center">
+                 Get Started Free
+                 <ArrowRight className="inline w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+               </Link>
               <button className="group border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-primary transition-all duration-300 backdrop-blur-sm">
                 <Award className="inline w-5 h-5 mr-2" />
                 View Success Stories

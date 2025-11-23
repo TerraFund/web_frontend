@@ -11,10 +11,8 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/auth/login', request.url));
   }
 
-  // Redirect to dashboard if accessing auth pages with token
-  if (token && isAuthPage) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
-  }
+  // Allow access to auth pages regardless of token status
+  // Client-side will handle redirects if user is already authenticated
 
   return NextResponse.next();
 }

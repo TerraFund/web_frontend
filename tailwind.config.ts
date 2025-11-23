@@ -61,13 +61,13 @@ const config: Config = {
   				'sans-serif'
   			]
   		},
-  		fontWeight: {
-  			normal: 400,
-  			bold: 700
-  		},
-  		lineHeight: {
-  			normal: 1.6
-  		},
+   		fontWeight: {
+   			normal: '400',
+   			bold: '700'
+   		},
+   		lineHeight: {
+   			normal: '1.6'
+   		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',

@@ -1,15 +1,15 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronRight, ChevronLeft, MapPin, FileText, Sprout, Check, Sparkles, Loader2 } from 'lucide-react';
+import { ChevronRight, ChevronLeft, MapPin, FileText, Sprout, Check, Sparkles } from 'lucide-react';
 import Map from '@/components/Map';
 
 export default function AddLandWizard() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [aiRecommendations, setAiRecommendations] = useState<string[]>([]);
-  const [isLoadingAI, setIsLoadingAI] = useState(false);
+
   const [showConfetti, setShowConfetti] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -54,22 +54,22 @@ export default function AddLandWizard() {
     }, 2000);
   };
 
-  const getAIRecommendations = async () => {
+  const getAIRecommendations = useCallback(async () => {
     if (!formData.region || !formData.soilType || !formData.size) return;
 
-    setIsLoadingAI(true);
     // Mock AI API call - in real app this would call your AI service
     setTimeout(() => {
+      const soilPhValue = formData.soilPh ? parseFloat(formData.soilPh) : null;
+      const cropType = soilPhValue && !isNaN(soilPhValue) ? (soilPhValue > 6.5 ? 'alkaline-tolerant' : 'acid-loving') : 'acid-loving';
       const recommendations = [
         `Based on ${formData.region} climate: Consider maize and beans for optimal yield`,
-        `Soil pH ${formData.soilPh || 'unknown'} suggests ${formData.soilPh && parseFloat(formData.soilPh) > 6.5 ? 'alkaline-tolerant' : 'acid-loving'} crops`,
+        `Soil pH ${formData.soilPh || 'unknown'} suggests ${cropType} crops`,
         `With ${formData.size} acres: Recommended irrigation system - ${formData.irrigationType || 'drip irrigation'}`,
         `Elevation ${formData.elevation}m: Suitable for coffee and tea cultivation`
       ];
       setAiRecommendations(recommendations);
-      setIsLoadingAI(false);
     }, 1500);
-  };
+  }, [formData.region, formData.soilType, formData.size, formData.soilPh, formData.irrigationType, formData.elevation]);
 
   useEffect(() => {
     if (currentStep === 3) {
@@ -212,7 +212,7 @@ export default function AddLandWizard() {
               </div>
             )}
         </div>
-       );
+      );
       case 4:
         return (
           <div className="space-y-6">

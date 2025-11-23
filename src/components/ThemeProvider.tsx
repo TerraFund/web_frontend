@@ -22,13 +22,26 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
   }, [dispatch]);
 
   useEffect(() => {
+    const root = document.documentElement;
+
     if (darkMode) {
-      document.documentElement.classList.add('dark');
+      root.classList.add('dark');
       localStorage.setItem('theme', 'dark');
+      // Add smooth transition for background color change
+      root.style.setProperty('--theme-transition', 'background-color 0.3s ease-in-out, color 0.3s ease-in-out');
     } else {
-      document.documentElement.classList.remove('dark');
+      root.classList.remove('dark');
       localStorage.setItem('theme', 'light');
+      // Add smooth transition for background color change
+      root.style.setProperty('--theme-transition', 'background-color 0.3s ease-in-out, color 0.3s ease-in-out');
     }
+
+    // Clean up transition property after animation
+    const timeout = setTimeout(() => {
+      root.style.removeProperty('--theme-transition');
+    }, 300);
+
+    return () => clearTimeout(timeout);
   }, [darkMode]);
 
   return <>{children}</>;

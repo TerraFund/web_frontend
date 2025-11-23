@@ -74,13 +74,28 @@ export default function Navbar() {
 
             <button
               onClick={() => dispatch(toggleDarkMode())}
-              className={`p-2 rounded-xl transition-all duration-200 ${
+              className={`relative p-2 rounded-xl transition-all duration-300 overflow-hidden ${
                 darkMode
                   ? 'hover:bg-gray-800 text-gray-300 hover:text-white'
                   : 'hover:bg-gray-100 text-gray-600 hover:text-gray-900'
               }`}
+              title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             >
-              {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+              <div className={`relative w-5 h-5 transition-transform duration-300 ${
+                darkMode ? 'rotate-180 scale-110' : 'rotate-0 scale-100'
+              }`}>
+                {darkMode ? (
+                  <Sun className="w-5 h-5 absolute inset-0 transition-opacity duration-300 opacity-100" />
+                ) : (
+                  <Moon className="w-5 h-5 absolute inset-0 transition-opacity duration-300 opacity-100" />
+                )}
+              </div>
+              {/* Background slide animation */}
+              <div className={`absolute inset-0 rounded-xl transition-all duration-300 ${
+                darkMode
+                  ? 'bg-gradient-to-r from-yellow-400/20 to-orange-400/20 translate-x-0'
+                  : 'bg-gradient-to-r from-blue-400/20 to-indigo-400/20 -translate-x-full'
+              }`} />
             </button>
 
             {isAuthenticated ? (

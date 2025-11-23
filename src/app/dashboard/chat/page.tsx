@@ -3,7 +3,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { Send, Paperclip, MoreVertical, Loader2 } from 'lucide-react';
 
-
+const mockMessages = [
+  { id: '1', sender: 'Sarah Johnson', content: 'Hi! I\'m interested in your coffee farm plot.', timestamp: '10:30 AM', isMe: false },
+  { id: '2', sender: 'Me', content: 'Hello Sarah! Thank you for your interest.', timestamp: '10:32 AM', isMe: true },
+  { id: '3', sender: 'Sarah Johnson', content: 'I have some questions about the soil quality and irrigation.', timestamp: '10:35 AM', isMe: false },
+  { id: '4', sender: 'Me', content: 'The soil is volcanic with excellent fertility. We have drip irrigation.', timestamp: '10:37 AM', isMe: true },
+  { id: '5', sender: 'Sarah Johnson', content: 'That sounds perfect! Looking forward to our partnership!', timestamp: '10:40 AM', isMe: false },
+];
 
 export default function Chat() {
   const [selectedConversation, setSelectedConversation] = useState('1');
@@ -16,12 +22,6 @@ export default function Chat() {
     { id: '1', name: 'Sarah Johnson', lastMessage: 'Looking forward to our partnership!', time: '2m ago', unread: 2 },
     { id: '2', name: 'Mike Chen', lastMessage: 'Contract details sent', time: '1h ago', unread: 0 },
     { id: '3', name: 'Landowner Group', lastMessage: 'Welcome to TerraFund!', time: '1d ago', unread: 0 },
-  ];
-    { id: '1', sender: 'Sarah Johnson', content: 'Hi! I\'m interested in your coffee farm plot.', timestamp: '10:30 AM', isMe: false },
-    { id: '2', sender: 'Me', content: 'Hello Sarah! Thank you for your interest.', timestamp: '10:32 AM', isMe: true },
-    { id: '3', sender: 'Sarah Johnson', content: 'I have some questions about the soil quality and irrigation.', timestamp: '10:35 AM', isMe: false },
-    { id: '4', sender: 'Me', content: 'The soil is volcanic with excellent fertility. We have drip irrigation.', timestamp: '10:37 AM', isMe: true },
-    { id: '5', sender: 'Sarah Johnson', content: 'That sounds perfect! Looking forward to our partnership!', timestamp: '10:40 AM', isMe: false },
   ];
 
   const scrollToBottom = () => {

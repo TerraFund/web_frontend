@@ -3,7 +3,7 @@
 import { useState, lazy, Suspense } from 'react';
 import LandCard from '@/components/LandCard';
 import LandFilters from '@/components/LandFilters';
-import { Search, Filter, MapPin, Grid, List, SortAsc } from 'lucide-react';
+import { Search, Filter, MapPin, Grid, List, SortAsc, Sparkles } from 'lucide-react';
 
 const Map = lazy(() => import('@/components/Map'));
 
@@ -147,16 +147,41 @@ export default function BrowseLands() {
           )}
         </div>
 
-        {/* Results Count */}
-        <div className="flex items-center justify-between mb-6">
-          <p className="text-gray-600 dark:text-gray-300">
-            Showing <span className="font-semibold text-gray-900 dark:text-white">{filteredLands.length}</span> lands
-          </p>
-          <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-            <MapPin className="w-4 h-4" />
-            Central Kenya • Rift Valley • Western Kenya
-          </div>
-        </div>
+         {/* AI Recommendations */}
+         <div className="bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 rounded-2xl p-6 mb-8">
+           <div className="flex items-center mb-4">
+             <Sparkles className="w-6 h-6 text-accent mr-3" />
+             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">AI Recommendations</h2>
+           </div>
+           <p className="text-gray-600 dark:text-gray-300 mb-4">
+             Based on your profile and market trends, here are personalized land investment opportunities:
+           </p>
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+             <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+               <h3 className="font-medium text-gray-900 dark:text-white mb-2">High ROI Potential</h3>
+               <p className="text-sm text-gray-600 dark:text-gray-400">Coffee farms in Central Kenya showing 15-20% annual returns</p>
+             </div>
+             <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+               <h3 className="font-medium text-gray-900 dark:text-white mb-2">Sustainable Focus</h3>
+               <p className="text-sm text-gray-600 dark:text-gray-400">Organic maize fields with water conservation features</p>
+             </div>
+             <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+               <h3 className="font-medium text-gray-900 dark:text-white mb-2">Market Trend</h3>
+               <p className="text-sm text-gray-600 dark:text-gray-400">Increasing demand for avocado orchards in Western Kenya</p>
+             </div>
+           </div>
+         </div>
+
+         {/* Results Count */}
+         <div className="flex items-center justify-between mb-6">
+           <p className="text-gray-600 dark:text-gray-300">
+             Showing <span className="font-semibold text-gray-900 dark:text-white">{filteredLands.length}</span> lands
+           </p>
+           <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+             <MapPin className="w-4 h-4" />
+             Central Kenya • Rift Valley • Western Kenya
+           </div>
+         </div>
 
         {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

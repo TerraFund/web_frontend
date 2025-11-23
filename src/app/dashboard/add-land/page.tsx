@@ -62,7 +62,7 @@ export default function AddLandWizard() {
     setTimeout(() => {
       const recommendations = [
         `Based on ${formData.region} climate: Consider maize and beans for optimal yield`,
-        `Soil pH ${formData.soilPh || 'unknown'} suggests ${formData.soilPh > 6.5 ? 'alkaline-tolerant' : 'acid-loving'} crops`,
+        `Soil pH ${formData.soilPh || 'unknown'} suggests ${formData.soilPh && parseFloat(formData.soilPh) > 6.5 ? 'alkaline-tolerant' : 'acid-loving'} crops`,
         `With ${formData.size} acres: Recommended irrigation system - ${formData.irrigationType || 'drip irrigation'}`,
         `Elevation ${formData.elevation}m: Suitable for coffee and tea cultivation`
       ];
@@ -258,7 +258,7 @@ export default function AddLandWizard() {
                   </span>
                   {step.id < 4 && <ChevronRight className="h-4 w-4 mx-2 text-gray-400" />}
                 </div>
-
+              );
             })}
           </div>
           <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">

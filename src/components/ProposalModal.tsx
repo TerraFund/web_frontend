@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useUI } from '@/hooks/useUI';
 import Button from './Button';
 import Input from './Input';
+import { Wifi, WifiOff } from 'lucide-react';
 
 interface ProposalModalProps {
   landId: string;
@@ -19,10 +20,68 @@ export default function ProposalModal({ landId, landTitle, onSubmit }: ProposalM
     message: '',
   });
   const [loading, setLoading] = useState(false);
+  const [isOnline, setIsOnline] = useState(true);
+  const [hasDraft, setHasDraft] = useState(false);
+
+  useEffect(() => {
+    // Check online status
+    setIsOnline(navigator.onLine);
+
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    // Load draft from localStorage
+    const draftKey = `proposal_draft_${landId}`;
+    const savedDraft = localStorage.getItem(draftKey);
+    if (savedDraft) {
+      try {
+        const draft = JSON.parse(savedDraft);
+        setFormData(draft);
+        setHasDraft(true);
+      } catch (e) {
+        console.error('Failed to load draft:', e);
+      }
+    }
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, [landId]);
+
+  // Auto-save draft
+  useEffect(() => {
+    if (formData.amount || formData.duration || formData.message) {
+      const draftKey = `proposal_draft_${landId}`;
+      localStorage.setItem(draftKey, JSON.stringify(formData));
+      setHasDraft(true);
+    }
+  }, [formData, landId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
+    if (!isOnline) {
+      // Save to localStorage for later sync
+      const offlineKey = `offline_proposal_${landId}_${Date.now()}`;
+      localStorage.setItem(offlineKey, JSON.stringify({
+        ...formData,
+        landId,
+        timestamp: Date.now(),
+      }));
+
+      // Clear draft
+      localStorage.removeItem(`proposal_draft_${landId}`);
+
+      setLoading(false);
+      closeModal();
+      alert('Proposal saved offline. It will be sent when you\'re back online.');
+      return;
+    }
 
     // Mock submission
     setTimeout(() => {
@@ -31,6 +90,8 @@ export default function ProposalModal({ landId, landTitle, onSubmit }: ProposalM
         duration: parseInt(formData.duration),
         message: formData.message,
       });
+      // Clear draft on successful submit
+      localStorage.removeItem(`proposal_draft_${landId}`);
       setLoading(false);
       closeModal();
     }, 1000);
@@ -38,12 +99,32 @@ export default function ProposalModal({ landId, landTitle, onSubmit }: ProposalM
 
   return (
     <div className="max-w-md w-full">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-        Send Proposal
-      </h2>
-      <p className="text-gray-600 dark:text-gray-400 mb-6">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+          Send Proposal
+        </h2>
+        <div className={`flex items-center text-sm ${isOnline ? 'text-green-600' : 'text-red-600'}`}>
+          {isOnline ? <Wifi className="w-4 h-4 mr-1" /> : <WifiOff className="w-4 h-4 mr-1" />}
+          {isOnline ? 'Online' : 'Offline'}
+        </div>
+      </div>
+      <p className="text-gray-600 dark:text-gray-400 mb-4">
         Submit your investment proposal for <strong>{landTitle}</strong>
       </p>
+      {hasDraft && (
+        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 mb-4">
+          <p className="text-sm text-blue-800 dark:text-blue-200">
+            Draft loaded from previous session
+          </p>
+        </div>
+      )}
+      {!isOnline && (
+        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 mb-4">
+          <p className="text-sm text-yellow-800 dark:text-yellow-200">
+            You're offline. Your proposal will be saved and sent when you're back online.
+          </p>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input

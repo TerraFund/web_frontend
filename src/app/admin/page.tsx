@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import Button from '@/components/Button';
-import { Users, Map, BarChart3, AlertTriangle, CheckCircle, XCircle, Eye, Edit, Ban } from 'lucide-react';
+import { Users, Map, BarChart3, AlertTriangle, CheckCircle, XCircle, Eye, Edit, Ban, TrendingUp, DollarSign, Activity } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'lands' | 'analytics'>('overview');
@@ -13,6 +14,39 @@ export default function AdminDashboard() {
     activeDeals: 23,
     pendingVerifications: 12,
   };
+
+  const userGrowthData = [
+    { month: 'Jan', users: 120 },
+    { month: 'Feb', users: 180 },
+    { month: 'Mar', users: 250 },
+    { month: 'Apr', users: 320 },
+    { month: 'May', users: 450 },
+    { month: 'Jun', users: 580 },
+  ];
+
+  const dealData = [
+    { month: 'Jan', deals: 5 },
+    { month: 'Feb', deals: 8 },
+    { month: 'Mar', deals: 12 },
+    { month: 'Apr', deals: 15 },
+    { month: 'May', deals: 18 },
+    { month: 'Jun', deals: 23 },
+  ];
+
+  const revenueData = [
+    { month: 'Jan', revenue: 25000 },
+    { month: 'Feb', revenue: 35000 },
+    { month: 'Mar', revenue: 42000 },
+    { month: 'Apr', revenue: 55000 },
+    { month: 'May', revenue: 68000 },
+    { month: 'Jun', revenue: 82000 },
+  ];
+
+  const userTypeData = [
+    { name: 'Landowners', value: 45, color: '#0B6E4F' },
+    { name: 'Investors', value: 35, color: '#F4A261' },
+    { name: 'Admins', value: 20, color: '#1E3932' },
+  ];
 
   const mockUsers = [
     { id: '1', name: 'John Doe', email: 'john@example.com', role: 'landowner', status: 'verified', joined: '2024-01-15' },
@@ -199,58 +233,163 @@ export default function AdminDashboard() {
               </div>
         )}
 
-        {activeTab === 'overview' && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-              <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Recent Activity</h3>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <CheckCircle className="h-5 w-5 text-green-500" />
-                  <div>
-                    <p className="text-sm text-gray-900 dark:text-white">New user registered: Sarah Smith</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">2 hours ago</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <AlertTriangle className="h-5 w-5 text-yellow-500" />
-                  <div>
-                    <p className="text-sm text-gray-900 dark:text-white">Land verification pending: Coffee Farm #5</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">4 hours ago</p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <XCircle className="h-5 w-5 text-red-500" />
-                  <div>
-                    <p className="text-sm text-gray-900 dark:text-white">Proposal rejected: Maize Field #12</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">1 day ago</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+         {activeTab === 'analytics' && (
+           <div className="space-y-8">
+             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                 <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white flex items-center">
+                   <TrendingUp className="w-5 h-5 mr-2 text-primary" />
+                   User Growth
+                 </h3>
+                 <ResponsiveContainer width="100%" height={300}>
+                   <LineChart data={userGrowthData}>
+                     <CartesianGrid strokeDasharray="3 3" />
+                     <XAxis dataKey="month" />
+                     <YAxis />
+                     <Tooltip />
+                     <Line type="monotone" dataKey="users" stroke="#0B6E4F" strokeWidth={2} />
+                   </LineChart>
+                 </ResponsiveContainer>
+               </div>
 
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-              <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">System Health</h3>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">Server Status</span>
-                  <span className="text-sm font-medium text-green-600">Online</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">Database</span>
-                  <span className="text-sm font-medium text-green-600">Healthy</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">API Response Time</span>
-                  <span className="text-sm font-medium text-yellow-600">120ms</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">Active Users</span>
-                  <span className="text-sm font-medium text-blue-600">47</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                 <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white flex items-center">
+                   <Activity className="w-5 h-5 mr-2 text-accent" />
+                   Deal Volume
+                 </h3>
+                 <ResponsiveContainer width="100%" height={300}>
+                   <BarChart data={dealData}>
+                     <CartesianGrid strokeDasharray="3 3" />
+                     <XAxis dataKey="month" />
+                     <YAxis />
+                     <Tooltip />
+                     <Bar dataKey="deals" fill="#F4A261" />
+                   </BarChart>
+                 </ResponsiveContainer>
+               </div>
+             </div>
+
+             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                 <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white flex items-center">
+                   <DollarSign className="w-5 h-5 mr-2 text-secondary" />
+                   Revenue Trends
+                 </h3>
+                 <ResponsiveContainer width="100%" height={300}>
+                   <LineChart data={revenueData}>
+                     <CartesianGrid strokeDasharray="3 3" />
+                     <XAxis dataKey="month" />
+                     <YAxis />
+                     <Tooltip formatter={(value) => [`$${value}`, 'Revenue']} />
+                     <Line type="monotone" dataKey="revenue" stroke="#1E3932" strokeWidth={2} />
+                   </LineChart>
+                 </ResponsiveContainer>
+               </div>
+
+               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                 <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">User Distribution</h3>
+                 <ResponsiveContainer width="100%" height={300}>
+                   <PieChart>
+                     <Pie
+                       data={userTypeData}
+                       cx="50%"
+                       cy="50%"
+                       labelLine={false}
+                        label={({ name, percent }) => `${name} ${((percent || 0) * 100).toFixed(0)}%`}
+                       outerRadius={80}
+                       fill="#8884d8"
+                       dataKey="value"
+                     >
+                       {userTypeData.map((entry, index) => (
+                         <Cell key={`cell-${index}`} fill={entry.color} />
+                       ))}
+                     </Pie>
+                     <Tooltip />
+                   </PieChart>
+                 </ResponsiveContainer>
+               </div>
+             </div>
+
+             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+               <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Platform Metrics</h3>
+               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                 <div className="text-center">
+                   <div className="text-2xl font-bold text-primary">{mockStats.totalUsers}</div>
+                   <div className="text-sm text-gray-600 dark:text-gray-400">Total Users</div>
+                   <div className="text-xs text-green-600 mt-1">+12% this month</div>
+                 </div>
+                 <div className="text-center">
+                   <div className="text-2xl font-bold text-accent">{mockStats.totalLands}</div>
+                   <div className="text-sm text-gray-600 dark:text-gray-400">Active Lands</div>
+                   <div className="text-xs text-green-600 mt-1">+8% this month</div>
+                 </div>
+                 <div className="text-center">
+                   <div className="text-2xl font-bold text-secondary">{mockStats.activeDeals}</div>
+                   <div className="text-sm text-gray-600 dark:text-gray-400">Active Deals</div>
+                   <div className="text-xs text-green-600 mt-1">+15% this month</div>
+                 </div>
+                 <div className="text-center">
+                   <div className="text-2xl font-bold text-primary">$82K</div>
+                   <div className="text-sm text-gray-600 dark:text-gray-400">Monthly Revenue</div>
+                   <div className="text-xs text-green-600 mt-1">+18% this month</div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         )}
+
+         {activeTab === 'overview' && (
+           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+               <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Recent Activity</h3>
+               <div className="space-y-4">
+                 <div className="flex items-center space-x-3">
+                   <CheckCircle className="h-5 w-5 text-green-500" />
+                   <div>
+                     <p className="text-sm text-gray-900 dark:text-white">New user registered: Sarah Smith</p>
+                     <p className="text-xs text-gray-500 dark:text-gray-400">2 hours ago</p>
+                   </div>
+                 </div>
+                 <div className="flex items-center space-x-3">
+                   <AlertTriangle className="h-5 w-5 text-yellow-500" />
+                   <div>
+                     <p className="text-sm text-gray-900 dark:text-white">Land verification pending: Coffee Farm #5</p>
+                     <p className="text-xs text-gray-500 dark:text-gray-400">4 hours ago</p>
+                   </div>
+                 </div>
+                 <div className="flex items-center space-x-3">
+                   <XCircle className="h-5 w-5 text-red-500" />
+                   <div>
+                     <p className="text-sm text-gray-900 dark:text-white">Proposal rejected: Maize Field #12</p>
+                     <p className="text-xs text-gray-500 dark:text-gray-400">1 day ago</p>
+                   </div>
+                 </div>
+               </div>
+             </div>
+
+             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+               <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">System Health</h3>
+               <div className="space-y-4">
+                 <div className="flex justify-between items-center">
+                   <span className="text-sm text-gray-600 dark:text-gray-400">Server Status</span>
+                   <span className="text-sm font-medium text-green-600">Online</span>
+                 </div>
+                 <div className="flex justify-between items-center">
+                   <span className="text-sm text-gray-600 dark:text-gray-400">Database</span>
+                   <span className="text-sm font-medium text-green-600">Healthy</span>
+                 </div>
+                 <div className="flex justify-between items-center">
+                   <span className="text-sm text-gray-600 dark:text-gray-400">API Response Time</span>
+                   <span className="text-sm font-medium text-yellow-600">120ms</span>
+                 </div>
+                 <div className="flex justify-between items-center">
+                   <span className="text-sm text-gray-600 dark:text-gray-400">Active Users</span>
+                   <span className="text-sm font-medium text-blue-600">47</span>
+                 </div>
+               </div>
+             </div>
+           </div>
+         )}
       </div>
     </div>
   );

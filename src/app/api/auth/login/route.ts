@@ -23,10 +23,20 @@ export async function POST(request: Request) {
 
     const token = 'mock-jwt-token-' + Date.now();
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       data: { user, token },
     });
+
+    // Set auth token cookie
+    response.cookies.set('auth-token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+    });
+
+    return response;
   } catch (error) {
     return NextResponse.json(
       { success: false, error: 'Login failed' },

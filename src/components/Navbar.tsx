@@ -1,18 +1,50 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
 import { toggleDarkMode } from '@/store/slices/uiSlice';
-import { Sun, Moon, Search, User, Menu, X, Leaf } from 'lucide-react';
+import { logout } from '@/store/slices/authSlice';
+import { Sun, Moon, Search, User, Menu, X, Leaf, LogOut, ChevronDown } from 'lucide-react';
 import NotificationDropdown from './NotificationDropdown';
 
 export default function Navbar() {
   const dispatch = useDispatch();
+  const router = useRouter();
   const { darkMode } = useSelector((state: RootState) => state.ui);
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      dispatch(logout());
+      router.push('/auth/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+      // Fallback: clear local state anyway
+      dispatch(logout());
+      router.push('/auth/login');
+    }
+  };
+
+  // Close user menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <nav className={`fixed top-0 w-full z-50 backdrop-blur-md border-b ${darkMode ? 'bg-gray-900/95 border-gray-800 text-white' : 'bg-white/95 border-gray-200 text-gray-900'} shadow-lg transition-all duration-300`}>
@@ -54,17 +86,62 @@ export default function Navbar() {
             {isAuthenticated ? (
               <>
                 <NotificationDropdown />
-                <div className="relative">
-                  <button className={`flex items-center space-x-2 p-2 rounded-xl transition-all duration-200 ${
-                    darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
-                  }`}>
-                    <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white font-bold text-sm">
-                      {user?.name?.charAt(0).toUpperCase()}
-                    </div>
-                    <span className="font-medium">{user?.name}</span>
-                  </button>
-                  {/* Dropdown menu would go here */}
-                </div>
+                 <div className="relative" ref={userMenuRef}>
+                   <button
+                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                     className={`flex items-center space-x-2 p-2 rounded-xl transition-all duration-200 ${
+                       darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
+                     }`}
+                   >
+                     <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white font-bold text-sm">
+                       {user?.name?.charAt(0).toUpperCase()}
+                     </div>
+                     <span className="font-medium">{user?.name}</span>
+                     <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isUserMenuOpen ? 'rotate-180' : ''}`} />
+                   </button>
+
+                   {isUserMenuOpen && (
+                     <div className={`absolute right-0 mt-2 w-48 rounded-xl shadow-lg border backdrop-blur-md ${
+                       darkMode
+                         ? 'bg-gray-900/95 border-gray-800 text-white'
+                         : 'bg-white/95 border-gray-200 text-gray-900'
+                     }`}>
+                       <div className="py-1">
+                         <Link
+                           href="/dashboard/profile"
+                           className={`flex items-center px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${
+                             darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
+                           }`}
+                           onClick={() => setIsUserMenuOpen(false)}
+                         >
+                           <User className="h-4 w-4 mr-2" />
+                           Profile
+                         </Link>
+                         <Link
+                           href="/dashboard/settings"
+                           className={`flex items-center px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${
+                             darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
+                           }`}
+                           onClick={() => setIsUserMenuOpen(false)}
+                         >
+                           Settings
+                         </Link>
+                         <button
+                           onClick={() => {
+                             setIsUserMenuOpen(false);
+                             handleLogout();
+                           }}
+                           className={`flex items-center w-full px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${
+                             darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
+                           }`}
+                         >
+                           <LogOut className="h-4 w-4 mr-2" />
+                           Logout
+                         </button>
+                       </div>
+                     </div>
+                   )}
+                 </div>
               </>
             ) : (
               <div className="flex items-center space-x-3">

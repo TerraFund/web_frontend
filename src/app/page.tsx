@@ -1,10 +1,12 @@
 // Main landing page component for TerraFund platform
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { MapPin, Users, Shield, TrendingUp, Leaf, Award, CheckCircle, ArrowRight } from 'lucide-react';
 
 export default function Home() {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-background_light dark:bg-background_dark">
       <Navbar />
@@ -23,22 +25,21 @@ export default function Home() {
             </div>
 
             <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-in slide-in-from-bottom-4 duration-1000">
-              Connect Landowners with
-              <span className="block text-accent">Sustainable Investors</span>
+              {t('landing.hero.title')}
             </h1>
 
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90 animate-in slide-in-from-bottom-4 duration-1000 delay-200">
-              TerraFund bridges the gap between landowners with unused land and investors seeking profitable, eco-friendly opportunities in agriculture.
+              {t('landing.hero.subtitle')}
             </p>
 
              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-in slide-in-from-bottom-4 duration-1000 delay-400">
-               <Link href="/auth/register" className="group bg-white text-primary px-8 py-4 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 inline-flex items-center">
-                 Get Started Free
-                 <ArrowRight className="inline w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-               </Link>
+                <Link href="/auth/register" className="group bg-white text-primary px-8 py-4 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 inline-flex items-center">
+                  {t('landing.hero.getStarted')}
+                  <ArrowRight className="inline w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Link>
               <button className="group border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-primary transition-all duration-300 backdrop-blur-sm">
                 <Award className="inline w-5 h-5 mr-2" />
-                View Success Stories
+                {t('landing.hero.viewStories')}
               </button>
             </div>
 
@@ -126,7 +127,7 @@ export default function Home() {
         <section className="py-24 bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Why Choose TerraFund?</h2>
+              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">{t('landing.features.title')}</h2>
               <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
                 Advanced features designed for modern agricultural investment
               </p>
@@ -137,9 +138,9 @@ export default function Home() {
                 <div className="bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
                   <MapPin className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Precise Land Mapping</h3>
+                <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">{t('landing.features.mapping')}</h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm">
-                  Interactive maps with detailed land boundaries, soil analysis, and environmental data.
+                  {t('landing.features.mappingDesc')}
                 </p>
               </div>
 
@@ -147,9 +148,9 @@ export default function Home() {
                 <div className="bg-accent/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
                   <TrendingUp className="w-6 h-6 text-accent" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Investment Analytics</h3>
+                <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">{t('landing.features.analytics')}</h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm">
-                  Comprehensive ROI calculations, risk assessments, and market trend analysis.
+                  {t('landing.features.analyticsDesc')}
                 </p>
               </div>
 
@@ -157,9 +158,9 @@ export default function Home() {
                 <div className="bg-secondary/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
                   <Shield className="w-6 h-6 text-secondary" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Secure Escrow</h3>
+                <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">{t('landing.features.escrow')}</h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm">
-                  Bank-grade security with multi-signature contracts and insured transactions.
+                  {t('landing.features.escrowDesc')}
                 </p>
               </div>
 
@@ -167,9 +168,9 @@ export default function Home() {
                 <div className="bg-green-100 dark:bg-green-900/20 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
                   <Leaf className="w-6 h-6 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Carbon Credits</h3>
+                <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">{t('landing.features.carbon')}</h3>
                 <p className="text-gray-600 dark:text-gray-300 text-sm">
-                  Earn carbon credits through sustainable farming practices and environmental impact.
+                  {t('landing.features.carbonDesc')}
                 </p>
               </div>
             </div>

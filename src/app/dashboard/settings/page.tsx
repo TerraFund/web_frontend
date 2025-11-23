@@ -1,19 +1,30 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import { Bell, Shield, Palette, Globe } from 'lucide-react';
 
 export default function Settings() {
+  const { t, i18n } = useTranslation();
   const [settings, setSettings] = useState({
     emailNotifications: true,
     pushNotifications: false,
     darkMode: false,
-    language: 'en',
+    language: i18n.language || 'en',
   });
 
+  // Update language when i18n language changes
+  useEffect(() => {
+    setSettings(prev => ({ ...prev, language: i18n.language }));
+  }, [i18n.language]);
+
   const handleSave = () => {
+    // Change language if it was updated
+    if (settings.language !== i18n.language) {
+      i18n.changeLanguage(settings.language);
+    }
     // Mock save
     console.log('Settings saved:', settings);
   };
@@ -21,20 +32,20 @@ export default function Settings() {
   return (
     <div className="p-8">
        <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Settings</h1>
+        <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">{t('settings.title')}</h1>
 
         <div className="space-y-8">
         {/* Notifications */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center mb-6">
                   <Bell className="h-5 w-5 mr-2" />
-                  Notifications
+                  {t('settings.notifications')}
                 </h2>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <label className="text-sm font-medium text-gray-900 dark:text-white">Email Notifications</label>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Receive notifications via email</p>
+                      <label className="text-sm font-medium text-gray-900 dark:text-white">{t('settings.notifications.email')}</label>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{t('settings.notifications.emailDesc')}</p>
                     </div>
                     <input
                       type="checkbox"
@@ -45,8 +56,8 @@ export default function Settings() {
                   </div>
                   <div className="flex items-center justify-between">
                     <div>
-                      <label className="text-sm font-medium text-gray-900 dark:text-white">Push Notifications</label>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Receive push notifications in browser</p>
+                      <label className="text-sm font-medium text-gray-900 dark:text-white">{t('settings.notifications.push')}</label>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{t('settings.notifications.pushDesc')}</p>
                     </div>
                     <input
                       type="checkbox"
@@ -62,13 +73,13 @@ export default function Settings() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center mb-6">
                   <Palette className="h-5 w-5 mr-2" />
-                  Appearance
+                  {t('settings.appearance')}
                 </h2>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <label className="text-sm font-medium text-gray-900 dark:text-white">Dark Mode</label>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Toggle dark/light theme</p>
+                      <label className="text-sm font-medium text-gray-900 dark:text-white">{t('settings.appearance.darkMode')}</label>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{t('settings.appearance.darkModeDesc')}</p>
                     </div>
                     <input
                       type="checkbox"
@@ -84,11 +95,11 @@ export default function Settings() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center mb-6">
                   <Globe className="h-5 w-5 mr-2" />
-                  Language & Region
+                  {t('settings.language')}
                 </h2>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Language</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('settings.language.label')}</label>
                     <select
                       value={settings.language}
                       onChange={(e) => setSettings({ ...settings, language: e.target.value })}
@@ -107,20 +118,20 @@ export default function Settings() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center mb-6">
                   <Shield className="h-5 w-5 mr-2" />
-                  Security
+                  {t('settings.security')}
                 </h2>
                 <div className="space-y-4">
-                  <Button variant="outline">Change Password</Button>
-                  <Button variant="outline">Enable Two-Factor Authentication</Button>
+                  <Button variant="outline">{t('settings.security.changePassword')}</Button>
+                  <Button variant="outline">{t('settings.security.twoFactor')}</Button>
                   <Button variant="outline" className="text-red-600 hover:text-red-800">
-                    Delete Account
+                    {t('settings.security.deleteAccount')}
                   </Button>
                 </div>
         </div>
 
         {/* Save Button */}
         <div className="flex justify-end">
-                <Button onClick={handleSave}>Save Settings</Button>
+                <Button onClick={handleSave}>{t('settings.save')}</Button>
         </div>
       </div>
     </div>

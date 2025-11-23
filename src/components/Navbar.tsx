@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { RootState } from '@/store';
 import { toggleDarkMode } from '@/store/slices/uiSlice';
 import { logout } from '@/store/slices/authSlice';
@@ -11,6 +12,7 @@ import { Sun, Moon, Search, User, Menu, X, Leaf, LogOut, ChevronDown } from 'luc
 import NotificationDropdown from './NotificationDropdown';
 
 export default function Navbar() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const router = useRouter();
   const { darkMode } = useSelector((state: RootState) => state.ui);
@@ -62,7 +64,7 @@ export default function Navbar() {
             <div className="relative">
               <input
                 type="text"
-                placeholder="Search lands..."
+                placeholder={t('common.search')}
                 className={`pl-10 pr-4 py-2 rounded-xl border transition-all duration-200 focus:ring-2 focus:ring-primary focus:border-transparent ${
                   darkMode
                     ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:bg-gray-700'
@@ -158,18 +160,18 @@ export default function Navbar() {
                    )}
                  </div>
               </>
-            ) : (
-              <div className="flex items-center space-x-3">
-                <Link href="/auth/login" className={`px-4 py-2 rounded-xl font-medium transition-all duration-200 ${
-                  darkMode ? 'text-gray-300 hover:text-white hover:bg-gray-800' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                }`}>
-                  Login
-                </Link>
-                <Link href="/auth/register" className="px-4 py-2 bg-gradient-to-r from-primary to-accent text-white rounded-xl font-medium hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
-                  Get Started
-                </Link>
-              </div>
-            )}
+             ) : (
+               <div className="flex items-center space-x-3">
+                 <Link href="/auth/login" className={`px-4 py-2 rounded-xl font-medium transition-all duration-200 ${
+                   darkMode ? 'text-gray-300 hover:text-white hover:bg-gray-800' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                 }`}>
+                   {t('nav.login')}
+                 </Link>
+                 <Link href="/auth/register" className="px-4 py-2 bg-gradient-to-r from-primary to-accent text-white rounded-xl font-medium hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
+                   {t('nav.getStarted')}
+                 </Link>
+               </div>
+             )}
           </div>
 
           {/* Mobile menu button */}
@@ -189,18 +191,18 @@ export default function Navbar() {
         {isMenuOpen && (
           <div className={`md:hidden border-t ${darkMode ? 'border-gray-800 bg-gray-900/95' : 'border-gray-200 bg-white/95'} backdrop-blur-md`}>
             <div className="px-4 py-6 space-y-4">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search lands..."
-                  className={`w-full pl-10 pr-4 py-3 rounded-xl border transition-all duration-200 focus:ring-2 focus:ring-primary focus:border-transparent ${
-                    darkMode
-                      ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:bg-gray-700'
-                      : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-500 focus:bg-white'
-                  }`}
-                />
-                <Search className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
-              </div>
+               <div className="relative">
+                 <input
+                   type="text"
+                   placeholder={t('common.search')}
+                   className={`w-full pl-10 pr-4 py-3 rounded-xl border transition-all duration-200 focus:ring-2 focus:ring-primary focus:border-transparent ${
+                     darkMode
+                       ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:bg-gray-700'
+                       : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-500 focus:bg-white'
+                   }`}
+                 />
+                 <Search className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+               </div>
 
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">Theme</span>
@@ -227,18 +229,18 @@ export default function Navbar() {
                   </div>
                   <NotificationDropdown />
                 </div>
-              ) : (
-                <div className="space-y-3">
-                  <Link href="/auth/login" className={`block w-full text-center py-3 rounded-xl font-medium transition-all duration-200 ${
-                    darkMode ? 'text-gray-300 hover:text-white hover:bg-gray-800' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                  }`}>
-                    Login
-                  </Link>
-                  <Link href="/auth/register" className="block w-full text-center py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl font-medium hover:shadow-lg transition-all duration-200">
-                    Get Started
-                  </Link>
-                </div>
-              )}
+               ) : (
+                 <div className="space-y-3">
+                   <Link href="/auth/login" className={`block w-full text-center py-3 rounded-xl font-medium transition-all duration-200 ${
+                     darkMode ? 'text-gray-300 hover:text-white hover:bg-gray-800' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                   }`}>
+                     {t('nav.login')}
+                   </Link>
+                   <Link href="/auth/register" className="block w-full text-center py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl font-medium hover:shadow-lg transition-all duration-200">
+                     {t('nav.getStarted')}
+                   </Link>
+                 </div>
+               )}
             </div>
           </div>
         )}

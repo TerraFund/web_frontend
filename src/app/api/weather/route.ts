@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const mockWeather = {
-  location: 'Central Kenya',
-  coordinates: [-0.0236, 37.9062],
+  location: 'Central Rwanda',
+  coordinates: [-1.9403, 29.8739],
   current: {
     temperature: 22,
     humidity: 65,

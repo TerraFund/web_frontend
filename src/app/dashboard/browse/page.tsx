@@ -18,7 +18,7 @@ export default function BrowseLands() {
     {
       id: '1',
       title: 'Coffee Farm Plot #5',
-      location: 'Central Kenya',
+      location: 'Central Rwanda',
       size: 25,
       cropSuitability: 'Coffee, Tea',
       soilQuality: 'Excellent',
@@ -42,7 +42,7 @@ export default function BrowseLands() {
     {
       id: '3',
       title: 'Fruit Orchard #8',
-      location: 'Western Kenya',
+      location: 'Western Rwanda',
       size: 15,
       cropSuitability: 'Mangoes, Avocados',
       soilQuality: 'Excellent',
@@ -159,7 +159,7 @@ export default function BrowseLands() {
            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
                <h3 className="font-medium text-gray-900 dark:text-white mb-2">High ROI Potential</h3>
-               <p className="text-sm text-gray-600 dark:text-gray-400">Coffee farms in Central Kenya showing 15-20% annual returns</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Coffee farms in Central Rwanda showing 15-20% annual returns</p>
              </div>
              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
                <h3 className="font-medium text-gray-900 dark:text-white mb-2">Sustainable Focus</h3>
@@ -167,7 +167,7 @@ export default function BrowseLands() {
              </div>
              <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
                <h3 className="font-medium text-gray-900 dark:text-white mb-2">Market Trend</h3>
-               <p className="text-sm text-gray-600 dark:text-gray-400">Increasing demand for avocado orchards in Western Kenya</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Increasing demand for avocado orchards in Western Rwanda</p>
              </div>
            </div>
          </div>
@@ -179,7 +179,7 @@ export default function BrowseLands() {
            </p>
            <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
              <MapPin className="w-4 h-4" />
-             Central Kenya • Rift Valley • Western Kenya
+              Central Rwanda • Eastern Rwanda • Western Rwanda
            </div>
          </div>
 
@@ -259,7 +259,7 @@ export default function BrowseLands() {
                 <div className="flex items-start gap-3">
                   <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
                   <div>
-                    <p className="text-sm text-gray-900 dark:text-white">New land listing in Central Kenya</p>
+                     <p className="text-sm text-gray-900 dark:text-white">New land listing in Central Rwanda</p>
                     <p className="text-xs text-gray-500 dark:text-gray-400">2 hours ago</p>
                   </div>
                 </div>

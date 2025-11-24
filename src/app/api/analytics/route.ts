@@ -11,9 +11,9 @@ const mockAnalytics = {
     investments: 15.7,
   },
   topRegions: [
-    { name: 'Central Kenya', lands: 25, value: 450000 },
-    { name: 'Rift Valley', lands: 20, value: 380000 },
-    { name: 'Western Kenya', lands: 18, value: 320000 },
+    { name: 'Kigali City', lands: 25, value: 450000 },
+    { name: 'Northern Province', lands: 20, value: 380000 },
+    { name: 'Southern Province', lands: 18, value: 320000 },
   ],
   recentActivity: [
     { type: 'investment', amount: 50000, date: '2025-11-20' },

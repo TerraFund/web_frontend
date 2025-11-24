@@ -125,7 +125,7 @@ export default function Home() {
                   </div>
                   <div>
                     <p className="font-semibold text-gray-900 dark:text-white">John Doe</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Landowner • Nairobi, Kenya</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Landowner • Kigali, Rwanda</p>
                   </div>
                 </div>
               </div>
@@ -161,7 +161,7 @@ export default function Home() {
                   </div>
                   <div>
                     <p className="font-semibold text-gray-900 dark:text-white">Mike Johnson</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Landowner • Rift Valley, Kenya</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Landowner • Eastern Rwanda, Rwanda</p>
                   </div>
                 </div>
               </div>

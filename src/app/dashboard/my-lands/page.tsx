@@ -10,7 +10,7 @@ export default function MyLands() {
     {
       id: '1',
       title: 'Coffee Farm Plot #5',
-      location: 'Central Kenya',
+      location: 'Central Rwanda',
       size: 25,
       status: 'published',
       proposals: 3,

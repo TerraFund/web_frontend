@@ -3,11 +3,11 @@ import { NextResponse } from 'next/server';
 const mockPartners = [
   {
     id: '1',
-    name: 'Kenya Forest Service',
+    name: 'Rwanda Environment Management Authority',
     type: 'Government',
-    description: 'National forest conservation and management authority',
-    logo: '/partners/kfs.png',
-    website: 'https://kfs.go.ke',
+    description: 'National environmental protection and conservation authority',
+    logo: '/partners/rwanda-environment.png',
+    website: 'https://rema.gov.rw',
     projects: 12,
     impact: '50000 hectares protected',
   },

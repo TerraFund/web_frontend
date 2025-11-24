@@ -5,7 +5,7 @@ const mockLands = [
   {
     id: '1',
     title: 'Coffee Farm Plot #5',
-    location: 'Central Kenya',
+    location: 'Kigali City',
     size: 25,
     crop_suitability: 'Coffee, Tea',
     soil_quality: 'Excellent',

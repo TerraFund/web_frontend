@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   // Mock data export
   const mockData = {
     lands: [
-      { id: '1', title: 'Coffee Farm', location: 'Central Kenya', size: 25 },
+      { id: '1', title: 'Coffee Farm', location: 'Kigali City', size: 25 },
       { id: '2', title: 'Maize Field', location: 'Rift Valley', size: 50 },
     ],
     users: [

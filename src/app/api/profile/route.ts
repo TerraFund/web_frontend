@@ -8,7 +8,7 @@ const mockProfile = {
   kycStatus: 'verified',
   avatar: '/avatars/john.jpg',
   bio: 'Experienced investor in sustainable agriculture projects.',
-  location: 'Nairobi, Kenya',
+  location: 'Kigali, Rwanda',
   joinedDate: '2023-01-15',
   investments: 5,
   totalInvested: 25000,

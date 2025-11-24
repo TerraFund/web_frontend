@@ -32,18 +32,18 @@ export default function Profile() {
   ];
 
   const mockActivity = [
-    { id: '1', type: 'land_listed', title: 'Listed new land plot', description: '25-acre coffee farm in Central Kenya', date: '2024-01-20', icon: MapPin },
+    { id: '1', type: 'land_listed', title: 'Listed new land plot', description: '25-acre coffee farm in Central Rwanda', date: '2024-01-20', icon: MapPin },
     { id: '2', type: 'deal_closed', title: 'Investment deal completed', description: 'Successfully closed deal for $45,000 investment', date: '2024-01-18', icon: CheckCircle },
     { id: '3', type: 'review_received', title: 'New review received', description: '5-star review from Sarah Johnson', date: '2024-01-15', icon: Star },
     { id: '4', type: 'kyc_verified', title: 'KYC verification completed', description: 'Your account is now fully verified', date: '2024-01-12', icon: Shield },
   ];
 
   const mockPortfolio = user?.role === 'landowner' ? [
-    { id: '1', name: 'Coffee Farm Plot #5', location: 'Central Kenya', size: 25, status: 'listed', price: 1500, image: '/lands/coffee-farm.jpg' },
+    { id: '1', name: 'Coffee Farm Plot #5', location: 'Central Rwanda', size: 25, status: 'listed', price: 1500, image: '/lands/coffee-farm.jpg' },
     { id: '2', name: 'Maize Field #12', location: 'Rift Valley', size: 50, status: 'sold', price: 1200, image: '/lands/maize-field.jpg' },
   ] : [
-    { id: '1', name: 'Coffee Farm Investment', location: 'Central Kenya', amount: 25000, roi: 12.5, status: 'active' },
-    { id: '2', name: 'Fruit Orchard Partnership', location: 'Western Kenya', amount: 15000, roi: 8.3, status: 'active' },
+    { id: '1', name: 'Coffee Farm Investment', location: 'Central Rwanda', amount: 25000, roi: 12.5, status: 'active' },
+    { id: '2', name: 'Fruit Orchard Partnership', location: 'Western Rwanda', amount: 15000, roi: 8.3, status: 'active' },
   ];
 
   if (!user) return null;
@@ -79,7 +79,7 @@ export default function Profile() {
                   <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
                     <div className="flex items-center">
                       <MapPin className="h-4 w-4 mr-1" />
-                      Nairobi, Kenya
+                      Kigali, Rwanda
                     </div>
                     <div className="flex items-center">
                       <Calendar className="h-4 w-4 mr-1" />
@@ -231,13 +231,13 @@ export default function Profile() {
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Location</label>
-                          <p className="text-gray-900 dark:text-white">Nairobi, Kenya</p>
+                          <p className="text-gray-900 dark:text-white">Kigali, Rwanda</p>
                         </div>
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Bio</label>
                         <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                          Experienced landowner with over 10 years in sustainable agriculture. Passionate about connecting investors with high-quality agricultural opportunities in Kenya.
+                          Experienced landowner with over 10 years in sustainable agriculture. Passionate about connecting investors with high-quality agricultural opportunities in Rwanda.
                         </p>
                       </div>
                     </div>

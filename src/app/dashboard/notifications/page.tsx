@@ -158,7 +158,7 @@ export default function Notifications() {
       case 'review':
         return <Star className="h-5 w-5 text-orange-500" />;
       default:
-        return <Bell className="h-5 w-5 text-gray-500" />;
+        return <Bell className="h-5 w-5 text-gray-500 dark:text-gray-400" />;
     }
   };
 
@@ -275,7 +275,7 @@ export default function Notifications() {
             {/* Filters */}
             <div className="flex flex-wrap items-center space-x-4">
               <div className="flex items-center space-x-2">
-                <Filter className="h-4 w-4 text-gray-500" />
+                <Filter className="h-4 w-4 text-gray-500 dark:text-gray-400" />
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Filter:</span>
               </div>
 

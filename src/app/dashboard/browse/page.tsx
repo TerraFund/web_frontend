@@ -96,7 +96,7 @@ export default function BrowseLands() {
                 className={`flex items-center gap-2 px-4 py-3 rounded-xl font-medium transition-all duration-200 ${
                   showFilters
                     ? 'bg-primary text-white'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
                 <Filter className="w-5 h-5" />
@@ -109,7 +109,7 @@ export default function BrowseLands() {
                   className={`p-3 rounded-l-xl transition-all duration-200 ${
                     viewMode === 'grid'
                       ? 'bg-primary text-white'
-                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                      : 'text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
                 >
                   <Grid className="w-5 h-5" />
@@ -119,7 +119,7 @@ export default function BrowseLands() {
                   className={`p-3 rounded-r-xl transition-all duration-200 ${
                     viewMode === 'list'
                       ? 'bg-primary text-white'
-                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                      : 'text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
                 >
                   <List className="w-5 h-5" />

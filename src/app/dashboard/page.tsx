@@ -104,7 +104,7 @@ export default function Dashboard() {
                   </button>
                 </>
               )}
-              <button className="w-full border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+              <button className="w-full border border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-100 py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                 View Profile
               </button>
             </div>

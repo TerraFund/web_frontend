@@ -162,11 +162,11 @@ export default function Navbar() {
               </>
              ) : (
                <div className="flex items-center space-x-3">
-                 <Link href="/auth/login" className={`px-4 py-2 rounded-xl font-medium transition-all duration-200 ${
-                   darkMode ? 'text-gray-300 hover:text-white hover:bg-gray-800' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                 }`}>
-                   {t('nav.login')}
-                 </Link>
+                  <Link href="/auth/login" className={`px-4 py-2 rounded-xl font-medium transition-all duration-200 ${
+                    darkMode ? 'text-gray-200 hover:text-white hover:bg-gray-800' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  }`}>
+                    {t('nav.login')}
+                  </Link>
                  <Link href="/auth/register" className="px-4 py-2 bg-gradient-to-r from-primary to-accent text-white rounded-xl font-medium hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
                    {t('nav.getStarted')}
                  </Link>
@@ -231,11 +231,11 @@ export default function Navbar() {
                 </div>
                ) : (
                  <div className="space-y-3">
-                   <Link href="/auth/login" className={`block w-full text-center py-3 rounded-xl font-medium transition-all duration-200 ${
-                     darkMode ? 'text-gray-300 hover:text-white hover:bg-gray-800' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                   }`}>
-                     {t('nav.login')}
-                   </Link>
+                    <Link href="/auth/login" className={`block w-full text-center py-3 rounded-xl font-medium transition-all duration-200 ${
+                      darkMode ? 'text-gray-200 hover:text-white hover:bg-gray-800' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                    }`}>
+                      {t('nav.login')}
+                    </Link>
                    <Link href="/auth/register" className="block w-full text-center py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl font-medium hover:shadow-lg transition-all duration-200">
                      {t('nav.getStarted')}
                    </Link>

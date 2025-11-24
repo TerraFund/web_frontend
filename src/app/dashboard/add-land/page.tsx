@@ -279,7 +279,7 @@ export default function AddLandWizard() {
           <button
             onClick={handlePrev}
             disabled={currentStep === 1}
-            className="flex items-center px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center px-6 py-3 border border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-100 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ChevronLeft className="h-5 w-5 mr-2" />
             Previous

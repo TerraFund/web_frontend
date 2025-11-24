@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import { Home, Map, FileText, MessageSquare, CreditCard, Settings, Users } from 'lucide-react';
+import { Home, Map, FileText, MessageSquare, CreditCard, Settings, Users, Bell } from 'lucide-react';
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -16,6 +16,7 @@ export default function Sidebar() {
     { href: '/dashboard/my-lands', icon: Map, label: 'My Lands' },
     { href: '/dashboard/proposals', icon: FileText, label: 'Proposals' },
     { href: '/dashboard/chat', icon: MessageSquare, label: 'Chat' },
+    { href: '/dashboard/notifications', icon: Bell, label: 'Notifications' },
     { href: '/dashboard/payments', icon: CreditCard, label: 'Payments' },
     { href: '/dashboard/settings', icon: Settings, label: 'Settings' },
   ];
@@ -25,6 +26,7 @@ export default function Sidebar() {
     { href: '/dashboard/browse', icon: Map, label: 'Browse Lands' },
     { href: '/dashboard/proposals', icon: FileText, label: 'My Proposals' },
     { href: '/dashboard/chat', icon: MessageSquare, label: 'Chat' },
+    { href: '/dashboard/notifications', icon: Bell, label: 'Notifications' },
     { href: '/dashboard/payments', icon: CreditCard, label: 'Payments' },
     { href: '/dashboard/settings', icon: Settings, label: 'Settings' },
   ];

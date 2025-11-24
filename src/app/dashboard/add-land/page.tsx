@@ -64,7 +64,7 @@ export default function AddLandWizard() {
       const recommendations = [
         `Based on ${formData.region} climate: Consider maize and beans for optimal yield`,
         `Soil pH ${formData.soilPh || 'unknown'} suggests ${cropType} crops`,
-        `With ${formData.size} acres: Recommended irrigation system - ${formData.irrigationType || 'drip irrigation'}`,
+        `With ${parseFloat(formData.size) || 0} acres: Recommended irrigation system - ${formData.irrigationType || 'drip irrigation'}`,
         `Elevation ${formData.elevation}m: Suitable for coffee and tea cultivation`
       ];
       setAiRecommendations(recommendations);
@@ -169,7 +169,7 @@ export default function AddLandWizard() {
         return (
           <div className="space-y-6">
             <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center">
-              <FileText className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+              <FileText className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500 mb-4" />
               <p className="text-gray-600 dark:text-gray-400 mb-4">
                 Upload ownership documents (Title deed, UPI document)
               </p>
@@ -247,16 +247,16 @@ export default function AddLandWizard() {
               return (
                 <div key={step.id} className="flex items-center">
                   <div className={`flex items-center justify-center w-10 h-10 rounded-full ${
-                    currentStep >= step.id ? 'bg-primary text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-400'
+                    currentStep >= step.id ? 'bg-primary text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500'
                   }`}>
                     <Icon className="h-5 w-5" />
                   </div>
                   <span className={`ml-2 text-sm font-medium ${
-                    currentStep >= step.id ? 'text-primary' : 'text-gray-400'
+                    currentStep >= step.id ? 'text-primary' : 'text-gray-400 dark:text-gray-500'
                   }`}>
                     {step.title}
                   </span>
-                  {step.id < 4 && <ChevronRight className="h-4 w-4 mx-2 text-gray-400" />}
+                  {step.id < 4 && <ChevronRight className="h-4 w-4 mx-2 text-gray-400 dark:text-gray-500" />}
                 </div>
               );
             })}

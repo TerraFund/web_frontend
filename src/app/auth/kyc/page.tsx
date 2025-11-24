@@ -102,7 +102,7 @@ export default function KYCUpload() {
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
             >
-              <Upload className={`mx-auto h-12 w-12 mb-4 transition-colors ${isDragOver ? 'text-primary' : 'text-gray-400'}`} />
+              <Upload className={`mx-auto h-12 w-12 mb-4 transition-colors ${isDragOver ? 'text-primary' : 'text-gray-400 dark:text-gray-500'}`} />
               <p className="text-gray-600 dark:text-gray-400 mb-4">
                 {isDragOver ? 'Drop files here' : 'Drag and drop files here, or click to select'}
               </p>
@@ -138,7 +138,7 @@ export default function KYCUpload() {
                             {isUploaded ? (
                               <CheckCircle className="h-5 w-5 text-green-500 mr-3 animate-in zoom-in duration-300" />
                             ) : (
-                              <FileText className="h-5 w-5 text-gray-400 mr-3" />
+                              <FileText className="h-5 w-5 text-gray-400 dark:text-gray-500 mr-3" />
                             )}
                             <span className="text-sm text-gray-900 dark:text-white">{file.name}</span>
                             <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">

@@ -71,7 +71,7 @@ export default function Navbar() {
                     : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-500 focus:bg-white'
                 }`}
               />
-              <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+              <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400 dark:text-gray-500" />
             </div>
 
             <button
@@ -201,7 +201,7 @@ export default function Navbar() {
                        : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-500 focus:bg-white'
                    }`}
                  />
-                 <Search className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                  <Search className="absolute left-3 top-3.5 h-5 w-5 text-gray-400 dark:text-gray-500" />
                </div>
 
               <div className="flex items-center justify-between">

@@ -7,6 +7,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'lands' | 'analytics' | 'disputes'>('overview');
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const [selectedLands, setSelectedLands] = useState<string[]>([]);
 
   const mockStats = {
     totalUsers: 1247,
@@ -63,6 +65,16 @@ export default function AdminDashboard() {
     { id: '2', title: 'Land Quality Dispute', parties: 'Mike Chen vs David Kim', status: 'investigating', priority: 'medium', created: '2024-01-18', description: 'Investor alleges land quality does not match description provided.' },
     { id: '3', title: 'Contract Terms Misunderstanding', parties: 'Alice Brown vs Bob Wilson', status: 'resolved', priority: 'low', created: '2024-01-15', description: 'Parties disagreed on revenue sharing terms interpretation.' },
   ];
+
+  const handleBulkUserAction = (action: string) => {
+    console.log(`Bulk ${action} for users:`, selectedUsers);
+    setSelectedUsers([]);
+  };
+
+  const handleBulkLandAction = (action: string) => {
+    console.log(`Bulk ${action} for lands:`, selectedLands);
+    setSelectedLands([]);
+  };
 
   return (
     <div className="p-8">
@@ -137,15 +149,39 @@ export default function AdminDashboard() {
         </div>
 
         {/* Tab Content */}
-        {activeTab === 'users' && (
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-                <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+          {activeTab === 'users' && (
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+              <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <div className="flex items-center justify-between">
                   <h2 className="text-lg font-semibold text-gray-900 dark:text-white">User Management</h2>
+                  {selectedUsers.length > 0 && (
+                    <div className="flex items-center space-x-2">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">{selectedUsers.length} selected</span>
+                      <Button variant="outline" size="sm" onClick={() => handleBulkUserAction('suspend')}>
+                        Suspend
+                      </Button>
+                      <Button variant="outline" size="sm" onClick={() => handleBulkUserAction('activate')}>
+                        Activate
+                      </Button>
+                      <Button variant="outline" size="sm" onClick={() => setSelectedUsers([])}>
+                        Clear
+                      </Button>
+                    </div>
+                  )}
                 </div>
+              </div>
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead className="bg-gray-50 dark:bg-gray-700">
                       <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                          <input
+                            type="checkbox"
+                            checked={selectedUsers.length === mockUsers.length}
+                            onChange={(e) => setSelectedUsers(e.target.checked ? mockUsers.map(u => u.id) : [])}
+                            className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                          />
+                        </th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Name</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Email</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Role</th>
@@ -154,10 +190,22 @@ export default function AdminDashboard() {
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                       </tr>
                     </thead>
-                     <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                       {mockUsers.map((user, index) => (
-                         <tr key={user.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 animate-in slide-in-from-bottom-4 duration-300" style={{ animationDelay: `${index * 50}ms` }}>
-                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{user.name}</td>
+                      <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                        {mockUsers.map((user, index) => (
+                          <tr key={user.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 animate-in slide-in-from-bottom-4 duration-300" style={{ animationDelay: `${index * 50}ms` }}>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <input
+                                type="checkbox"
+                                checked={selectedUsers.includes(user.id)}
+                                onChange={(e) => setSelectedUsers(prev =>
+                                  prev.includes(user.id)
+                                    ? prev.filter(id => id !== user.id)
+                                    : [...prev, user.id]
+                                )}
+                                className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                              />
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{user.name}</td>
                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{user.email}</td>
                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 capitalize">{user.role}</td>
                            <td className="px-6 py-4 whitespace-nowrap">
@@ -191,11 +239,27 @@ export default function AdminDashboard() {
               </div>
             )}
 
-            {activeTab === 'lands' && (
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-                <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+          {activeTab === 'lands' && (
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+              <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <div className="flex items-center justify-between">
                   <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Land Management</h2>
+                  {selectedLands.length > 0 && (
+                    <div className="flex items-center space-x-2">
+                      <span className="text-sm text-gray-600 dark:text-gray-400">{selectedLands.length} selected</span>
+                      <Button variant="outline" size="sm" onClick={() => handleBulkLandAction('verify')}>
+                        Verify
+                      </Button>
+                      <Button variant="outline" size="sm" onClick={() => handleBulkLandAction('hide')}>
+                        Hide
+                      </Button>
+                      <Button variant="outline" size="sm" onClick={() => setSelectedLands([])}>
+                        Clear
+                      </Button>
+                    </div>
+                  )}
                 </div>
+              </div>
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead className="bg-gray-50 dark:bg-gray-700">
@@ -207,10 +271,22 @@ export default function AdminDashboard() {
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                       </tr>
                     </thead>
-                     <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                       {mockLands.map((land, index) => (
-                         <tr key={land.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 animate-in slide-in-from-bottom-4 duration-300" style={{ animationDelay: `${index * 50}ms` }}>
-                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{land.title}</td>
+                      <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                        {mockLands.map((land, index) => (
+                          <tr key={land.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 animate-in slide-in-from-bottom-4 duration-300" style={{ animationDelay: `${index * 50}ms` }}>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <input
+                                type="checkbox"
+                                checked={selectedLands.includes(land.id)}
+                                onChange={(e) => setSelectedLands(prev =>
+                                  prev.includes(land.id)
+                                    ? prev.filter(id => id !== land.id)
+                                    : [...prev, land.id]
+                                )}
+                                className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                              />
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{land.title}</td>
                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{land.owner}</td>
                            <td className="px-6 py-4 whitespace-nowrap">
                              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
@@ -354,6 +430,14 @@ export default function AdminDashboard() {
                 <table className="w-full">
                   <thead className="bg-gray-50 dark:bg-gray-700">
                     <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                        <input
+                          type="checkbox"
+                          checked={selectedLands.length === mockLands.length}
+                          onChange={(e) => setSelectedLands(e.target.checked ? mockLands.map(l => l.id) : [])}
+                          className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                        />
+                      </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Title</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Parties</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>

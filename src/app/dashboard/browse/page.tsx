@@ -13,6 +13,7 @@ export default function BrowseLands() {
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [sortBy, setSortBy] = useState('newest');
+  const [favorites, setFavorites] = useState<string[]>([]);
 
   const mockLands = [
     {
@@ -63,6 +64,14 @@ export default function BrowseLands() {
     setFilters(newFilters);
     // Mock filtering logic
     console.log('Filters changed:', newFilters);
+  };
+
+  const toggleFavorite = (landId: string) => {
+    setFavorites(prev =>
+      prev.includes(landId)
+        ? prev.filter(id => id !== landId)
+        : [...prev, landId]
+    );
   };
 
   return (
@@ -195,6 +204,8 @@ export default function BrowseLands() {
                 <LandCard
                   key={land.id}
                   {...land}
+                  isFavorite={favorites.includes(land.id)}
+                  onFavorite={() => toggleFavorite(land.id)}
                   onClick={() => console.log('View land:', land.id)}
                 />
               ))}

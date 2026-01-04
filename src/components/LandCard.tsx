@@ -14,6 +14,8 @@ interface LandCardProps {
   price?: number;
   image?: string;
   onClick?: () => void;
+  isFavorite?: boolean;
+  onFavorite?: () => void;
 }
 
 export default function LandCard({
@@ -28,6 +30,8 @@ export default function LandCard({
   price,
   image,
   onClick,
+  isFavorite = false,
+  onFavorite,
 }: LandCardProps) {
   return (
     <div
@@ -49,9 +53,15 @@ export default function LandCard({
           <div className="bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1">
             <span className="text-sm font-bold text-gray-900">${price}/acre</span>
           </div>
-          <button className="bg-white/90 backdrop-blur-sm rounded-full p-2 hover:bg-white transition-colors">
-            <Heart className="h-4 w-4 text-gray-600 hover:text-red-500" />
-          </button>
+           <button
+             onClick={(e) => {
+               e.stopPropagation();
+               onFavorite?.();
+             }}
+             className="bg-white/90 backdrop-blur-sm rounded-full p-2 hover:bg-white transition-colors"
+           >
+             <Heart className={`h-4 w-4 ${isFavorite ? 'text-red-500 fill-current' : 'text-gray-600 hover:text-red-500'}`} />
+           </button>
         </div>
 
         {/* Status badge */}

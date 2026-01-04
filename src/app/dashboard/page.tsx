@@ -53,63 +53,76 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
-              Recent Activity
-            </h3>
-            <div className="space-y-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-primary rounded-full"></div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  New proposal received for Land Plot #5
-                </p>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-accent rounded-full"></div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Contract signed for Investment Deal #12
-                </p>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-secondary rounded-full"></div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  KYC verification completed
-                </p>
-              </div>
-            </div>
-          </div>
+         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+             <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+               Recent Activity
+             </h3>
+             <div className="space-y-4">
+               <div className="flex items-center space-x-3">
+                 <div className="w-2 h-2 bg-primary rounded-full"></div>
+                 <p className="text-sm text-gray-600 dark:text-gray-400">
+                   New proposal received for Land Plot #5
+                 </p>
+               </div>
+               <div className="flex items-center space-x-3">
+                 <div className="w-2 h-2 bg-accent rounded-full"></div>
+                 <p className="text-sm text-gray-600 dark:text-gray-400">
+                   Contract signed for Investment Deal #12
+                 </p>
+               </div>
+               <div className="flex items-center space-x-3">
+                 <div className="w-2 h-2 bg-secondary rounded-full"></div>
+                 <p className="text-sm text-gray-600 dark:text-gray-400">
+                   KYC verification completed
+                 </p>
+               </div>
+             </div>
+           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
-              Quick Actions
-            </h3>
-            <div className="space-y-3">
-              {user.role === 'landowner' ? (
-                <>
-                  <button className="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-accent transition-colors">
-                    Add New Land
-                  </button>
-                  <button className="w-full border border-primary text-primary py-2 px-4 rounded-lg hover:bg-primary hover:text-white transition-colors">
-                    View Proposals
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button className="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-accent transition-colors">
-                    Browse Lands
-                  </button>
-                  <button className="w-full border border-primary text-primary py-2 px-4 rounded-lg hover:bg-primary hover:text-white transition-colors">
-                    My Proposals
-                  </button>
-                </>
-              )}
-              <button className="w-full border border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-100 py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                View Profile
-              </button>
-            </div>
-          </div>
-        </div>
+           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+             <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+               Quick Actions
+             </h3>
+             <div className="space-y-3">
+               {user.role === 'landowner' ? (
+                 <>
+                   <button className="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-accent transition-colors">
+                     Add New Land
+                   </button>
+                   <button className="w-full border border-primary text-primary py-2 px-4 rounded-lg hover:bg-primary hover:text-white transition-colors">
+                     View Proposals
+                   </button>
+                 </>
+               ) : (
+                 <>
+                   <button className="w-full bg-primary text-white py-2 px-4 rounded-lg hover:bg-accent transition-colors">
+                     Browse Lands
+                   </button>
+                   <button className="w-full border border-primary text-primary py-2 px-4 rounded-lg hover:bg-primary hover:text-white transition-colors">
+                     My Proposals
+                   </button>
+                 </>
+               )}
+               <button className="w-full border border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-100 py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                 View Profile
+               </button>
+             </div>
+
+             {/* Review Prompt for Completed Deals */}
+             <div className="mt-6 p-4 bg-gradient-to-r from-accent/10 to-primary/10 border border-accent/20 rounded-lg">
+               <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">
+                 Leave a Review
+               </h4>
+               <p className="text-xs text-gray-600 dark:text-gray-400 mb-3">
+                 Share your experience with recent partners to help the community.
+               </p>
+               <button className="w-full bg-accent text-white py-2 px-4 rounded-lg hover:bg-accent/80 transition-colors text-sm">
+                 Review Completed Deals
+               </button>
+             </div>
+           </div>
+         </div>
       </div>
     </div>
   );

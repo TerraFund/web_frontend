@@ -16,6 +16,8 @@ interface LandCardProps {
   onClick?: () => void;
   isFavorite?: boolean;
   onFavorite?: () => void;
+  isInCompare?: boolean;
+  onCompare?: () => void;
 }
 
 export default function LandCard({
@@ -32,6 +34,8 @@ export default function LandCard({
   onClick,
   isFavorite = false,
   onFavorite,
+  isInCompare = false,
+  onCompare,
 }: LandCardProps) {
   return (
     <div
@@ -67,6 +71,23 @@ export default function LandCard({
         {/* Status badge */}
         <div className="absolute top-4 left-4 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
           Available
+        </div>
+
+        {/* Compare checkbox */}
+        <div className="absolute top-4 right-4 flex items-center space-x-2">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onCompare?.();
+            }}
+            className={`w-6 h-6 rounded border-2 flex items-center justify-center transition-all ${
+              isInCompare
+                ? 'bg-primary border-primary text-white'
+                : 'bg-white/90 border-gray-300 text-gray-600 hover:border-primary'
+            }`}
+          >
+            {isInCompare && <span className="text-xs">✓</span>}
+          </button>
         </div>
       </div>
 

@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Button from '@/components/Button';
 import { Users, Map, BarChart3, AlertTriangle, CheckCircle, XCircle, Eye, Edit, Ban, TrendingUp, DollarSign, Activity } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 
 export default function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'lands' | 'analytics' | 'disputes'>('overview');
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<string>('overview');
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [selectedLands, setSelectedLands] = useState<string[]>([]);
 
@@ -131,19 +133,21 @@ export default function AdminDashboard() {
                      { id: 'lands', label: 'Lands' },
                      { id: 'disputes', label: 'Disputes' },
                      { id: 'analytics', label: 'Analytics' },
-                   ].map((tab) => (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id as any)}
-                      className={`py-2 px-1 border-b-2 font-medium text-sm ${
-                        activeTab === tab.id
-                          ? 'border-primary text-primary'
-                          : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                      }`}
-                    >
-                      {tab.label}
-                    </button>
-                  ))}
+                      { id: 'settings', label: 'Settings' },
+                      { id: 'reports', label: 'Reports' },
+                    ].map((tab) => (
+                     <button
+                       key={tab.id}
+                       onClick={() => setActiveTab(tab.id as any)}
+                       className={`py-2 px-1 border-b-2 font-medium text-sm ${
+                         activeTab === tab.id
+                           ? 'border-primary text-primary'
+                           : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                       }`}
+                     >
+                       {tab.label}
+                     </button>
+                   ))}
                 </nav>
               </div>
         </div>
@@ -218,11 +222,15 @@ export default function AdminDashboard() {
                              </span>
                            </td>
                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{user.joined}</td>
-                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                             <div className="flex items-center space-x-2">
-                               <button className="p-1 text-primary hover:text-accent transition-colors hover:scale-110" title="View Details">
-                                 <Eye className="h-4 w-4" />
-                               </button>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                              <div className="flex items-center space-x-2">
+                                <button
+                                  onClick={() => router.push(`/admin/users/${user.id}`)}
+                                  className="p-1 text-primary hover:text-accent transition-colors hover:scale-110"
+                                  title="View Details"
+                                >
+                                  <Eye className="h-4 w-4" />
+                                </button>
                                <button className="p-1 text-blue-600 hover:text-blue-800 transition-colors hover:scale-110" title="Edit User">
                                  <Edit className="h-4 w-4" />
                                </button>
@@ -298,16 +306,23 @@ export default function AdminDashboard() {
                              </span>
                            </td>
                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{land.listed}</td>
-                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                             <div className="flex items-center space-x-2">
-                               <button className="px-3 py-1 bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-200 dark:hover:bg-green-800 rounded-md transition-all duration-200 hover:scale-105 text-xs" title="Verify Land">
-                                 Verify
-                               </button>
-                               <button className="px-3 py-1 bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-900 dark:text-red-200 dark:hover:bg-red-800 rounded-md transition-all duration-200 hover:scale-105 text-xs" title="Hide Land">
-                                 Hide
-                               </button>
-                             </div>
-                           </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                              <div className="flex items-center space-x-2">
+                                <button
+                                  onClick={() => router.push(`/admin/lands/${land.id}`)}
+                                  className="p-1 text-primary hover:text-accent transition-colors hover:scale-110"
+                                  title="View Details"
+                                >
+                                  <Eye className="h-4 w-4" />
+                                </button>
+                                <button className="px-3 py-1 bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-200 dark:hover:bg-green-800 rounded-md transition-all duration-200 hover:scale-105 text-xs" title="Verify Land">
+                                  Verify
+                                </button>
+                                <button className="px-3 py-1 bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-900 dark:text-red-200 dark:hover:bg-red-800 rounded-md transition-all duration-200 hover:scale-105 text-xs" title="Hide Land">
+                                  Hide
+                                </button>
+                              </div>
+                            </td>
                          </tr>
                        ))}
                      </tbody>
@@ -378,7 +393,7 @@ export default function AdminDashboard() {
                        cx="50%"
                        cy="50%"
                        labelLine={false}
-                        label={({ name, percent }) => `${name} ${((percent || 0) * 100).toFixed(0)}%`}
+
                        outerRadius={80}
                        fill="#8884d8"
                        dataKey="value"
@@ -428,17 +443,9 @@ export default function AdminDashboard() {
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="bg-gray-50 dark:bg-gray-700">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                        <input
-                          type="checkbox"
-                          checked={selectedLands.length === mockLands.length}
-                          onChange={(e) => setSelectedLands(e.target.checked ? mockLands.map(l => l.id) : [])}
-                          className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
-                        />
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Title</th>
+                   <thead className="bg-gray-50 dark:bg-gray-700">
+                     <tr>
+                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Title</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Parties</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Priority</th>
@@ -447,14 +454,14 @@ export default function AdminDashboard() {
                     </tr>
                   </thead>
                   <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                    {mockDisputes.map((dispute, index) => (
-                      <tr key={dispute.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 animate-in slide-in-from-bottom-4 duration-300" style={{ animationDelay: `${index * 50}ms` }}>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div>
-                            <div className="text-sm font-medium text-gray-900 dark:text-white">{dispute.title}</div>
-                            <div className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-xs">{dispute.description}</div>
-                          </div>
-                        </td>
+                     {mockDisputes.map((dispute, index) => (
+                       <tr key={dispute.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 animate-in slide-in-from-bottom-4 duration-300" style={{ animationDelay: `${index * 50}ms` }}>
+                         <td className="px-6 py-4 whitespace-nowrap">
+                           <div>
+                             <div className="text-sm font-medium text-gray-900 dark:text-white">{dispute.title}</div>
+                             <div className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-xs">{dispute.description}</div>
+                           </div>
+                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{dispute.parties}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
@@ -479,11 +486,14 @@ export default function AdminDashboard() {
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{dispute.created}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                          <div className="flex items-center space-x-2">
-                            <button className="px-3 py-1 bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-200 dark:hover:bg-blue-800 rounded-md transition-all duration-200 hover:scale-105 text-xs">
-                              View Details
-                            </button>
+                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                           <div className="flex items-center space-x-2">
+                             <button
+                               onClick={() => router.push(`/admin/disputes/${dispute.id}`)}
+                               className="px-3 py-1 bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-200 dark:hover:bg-blue-800 rounded-md transition-all duration-200 hover:scale-105 text-xs"
+                             >
+                               View Details
+                             </button>
                             {dispute.status !== 'resolved' && (
                               <button className="px-3 py-1 bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-200 dark:hover:bg-green-800 rounded-md transition-all duration-200 hover:scale-105 text-xs">
                                 Resolve
@@ -549,8 +559,33 @@ export default function AdminDashboard() {
                  </div>
                </div>
              </div>
-           </div>
-         )}
+            </div>
+          )}
+
+          {activeTab === 'settings' && (
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-8">
+              <div className="text-center">
+                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">Platform Settings</h2>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">Configure platform-wide settings and preferences</p>
+                <Button onClick={() => router.push('/admin/settings')}>
+                  Go to Settings
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'reports' && (
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-8">
+              <div className="text-center">
+                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">Reports & Analytics</h2>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">Generate and download detailed reports</p>
+                <Button onClick={() => router.push('/admin/reports')}>
+                  Go to Reports
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

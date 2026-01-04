@@ -3,17 +3,21 @@
 import { useState, lazy, Suspense } from 'react';
 import LandCard from '@/components/LandCard';
 import LandFilters from '@/components/LandFilters';
+import CompareModal from '@/components/CompareModal';
 import { Search, Filter, MapPin, Grid, List, SortAsc, Sparkles } from 'lucide-react';
+import { useUI } from '@/hooks/useUI';
 
 const Map = lazy(() => import('@/components/Map'));
 
 export default function BrowseLands() {
+  const { openModal } = useUI();
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [sortBy, setSortBy] = useState('newest');
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [compareList, setCompareList] = useState<string[]>([]);
 
   const mockLands = [
     {
@@ -72,6 +76,17 @@ export default function BrowseLands() {
         ? prev.filter(id => id !== landId)
         : [...prev, landId]
     );
+  };
+
+  const toggleCompare = (landId: string) => {
+    setCompareList(prev => {
+      if (prev.includes(landId)) {
+        return prev.filter(id => id !== landId);
+      } else if (prev.length < 3) {
+        return [...prev, landId];
+      }
+      return prev;
+    });
   };
 
   return (
@@ -135,16 +150,28 @@ export default function BrowseLands() {
                 </button>
               </div>
 
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent"
-              >
-                <option value="newest">Newest First</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="size">Size</option>
-              </select>
+               <select
+                 value={sortBy}
+                 onChange={(e) => setSortBy(e.target.value)}
+                 className="px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent"
+               >
+                 <option value="newest">Newest First</option>
+                 <option value="price-low">Price: Low to High</option>
+                 <option value="price-high">Price: High to Low</option>
+                 <option value="size">Size</option>
+               </select>
+
+                {compareList.length > 0 && (
+                  <button
+                    onClick={() => {
+                      const comparedLands = mockLands.filter(land => compareList.includes(land.id));
+                      openModal(<CompareModal lands={comparedLands} />);
+                    }}
+                    className="px-4 py-3 bg-secondary text-white rounded-xl hover:bg-secondary/80 transition-colors"
+                  >
+                    Compare ({compareList.length})
+                  </button>
+                )}
             </div>
           </div>
 
@@ -206,6 +233,8 @@ export default function BrowseLands() {
                   {...land}
                   isFavorite={favorites.includes(land.id)}
                   onFavorite={() => toggleFavorite(land.id)}
+                  isInCompare={compareList.includes(land.id)}
+                  onCompare={() => toggleCompare(land.id)}
                   onClick={() => console.log('View land:', land.id)}
                 />
               ))}

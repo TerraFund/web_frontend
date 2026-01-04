@@ -1,19 +1,35 @@
 'use client';
 
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { RootState } from '@/store';
+import ReviewModal from '@/components/ReviewModal';
 
 export default function Dashboard() {
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [selectedPartner, setSelectedPartner] = useState<{ id: string; name: string } | null>(null);
 
   useEffect(() => {
     if (!isAuthenticated) {
       router.push('/auth/login');
     }
   }, [isAuthenticated, router]);
+
+  const handleReviewClick = () => {
+    // Mock selecting a partner for review
+    setSelectedPartner({ id: 'partner1', name: 'Sarah Johnson' });
+    setShowReviewModal(true);
+  };
+
+  const handleReviewSubmit = (review: { rating: number; comment: string }) => {
+    console.log('Review submitted:', review);
+    setShowReviewModal(false);
+    setSelectedPartner(null);
+  };
 
   if (!isAuthenticated || !user) {
     return null;
@@ -117,13 +133,25 @@ export default function Dashboard() {
                <p className="text-xs text-gray-600 dark:text-gray-400 mb-3">
                  Share your experience with recent partners to help the community.
                </p>
-               <button className="w-full bg-accent text-white py-2 px-4 rounded-lg hover:bg-accent/80 transition-colors text-sm">
+               <button
+                 onClick={handleReviewClick}
+                 className="w-full bg-accent text-white py-2 px-4 rounded-lg hover:bg-accent/80 transition-colors text-sm"
+               >
                  Review Completed Deals
                </button>
              </div>
            </div>
          </div>
       </div>
+
+      {/* Review Modal */}
+      {showReviewModal && selectedPartner && (
+        <ReviewModal
+          targetUserId={selectedPartner.id}
+          targetUserName={selectedPartner.name}
+          onSubmit={handleReviewSubmit}
+        />
+      )}
     </div>
   );
 }

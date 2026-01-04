@@ -150,10 +150,10 @@ export default function AdminDashboard() {
                    ))}
                 </nav>
               </div>
-        </div>
+         </div>
 
-        {/* Tab Content */}
-          {activeTab === 'users' && (
+         {/* Tab Content */}
+           {activeTab === 'users' && (
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
               <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-center justify-between">
@@ -392,28 +392,12 @@ export default function AdminDashboard() {
                  </ResponsiveContainer>
                </div>
 
-               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                 <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">User Distribution</h3>
-                 <ResponsiveContainer width="100%" height={300}>
-                   <PieChart>
-                     <Pie
-                       data={userTypeData}
-                       cx="50%"
-                       cy="50%"
-                       labelLine={false}
-
-                       outerRadius={80}
-                       fill="#8884d8"
-                       dataKey="value"
-                     >
-                       {userTypeData.map((entry, index) => (
-                         <Cell key={`cell-${index}`} fill={entry.color} />
-                       ))}
-                     </Pie>
-                     <Tooltip />
-                   </PieChart>
-                 </ResponsiveContainer>
-               </div>
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                  <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">User Distribution</h3>
+                  <div className="flex items-center justify-center h-64 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                    <p className="text-gray-500 dark:text-gray-400">User Distribution Chart</p>
+                  </div>
+                </div>
              </div>
 
              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
@@ -591,10 +575,10 @@ export default function AdminDashboard() {
                   Go to Reports
                 </Button>
               </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
+             </div>
+           )}
+         </div>
+       </div>
+     </div>
+   );
+ }

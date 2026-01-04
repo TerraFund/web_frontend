@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Send, Paperclip, MoreVertical, Loader2 } from 'lucide-react';
+import { Send, Paperclip, MoreVertical, Loader2, X } from 'lucide-react';
 
 const mockMessages = [
   { id: '1', sender: 'Sarah Johnson', content: 'Hi! I\'m interested in your coffee farm plot.', timestamp: '10:30 AM', isMe: false },
@@ -16,7 +16,9 @@ export default function Chat() {
   const [message, setMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [messages, setMessages] = useState(mockMessages);
+  const [attachments, setAttachments] = useState<File[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const mockConversations = [
     { id: '1', name: 'Sarah Johnson', lastMessage: 'Looking forward to our partnership!', time: '2m ago', unread: 2 },
@@ -28,21 +30,37 @@ export default function Chat() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    const validFiles = files.filter(file => file.size <= 10 * 1024 * 1024); // 10MB limit
+    setAttachments(prev => [...prev, ...validFiles]);
+  };
+
+  const removeAttachment = (index: number) => {
+    setAttachments(prev => prev.filter((_, i) => i !== index));
+  };
+
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
   const handleSendMessage = () => {
-    if (message.trim()) {
+    if (message.trim() || attachments.length > 0) {
       const newMessage = {
         id: Date.now().toString(),
         sender: 'Me',
         content: message,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         isMe: true,
+        attachments: attachments.length > 0 ? attachments.map(file => ({
+          name: file.name,
+          size: file.size,
+          type: file.type
+        })) : undefined,
       };
       setMessages(prev => [...prev, newMessage]);
       setMessage('');
+      setAttachments([]);
 
       // Simulate typing indicator
       setIsTyping(true);
@@ -119,6 +137,17 @@ export default function Chat() {
                       ? 'bg-primary text-white'
                       : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white'
                   }`}>
+                    {msg.attachments && msg.attachments.length > 0 && (
+                      <div className="mb-2 space-y-1">
+                        {msg.attachments.map((attachment, idx) => (
+                          <div key={idx} className="flex items-center text-xs">
+                            <Paperclip className="h-3 w-3 mr-1" />
+                            <span className="truncate">{attachment.name}</span>
+                            <span className="ml-1 opacity-75">({(attachment.size / 1024).toFixed(1)}KB)</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                     <p className="text-sm">{msg.content}</p>
                     <p className={`text-xs mt-1 ${msg.isMe ? 'text-primary-100' : 'text-gray-500 dark:text-gray-400'}`}>
                       {msg.timestamp}
@@ -146,41 +175,72 @@ export default function Chat() {
               <div ref={messagesEndRef} />
             </div>
 
+            {/* Attachments Preview */}
+            {attachments.length > 0 && (
+              <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
+                <div className="flex flex-wrap gap-2">
+                  {attachments.map((file, index) => (
+                    <div key={index} className="flex items-center bg-white dark:bg-gray-600 rounded-lg p-2 shadow-sm">
+                      <Paperclip className="h-4 w-4 text-gray-500 mr-2" />
+                      <span className="text-sm text-gray-700 dark:text-white mr-2 truncate max-w-32">{file.name}</span>
+                      <button
+                        onClick={() => removeAttachment(index)}
+                        className="text-red-500 hover:text-red-700 transition-colors"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Message Input */}
             <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-              <div className="flex items-center space-x-2">
-                <button className="p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 hover:scale-110">
-                  <Paperclip className="h-5 w-5" />
-                </button>
-                <div className="flex-1 relative">
-                  <input
-                    type="text"
-                    placeholder="Type a message..."
-                    className="w-full px-3 py-2 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-200"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                  />
-                  {message.trim() && (
-                    <button
-                      onClick={handleSendMessage}
-                      className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 bg-primary text-white rounded-md hover:bg-accent transition-all duration-200 hover:scale-105"
-                    >
-                      <Send className="h-4 w-4" />
-                    </button>
-                  )}
-                </div>
-                {!message.trim() && (
-                  <button
-                    onClick={handleSendMessage}
-                    disabled
-                    className="p-2 bg-gray-300 dark:bg-gray-600 text-gray-500 rounded-lg cursor-not-allowed"
-                  >
-                    <Send className="h-5 w-5" />
-                  </button>
-                )}
-              </div>
-            </div>
+               <div className="flex items-center space-x-2">
+                 <input
+                   ref={fileInputRef}
+                   type="file"
+                   multiple
+                   accept="image/*,.pdf,.doc,.docx"
+                   onChange={handleFileSelect}
+                   className="hidden"
+                 />
+                 <button
+                   onClick={() => fileInputRef.current?.click()}
+                   className="p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 hover:scale-110"
+                 >
+                   <Paperclip className="h-5 w-5" />
+                 </button>
+                 <div className="flex-1 relative">
+                   <input
+                     type="text"
+                     placeholder="Type a message..."
+                     className="w-full px-3 py-2 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-200"
+                     value={message}
+                     onChange={(e) => setMessage(e.target.value)}
+                     onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                   />
+                   {(message.trim() || attachments.length > 0) && (
+                     <button
+                       onClick={handleSendMessage}
+                       className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 bg-primary text-white rounded-md hover:bg-accent transition-all duration-200 hover:scale-105"
+                     >
+                       <Send className="h-4 w-4" />
+                     </button>
+                   )}
+                 </div>
+                 {!(message.trim() || attachments.length > 0) && (
+                   <button
+                     onClick={handleSendMessage}
+                     disabled
+                     className="p-2 bg-gray-300 dark:bg-gray-600 text-gray-500 rounded-lg cursor-not-allowed"
+                   >
+                     <Send className="h-5 w-5" />
+                   </button>
+                 )}
+               </div>
+             </div>
           </div>
     </div>
   );

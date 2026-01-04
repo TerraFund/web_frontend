@@ -6,7 +6,7 @@ import { Users, Map, BarChart3, AlertTriangle, CheckCircle, XCircle, Eye, Edit, 
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 
 export default function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'lands' | 'analytics'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'lands' | 'analytics' | 'disputes'>('overview');
 
   const mockStats = {
     totalUsers: 1247,
@@ -56,6 +56,12 @@ export default function AdminDashboard() {
   const mockLands = [
     { id: '1', title: 'Coffee Farm Plot #5', owner: 'John Doe', status: 'verified', listed: '2024-01-10' },
     { id: '2', title: 'Maize Field #12', owner: 'Mike Chen', status: 'pending', listed: '2024-01-18' },
+  ];
+
+  const mockDisputes = [
+    { id: '1', title: 'Contract Breach - Payment Delay', parties: 'John Doe vs Sarah Smith', status: 'open', priority: 'high', created: '2024-01-20', description: 'Investor claims landowner delayed payment release after milestone completion.' },
+    { id: '2', title: 'Land Quality Dispute', parties: 'Mike Chen vs David Kim', status: 'investigating', priority: 'medium', created: '2024-01-18', description: 'Investor alleges land quality does not match description provided.' },
+    { id: '3', title: 'Contract Terms Misunderstanding', parties: 'Alice Brown vs Bob Wilson', status: 'resolved', priority: 'low', created: '2024-01-15', description: 'Parties disagreed on revenue sharing terms interpretation.' },
   ];
 
   return (
@@ -108,11 +114,12 @@ export default function AdminDashboard() {
               <div className="border-b border-gray-200 dark:border-gray-700">
                 <nav className="-mb-px flex space-x-8">
                   {[
-                    { id: 'overview', label: 'Overview' },
-                    { id: 'users', label: 'Users' },
-                    { id: 'lands', label: 'Lands' },
-                    { id: 'analytics', label: 'Analytics' },
-                  ].map((tab) => (
+                     { id: 'overview', label: 'Overview' },
+                     { id: 'users', label: 'Users' },
+                     { id: 'lands', label: 'Lands' },
+                     { id: 'disputes', label: 'Disputes' },
+                     { id: 'analytics', label: 'Analytics' },
+                   ].map((tab) => (
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id as any)}
@@ -335,10 +342,80 @@ export default function AdminDashboard() {
                  </div>
                </div>
              </div>
-           </div>
-         )}
+            </div>
+          )}
 
-         {activeTab === 'overview' && (
+          {activeTab === 'disputes' && (
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+              <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Dispute Management</h2>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50 dark:bg-gray-700">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Title</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Parties</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Priority</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Created</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                    {mockDisputes.map((dispute, index) => (
+                      <tr key={dispute.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 animate-in slide-in-from-bottom-4 duration-300" style={{ animationDelay: `${index * 50}ms` }}>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div>
+                            <div className="text-sm font-medium text-gray-900 dark:text-white">{dispute.title}</div>
+                            <div className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-xs">{dispute.description}</div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{dispute.parties}</td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
+                            dispute.status === 'open'
+                              ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                              : dispute.status === 'investigating'
+                              ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                              : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                          }`}>
+                            {dispute.status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                            dispute.priority === 'high'
+                              ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                              : dispute.priority === 'medium'
+                              ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                              : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                          }`}>
+                            {dispute.priority}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{dispute.created}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          <div className="flex items-center space-x-2">
+                            <button className="px-3 py-1 bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-200 dark:hover:bg-blue-800 rounded-md transition-all duration-200 hover:scale-105 text-xs">
+                              View Details
+                            </button>
+                            {dispute.status !== 'resolved' && (
+                              <button className="px-3 py-1 bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-200 dark:hover:bg-green-800 rounded-md transition-all duration-200 hover:scale-105 text-xs">
+                                Resolve
+                              </button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'overview' && (
            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
                <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Recent Activity</h3>

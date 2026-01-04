@@ -77,6 +77,45 @@ export default function Home() {
 
         <FeaturesSection />
 
+        {/* Video Demo Section */}
+        <section className="py-24 bg-gray-50 dark:bg-gray-900">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">See TerraFund in Action</h2>
+              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                Watch how our platform connects landowners and investors seamlessly
+              </p>
+            </div>
+
+            <div className="max-w-4xl mx-auto">
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+                <div className="aspect-video bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                  <div className="text-center text-white">
+                    <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </div>
+                    <p className="text-lg font-semibold">TerraFund Demo Video</p>
+                    <p className="text-sm opacity-90">Coming Soon</p>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Platform Overview</h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-4">
+                    Learn how TerraFund revolutionizes land investment with our secure, transparent platform that connects landowners with global investors.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">Secure Transactions</span>
+                    <span className="px-3 py-1 bg-accent/10 text-accent rounded-full text-sm">AI Matching</span>
+                    <span className="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm">Real-time Chat</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Stats Section */}
         <section className="py-20 bg-primary text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -6,6 +6,7 @@ import { RootState } from '@/store';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 import { User, Shield, FileText, Star, Camera, MapPin, Calendar, TrendingUp, Award, Users, Settings, Edit3, Upload, CheckCircle, Clock, DollarSign } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function Profile() {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -44,6 +45,15 @@ export default function Profile() {
   ] : [
     { id: '1', name: 'Coffee Farm Investment', location: 'Central Rwanda', amount: 25000, roi: 12.5, status: 'active' },
     { id: '2', name: 'Fruit Orchard Partnership', location: 'Western Rwanda', amount: 15000, roi: 8.3, status: 'active' },
+  ];
+
+  const portfolioGrowthData = [
+    { month: 'Jan', value: 10000 },
+    { month: 'Feb', value: 15000 },
+    { month: 'Mar', value: 22000 },
+    { month: 'Apr', value: 28000 },
+    { month: 'May', value: 35000 },
+    { month: 'Jun', value: 42000 },
   ];
 
   if (!user) return null;
@@ -338,47 +348,67 @@ export default function Profile() {
           )}
 
           {activeTab === 'portfolio' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {mockPortfolio.map((item) => (
-                <div key={item.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                  {user.role === 'landowner' && 'image' in item && (
-                    <div className="h-48 bg-gradient-to-br from-primary to-accent relative">
-                      <div className="absolute top-4 right-4">
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          item.status === 'listed' ? 'bg-green-500 text-white' : 'bg-gray-500 text-white'
-                        }`}>
-                          {item.status}
-                        </span>
+            <div className="space-y-8">
+              {/* Portfolio Summary Chart */}
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+                  <TrendingUp className="h-5 w-5 mr-2" />
+                  Portfolio Performance
+                </h3>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={portfolioGrowthData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <Tooltip formatter={(value) => [`$${value}`, 'Portfolio Value']} />
+                    <Line type="monotone" dataKey="value" stroke="#0B6E4F" strokeWidth={2} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+
+              {/* Portfolio Items */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {mockPortfolio.map((item) => (
+                  <div key={item.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                    {user.role === 'landowner' && 'image' in item && (
+                      <div className="h-48 bg-gradient-to-br from-primary to-accent relative">
+                        <div className="absolute top-4 right-4">
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            item.status === 'listed' ? 'bg-green-500 text-white' : 'bg-gray-500 text-white'
+                          }`}>
+                            {item.status}
+                          </span>
+                        </div>
                       </div>
+                    )}
+                    <div className="p-6">
+                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{item.name}</h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 flex items-center">
+                        <MapPin className="h-4 w-4 mr-1" />
+                        {item.location}
+                      </p>
+                      {user.role === 'landowner' && 'size' in item && (
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-gray-600 dark:text-gray-400">{item.size} acres</span>
+                          <span className="text-lg font-bold text-primary">${item.price}/acre</span>
+                        </div>
+                      )}
+                      {user.role === 'investor' && 'amount' in item && (
+                        <div className="space-y-2">
+                          <div className="flex justify-between">
+                            <span className="text-sm text-gray-600 dark:text-gray-400">Invested</span>
+                            <span className="text-sm font-medium text-gray-900 dark:text-white">${item.amount.toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-sm text-gray-600 dark:text-gray-400">ROI</span>
+                            <span className="text-sm font-medium text-green-600">+{item.roi}%</span>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  )}
-                  <div className="p-6">
-                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{item.name}</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 flex items-center">
-                      <MapPin className="h-4 w-4 mr-1" />
-                      {item.location}
-                    </p>
-                    {user.role === 'landowner' && 'size' in item && (
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-600 dark:text-gray-400">{item.size} acres</span>
-                        <span className="text-lg font-bold text-primary">${item.price}/acre</span>
-                      </div>
-                    )}
-                    {user.role === 'investor' && 'amount' in item && (
-                      <div className="space-y-2">
-                        <div className="flex justify-between">
-                          <span className="text-sm text-gray-600 dark:text-gray-400">Invested</span>
-                          <span className="text-sm font-medium text-gray-900 dark:text-white">${item.amount.toLocaleString()}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-sm text-gray-600 dark:text-gray-400">ROI</span>
-                          <span className="text-sm font-medium text-green-600">+{item.roi}%</span>
-                        </div>
-                      </div>
-                    )}
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           )}
 

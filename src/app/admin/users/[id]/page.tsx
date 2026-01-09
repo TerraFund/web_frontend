@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/Button';
 import { ArrowLeft, Edit, Save, X, User, Mail, Shield, Calendar, MapPin, Phone, FileText, Activity } from 'lucide-react';
@@ -8,27 +8,52 @@ import { ArrowLeft, Edit, Save, X, User, Mail, Shield, Calendar, MapPin, Phone, 
 export default function UserDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
-  const [userData, setUserData] = useState({
-    id: params.id,
-    name: 'John Doe',
-    email: 'john@example.com',
-    role: 'landowner',
-    status: 'verified',
-    phone: '+250 123 456 789',
-    location: 'Kigali, Rwanda',
-    joined: '2024-01-15',
-    kycStatus: 'verified',
-    totalLands: 3,
-    activeDeals: 2,
-    totalInvestments: 15000,
-    bio: 'Experienced landowner with 5+ years in sustainable agriculture.',
-    documents: [
-      { id: '1', name: 'ID Document', type: 'ID', status: 'verified', uploaded: '2024-01-15' },
-      { id: '2', name: 'Land Deed', type: 'Deed', status: 'verified', uploaded: '2024-01-16' },
-    ],
-  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [userData, setUserData] = useState<any>(null);
 
-  const [editData, setEditData] = useState(userData);
+  useEffect(() => {
+    // Mock API call - in real app, fetch from /api/admin/users/[id]
+    const fetchUser = async () => {
+      try {
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 500));
+        setUserData({
+          id: params.id,
+          name: 'John Doe',
+          email: 'john@example.com',
+          role: 'landowner',
+          status: 'verified',
+          phone: '+250 123 456 789',
+          location: 'Kigali, Rwanda',
+          joined: '2024-01-15',
+          kycStatus: 'verified',
+          totalLands: 3,
+          activeDeals: 2,
+          totalInvestments: 15000,
+          bio: 'Experienced landowner with 5+ years in sustainable agriculture.',
+          documents: [
+            { id: '1', name: 'ID Document', type: 'ID', status: 'verified', uploaded: '2024-01-15' },
+            { id: '2', name: 'Land Deed', type: 'Deed', status: 'verified', uploaded: '2024-01-16' },
+          ],
+        });
+      } catch (error) {
+        setError('Failed to load user data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [params.id]);
+
+  const [editData, setEditData] = useState<any>(null);
+
+  useEffect(() => {
+    if (userData) {
+      setEditData(userData);
+    }
+  }, [userData]);
 
   const handleSave = () => {
     setUserData(editData);
@@ -49,6 +74,47 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
     { id: '4', action: 'Land listed', timestamp: '2024-01-17 9:45 AM', details: 'Coffee Farm Plot #5 listed for investment' },
     { id: '5', action: 'Proposal received', timestamp: '2024-01-18 3:20 PM', details: 'Received investment proposal from Sarah Smith' },
   ];
+
+  if (loading) {
+    return (
+      <div className="p-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="animate-pulse">
+            <div className="flex items-center space-x-4 mb-8">
+              <div className="h-5 w-5 bg-gray-300 rounded"></div>
+              <div className="h-8 bg-gray-300 rounded w-1/3"></div>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="lg:col-span-2 space-y-6">
+                <div className="h-64 bg-gray-300 rounded"></div>
+                <div className="h-48 bg-gray-300 rounded"></div>
+              </div>
+              <div className="space-y-6">
+                <div className="h-32 bg-gray-300 rounded"></div>
+                <div className="h-32 bg-gray-300 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !userData) {
+    return (
+      <div className="p-8">
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-6">
+            <h2 className="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">Error Loading User</h2>
+            <p className="text-red-600 dark:text-red-300 mb-4">{error}</p>
+            <Button onClick={() => window.location.reload()}>
+              Try Again
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-8">

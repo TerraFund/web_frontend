@@ -4,7 +4,7 @@ import { useState, lazy, Suspense } from 'react';
 import LandCard from '@/components/LandCard';
 import LandFilters from '@/components/LandFilters';
 import CompareModal from '@/components/CompareModal';
-import { Search, Filter, MapPin, Grid, List, SortAsc, Sparkles } from 'lucide-react';
+import { Search, Filter, MapPin, Grid, List, Sparkles } from 'lucide-react';
 import { useUI } from '@/hooks/useUI';
 
 const Map = lazy(() => import('@/components/Map'));
@@ -12,7 +12,6 @@ const Map = lazy(() => import('@/components/Map'));
 export default function BrowseLands() {
   const { openModal } = useUI();
   const [showFilters, setShowFilters] = useState(false);
-  const [filters, setFilters] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [sortBy, setSortBy] = useState('newest');
@@ -64,8 +63,7 @@ export default function BrowseLands() {
     land.cropSuitability.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleFiltersChange = (newFilters: any) => {
-    setFilters(newFilters);
+  const handleFiltersChange = (newFilters: Record<string, unknown>) => {
     // Mock filtering logic
     console.log('Filters changed:', newFilters);
   };

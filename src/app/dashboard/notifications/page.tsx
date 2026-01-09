@@ -11,13 +11,11 @@ import {
   MessageSquare,
   DollarSign,
   MapPin,
-  User,
   Clock,
   Filter,
   Check,
   Trash2,
   Settings,
-  Archive,
   Star
 } from 'lucide-react';
 
@@ -39,7 +37,7 @@ interface Notification {
 }
 
 export default function Notifications() {
-  const { user } = useSelector((state: RootState) => state.auth);
+
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'unread' | 'read'>('all');
@@ -281,7 +279,7 @@ export default function Notifications() {
 
               <select
                 value={filter}
-                onChange={(e) => setFilter(e.target.value as any)}
+                onChange={(e) => setFilter(e.target.value as 'all' | 'unread' | 'read')}
                 className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
               >
                 <option value="all">All Notifications</option>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/Button';
 import { Users, Map, BarChart3, AlertTriangle, CheckCircle, XCircle, Eye, Edit, Ban, TrendingUp, DollarSign, Activity } from 'lucide-react';
@@ -11,13 +11,49 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<string>('overview');
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
   const [selectedLands, setSelectedLands] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState<any>(null);
+  const [users, setUsers] = useState<any[]>([]);
+  const [lands, setLands] = useState<any[]>([]);
+  const [disputes, setDisputes] = useState<any[]>([]);
 
-  const mockStats = {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [usersRes, landsRes, disputesRes, analyticsRes] = await Promise.all([
+          fetch('/api/admin/users'),
+          fetch('/api/admin/lands'),
+          fetch('/api/admin/disputes'),
+          fetch('/api/admin/analytics'),
+        ]);
+
+        const usersData = await usersRes.json();
+        const landsData = await landsRes.json();
+        const disputesData = await disputesRes.json();
+        const analyticsData = await analyticsRes.json();
+
+        if (usersData.success) setUsers(usersData.data);
+        if (landsData.success) setLands(landsData.data);
+        if (disputesData.success) setDisputes(disputesData.data);
+        if (analyticsData.success) setStats(analyticsData.data.platformMetrics);
+      } catch (error) {
+        console.error('Failed to fetch admin data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const defaultStats = {
     totalUsers: 1247,
     totalLands: 89,
     activeDeals: 23,
     pendingVerifications: 12,
   };
+
+  const currentStats = stats || defaultStats;
 
   const userGrowthData = [
     { month: 'Jan', users: 120 },
@@ -52,21 +88,11 @@ export default function AdminDashboard() {
     { name: 'Admins', value: 20, color: '#1E3932' },
   ];
 
-  const mockUsers = [
-    { id: '1', name: 'John Doe', email: 'john@example.com', role: 'landowner', status: 'verified', joined: '2024-01-15' },
-    { id: '2', name: 'Sarah Smith', email: 'sarah@example.com', role: 'investor', status: 'pending', joined: '2024-01-20' },
-  ];
 
-  const mockLands = [
-    { id: '1', title: 'Coffee Farm Plot #5', owner: 'John Doe', status: 'verified', listed: '2024-01-10' },
-    { id: '2', title: 'Maize Field #12', owner: 'Mike Chen', status: 'pending', listed: '2024-01-18' },
-  ];
 
-  const mockDisputes = [
-    { id: '1', title: 'Contract Breach - Payment Delay', parties: 'John Doe vs Sarah Smith', status: 'open', priority: 'high', created: '2024-01-20', description: 'Investor claims landowner delayed payment release after milestone completion.' },
-    { id: '2', title: 'Land Quality Dispute', parties: 'Mike Chen vs David Kim', status: 'investigating', priority: 'medium', created: '2024-01-18', description: 'Investor alleges land quality does not match description provided.' },
-    { id: '3', title: 'Contract Terms Misunderstanding', parties: 'Alice Brown vs Bob Wilson', status: 'resolved', priority: 'low', created: '2024-01-15', description: 'Parties disagreed on revenue sharing terms interpretation.' },
-  ];
+
+
+
 
   const handleBulkUserAction = (action: string) => {
     console.log(`Bulk ${action} for users:`, selectedUsers);
@@ -88,37 +114,37 @@ export default function AdminDashboard() {
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 animate-in slide-in-from-bottom-4 duration-500">
                 <div className="flex items-center">
                   <Users className="h-8 w-8 text-primary mr-3" />
-                  <div>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{mockStats.totalUsers}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Total Users</p>
-                  </div>
+                   <div>
+                     <p className="text-2xl font-bold text-gray-900 dark:text-white">{currentStats.totalUsers}</p>
+                     <p className="text-sm text-gray-600 dark:text-gray-400">Total Users</p>
+                   </div>
                 </div>
               </div>
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 animate-in slide-in-from-bottom-4 duration-500 delay-100">
                 <div className="flex items-center">
                   <Map className="h-8 w-8 text-accent mr-3" />
-                  <div>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{mockStats.totalLands}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Total Lands</p>
-                  </div>
+                   <div>
+                     <p className="text-2xl font-bold text-gray-900 dark:text-white">{currentStats.totalLands}</p>
+                     <p className="text-sm text-gray-600 dark:text-gray-400">Total Lands</p>
+                   </div>
                 </div>
               </div>
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 animate-in slide-in-from-bottom-4 duration-500 delay-200">
                 <div className="flex items-center">
                   <BarChart3 className="h-8 w-8 text-secondary mr-3" />
-                  <div>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{mockStats.activeDeals}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Active Deals</p>
-                  </div>
+                   <div>
+                     <p className="text-2xl font-bold text-gray-900 dark:text-white">{currentStats.activeDeals}</p>
+                     <p className="text-sm text-gray-600 dark:text-gray-400">Active Deals</p>
+                   </div>
                 </div>
               </div>
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 animate-in slide-in-from-bottom-4 duration-500 delay-300">
                 <div className="flex items-center">
                   <AlertTriangle className="h-8 w-8 text-yellow-500 mr-3" />
-                  <div>
-                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{mockStats.pendingVerifications}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Pending Verifications</p>
-                  </div>
+                   <div>
+                     <p className="text-2xl font-bold text-gray-900 dark:text-white">{currentStats.pendingVerifications}</p>
+                     <p className="text-sm text-gray-600 dark:text-gray-400">Pending Verifications</p>
+                   </div>
                 </div>
               </div>
         </div>
@@ -128,13 +154,10 @@ export default function AdminDashboard() {
               <div className="border-b border-gray-200 dark:border-gray-700">
                 <nav className="-mb-px flex space-x-8">
                   {[
-                     { id: 'overview', label: 'Overview' },
-                     { id: 'users', label: 'Users' },
-                     { id: 'lands', label: 'Lands' },
-                     { id: 'disputes', label: 'Disputes' },
-                     { id: 'analytics', label: 'Analytics' },
-                      { id: 'settings', label: 'Settings' },
-                      { id: 'reports', label: 'Reports' },
+                      { id: 'overview', label: 'Overview' },
+                      { id: 'users', label: 'Users' },
+                      { id: 'lands', label: 'Lands' },
+                      { id: 'disputes', label: 'Disputes' },
                     ].map((tab) => (
                      <button
                        key={tab.id}
@@ -179,12 +202,12 @@ export default function AdminDashboard() {
                     <thead className="bg-gray-50 dark:bg-gray-700">
                       <tr>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          <input
-                            type="checkbox"
-                            checked={selectedUsers.length === mockUsers.length}
-                            onChange={(e) => setSelectedUsers(e.target.checked ? mockUsers.map(u => u.id) : [])}
-                            className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
-                          />
+                           <input
+                             type="checkbox"
+                             checked={selectedUsers.length === users.length}
+                             onChange={(e) => setSelectedUsers(e.target.checked ? users.map(u => u.id) : [])}
+                             className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                           />
                         </th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Name</th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Email</th>
@@ -194,8 +217,8 @@ export default function AdminDashboard() {
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                       </tr>
                     </thead>
-                      <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                        {mockUsers.map((user, index) => (
+                       <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                         {users.map((user, index) => (
                           <tr key={user.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 animate-in slide-in-from-bottom-4 duration-300" style={{ animationDelay: `${index * 50}ms` }}>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <input
@@ -210,18 +233,18 @@ export default function AdminDashboard() {
                               />
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{user.name}</td>
-                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{user.email}</td>
-                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 capitalize">{user.role}</td>
-                           <td className="px-6 py-4 whitespace-nowrap">
-                             <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
-                               user.status === 'verified'
-                                 ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                                 : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                             }`}>
-                               {user.status}
-                             </span>
-                           </td>
-                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{user.joined}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{user.email}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 capitalize">{user.role}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
+                                user.kyc_status === 'verified'
+                                  ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                                  : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                              }`}>
+                                {user.kyc_status}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{new Date(user.created_at).toLocaleDateString()}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                               <div className="flex items-center space-x-2">
                                 <button
@@ -273,12 +296,12 @@ export default function AdminDashboard() {
                      <thead className="bg-gray-50 dark:bg-gray-700">
                        <tr>
                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                           <input
-                             type="checkbox"
-                             checked={selectedLands.length === mockLands.length}
-                             onChange={(e) => setSelectedLands(e.target.checked ? mockLands.map(l => l.id) : [])}
-                             className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
-                           />
+                            <input
+                              type="checkbox"
+                              checked={selectedLands.length === lands.length}
+                              onChange={(e) => setSelectedLands(e.target.checked ? lands.map(l => l.id) : [])}
+                              className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                            />
                          </th>
                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Title</th>
                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Owner</th>
@@ -287,8 +310,8 @@ export default function AdminDashboard() {
                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                        </tr>
                      </thead>
-                      <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                        {mockLands.map((land, index) => (
+                       <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                         {lands.map((land, index) => (
                           <tr key={land.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 animate-in slide-in-from-bottom-4 duration-300" style={{ animationDelay: `${index * 50}ms` }}>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <input
@@ -302,18 +325,18 @@ export default function AdminDashboard() {
                                 className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
                               />
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{land.title}</td>
-                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{land.owner}</td>
-                           <td className="px-6 py-4 whitespace-nowrap">
-                             <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
-                               land.status === 'verified'
-                                 ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                                 : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                             }`}>
-                               {land.status}
-                             </span>
-                           </td>
-                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{land.listed}</td>
+                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{land.title}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{land.owner}</td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
+                                land.verified
+                                  ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                                  : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                              }`}>
+                                {land.verified ? 'verified' : 'pending'}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{new Date(land.created_at).toLocaleDateString()}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                               <div className="flex items-center space-x-2">
                                 <button
@@ -339,94 +362,7 @@ export default function AdminDashboard() {
               </div>
         )}
 
-         {activeTab === 'analytics' && (
-           <div className="space-y-8">
-             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                 <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white flex items-center">
-                   <TrendingUp className="w-5 h-5 mr-2 text-primary" />
-                   User Growth
-                 </h3>
-                 <ResponsiveContainer width="100%" height={300}>
-                   <LineChart data={userGrowthData}>
-                     <CartesianGrid strokeDasharray="3 3" />
-                     <XAxis dataKey="month" />
-                     <YAxis />
-                     <Tooltip />
-                     <Line type="monotone" dataKey="users" stroke="#0B6E4F" strokeWidth={2} />
-                   </LineChart>
-                 </ResponsiveContainer>
-               </div>
 
-               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                 <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white flex items-center">
-                   <Activity className="w-5 h-5 mr-2 text-accent" />
-                   Deal Volume
-                 </h3>
-                 <ResponsiveContainer width="100%" height={300}>
-                   <BarChart data={dealData}>
-                     <CartesianGrid strokeDasharray="3 3" />
-                     <XAxis dataKey="month" />
-                     <YAxis />
-                     <Tooltip />
-                     <Bar dataKey="deals" fill="#F4A261" />
-                   </BarChart>
-                 </ResponsiveContainer>
-               </div>
-             </div>
-
-             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-               <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                 <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white flex items-center">
-                   <DollarSign className="w-5 h-5 mr-2 text-secondary" />
-                   Revenue Trends
-                 </h3>
-                 <ResponsiveContainer width="100%" height={300}>
-                   <LineChart data={revenueData}>
-                     <CartesianGrid strokeDasharray="3 3" />
-                     <XAxis dataKey="month" />
-                     <YAxis />
-                     <Tooltip formatter={(value) => [`$${value}`, 'Revenue']} />
-                     <Line type="monotone" dataKey="revenue" stroke="#1E3932" strokeWidth={2} />
-                   </LineChart>
-                 </ResponsiveContainer>
-               </div>
-
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                  <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">User Distribution</h3>
-                  <div className="flex items-center justify-center h-64 bg-gray-100 dark:bg-gray-700 rounded-lg">
-                    <p className="text-gray-500 dark:text-gray-400">User Distribution Chart</p>
-                  </div>
-                </div>
-             </div>
-
-             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-               <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Platform Metrics</h3>
-               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                 <div className="text-center">
-                   <div className="text-2xl font-bold text-primary">{mockStats.totalUsers}</div>
-                   <div className="text-sm text-gray-600 dark:text-gray-400">Total Users</div>
-                   <div className="text-xs text-green-600 mt-1">+12% this month</div>
-                 </div>
-                 <div className="text-center">
-                   <div className="text-2xl font-bold text-accent">{mockStats.totalLands}</div>
-                   <div className="text-sm text-gray-600 dark:text-gray-400">Active Lands</div>
-                   <div className="text-xs text-green-600 mt-1">+8% this month</div>
-                 </div>
-                 <div className="text-center">
-                   <div className="text-2xl font-bold text-secondary">{mockStats.activeDeals}</div>
-                   <div className="text-sm text-gray-600 dark:text-gray-400">Active Deals</div>
-                   <div className="text-xs text-green-600 mt-1">+15% this month</div>
-                 </div>
-                 <div className="text-center">
-                   <div className="text-2xl font-bold text-primary">$82K</div>
-                   <div className="text-sm text-gray-600 dark:text-gray-400">Monthly Revenue</div>
-                   <div className="text-xs text-green-600 mt-1">+18% this month</div>
-                 </div>
-               </div>
-             </div>
-            </div>
-          )}
 
           {activeTab === 'disputes' && (
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
@@ -445,8 +381,8 @@ export default function AdminDashboard() {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                     {mockDisputes.map((dispute, index) => (
+                   <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                      {disputes.map((dispute, index) => (
                        <tr key={dispute.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 animate-in slide-in-from-bottom-4 duration-300" style={{ animationDelay: `${index * 50}ms` }}>
                          <td className="px-6 py-4 whitespace-nowrap">
                            <div>
@@ -454,30 +390,30 @@ export default function AdminDashboard() {
                              <div className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-xs">{dispute.description}</div>
                            </div>
                          </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{dispute.parties}</td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
-                            dispute.status === 'open'
-                              ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                              : dispute.status === 'investigating'
-                              ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                              : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                          }`}>
-                            {dispute.status}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                            dispute.priority === 'high'
-                              ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                              : dispute.priority === 'medium'
-                              ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                              : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                          }`}>
-                            {dispute.priority}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{dispute.created}</td>
+                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{dispute.parties}</td>
+                         <td className="px-6 py-4 whitespace-nowrap">
+                           <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
+                             dispute.status === 'open'
+                               ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                               : dispute.status === 'investigating'
+                               ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                               : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                           }`}>
+                             {dispute.status}
+                           </span>
+                         </td>
+                         <td className="px-6 py-4 whitespace-nowrap">
+                           <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                             dispute.priority === 'high'
+                               ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                               : dispute.priority === 'medium'
+                               ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                               : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                           }`}>
+                             {dispute.priority}
+                           </span>
+                         </td>
+                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{new Date(dispute.created_at).toLocaleDateString()}</td>
                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                            <div className="flex items-center space-x-2">
                              <button
@@ -554,29 +490,9 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {activeTab === 'settings' && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-8">
-              <div className="text-center">
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">Platform Settings</h2>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">Configure platform-wide settings and preferences</p>
-                <Button onClick={() => router.push('/admin/settings')}>
-                  Go to Settings
-                </Button>
-              </div>
-            </div>
-          )}
 
-          {activeTab === 'reports' && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-8">
-              <div className="text-center">
-                <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">Reports & Analytics</h2>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">Generate and download detailed reports</p>
-                <Button onClick={() => router.push('/admin/reports')}>
-                  Go to Reports
-                </Button>
-              </div>
-             </div>
-           )}
+
+
          </div>
        </div>
      </div>

@@ -53,7 +53,13 @@ export default function AdminAnalyticsPage() {
     return (
       <div className="p-8">
         <div className="max-w-7xl mx-auto text-center">
-          <p className="text-gray-600 dark:text-gray-400">Failed to load analytics data.</p>
+          <div className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-6">
+            <h2 className="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">Error Loading Analytics</h2>
+            <p className="text-red-600 dark:text-red-300 mb-4">Failed to load analytics data. Please try again.</p>
+            <Button onClick={() => window.location.reload()}>
+              Try Again
+            </Button>
+          </div>
         </div>
       </div>
     );

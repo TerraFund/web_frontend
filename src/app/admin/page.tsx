@@ -16,6 +16,7 @@ export default function AdminDashboard() {
   const [users, setUsers] = useState<any[]>([]);
   const [lands, setLands] = useState<any[]>([]);
   const [disputes, setDisputes] = useState<any[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,6 +39,7 @@ export default function AdminDashboard() {
         if (analyticsData.success) setStats(analyticsData.data.platformMetrics);
       } catch (error) {
         console.error('Failed to fetch admin data:', error);
+        setError('Failed to load admin data. Please try again.');
       } finally {
         setLoading(false);
       }
@@ -116,6 +118,22 @@ export default function AdminDashboard() {
               ))}
             </div>
             <div className="h-64 bg-gray-300 rounded"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-8">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-6">
+            <h2 className="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">Error Loading Data</h2>
+            <p className="text-red-600 dark:text-red-300 mb-4">{error}</p>
+            <Button onClick={() => window.location.reload()}>
+              Try Again
+            </Button>
           </div>
         </div>
       </div>

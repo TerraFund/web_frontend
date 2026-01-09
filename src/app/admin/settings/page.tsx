@@ -1,11 +1,90 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@/components/Button';
 import { Settings, Save, Mail, Shield, DollarSign, Globe, Database, Bell } from 'lucide-react';
 
 export default function AdminSettingsPage() {
-  const [settings, setSettings] = useState({
+  const [settings, setSettings] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const response = await fetch('/api/admin/settings');
+        const data = await response.json();
+        if (data.success) {
+          setSettings(data.data);
+        } else {
+          setError('Failed to load settings');
+        }
+      } catch (error) {
+        console.error('Failed to fetch settings:', error);
+        setError('Failed to load settings');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSettings();
+  }, []);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const response = await fetch('/api/admin/settings', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(settings),
+      });
+      const data = await response.json();
+      if (data.success) {
+        // Success
+      } else {
+        setError('Failed to save settings');
+      }
+    } catch (error) {
+      console.error('Failed to save settings:', error);
+      setError('Failed to save settings');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="p-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-300 rounded w-1/3 mb-8"></div>
+            <div className="h-64 bg-gray-300 rounded"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !settings) {
+    return (
+      <div className="p-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-6">
+            <h2 className="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">Error</h2>
+            <p className="text-red-600 dark:text-red-300 mb-4">{error}</p>
+            <Button onClick={() => window.location.reload()}>
+              Try Again
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const [activeTab, setActiveTab] = useState<'platform' | 'security' | 'payments' | 'notifications' | 'features'>('platform');
     platform: {
       name: 'TerraFund',
       description: 'Decentralized Land Investment Platform',
@@ -328,13 +407,13 @@ export default function AdminSettingsPage() {
               </div>
             )}
 
-            {/* Save Button */}
-            <div className="flex justify-end pt-6 border-t border-gray-200 dark:border-gray-700">
-              <Button onClick={handleSave}>
-                <Save className="h-4 w-4 mr-2" />
-                Save Settings
-              </Button>
-            </div>
+             {/* Save Button */}
+             <div className="flex justify-end pt-6 border-t border-gray-200 dark:border-gray-700">
+               <Button onClick={handleSave} disabled={saving}>
+                 <Save className="h-4 w-4 mr-2" />
+                 {saving ? 'Saving...' : 'Save Settings'}
+               </Button>
+             </div>
           </div>
         </div>
       </div>

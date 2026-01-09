@@ -43,9 +43,23 @@ export default function AdminReportsPage() {
     },
   ];
 
-  const generateReport = (type: string) => {
-    // Mock report generation
-    console.log(`Generating ${type} report for date range:`, dateRange);
+  const generateReport = async (type: string) => {
+    try {
+      const response = await fetch('/api/admin/reports', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ type, dateRange }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        // Handle success
+        console.log('Report generated:', data.data);
+      }
+    } catch (error) {
+      console.error('Failed to generate report:', error);
+    }
   };
 
   const downloadReport = (reportId: string) => {

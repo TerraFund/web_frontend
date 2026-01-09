@@ -5,7 +5,7 @@ import Button from '@/components/Button';
 import { FileText, Download, Calendar, TrendingUp, Users, Map, DollarSign, BarChart3 } from 'lucide-react';
 
 export default function AdminReportsPage() {
-  const [reportType, setReportType] = useState<'users' | 'lands' | 'transactions' | 'disputes'>('users');
+  const [reportType, setReportType] = useState<string>('users');
   const [dateRange, setDateRange] = useState({ start: '2024-01-01', end: '2024-01-31' });
 
   const reports = [

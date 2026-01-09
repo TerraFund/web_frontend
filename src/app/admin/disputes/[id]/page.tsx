@@ -10,8 +10,20 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
   const [resolution, setResolution] = useState('');
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [disputeData, setDisputeData] = useState<any>(null);
+  const [disputeData, setDisputeData] = useState<{
+    id: string;
+    title: string;
+    parties: string;
+    status: string;
+    priority: string;
+    created: string;
+    description: string;
+    plaintiff: { id: string; name: string; role: string; email: string };
+    defendant: { id: string; name: string; role: string; email: string };
+    contract: { id: string; title: string; value: number; signed: string };
+    evidence: Array<{ id: string; name: string; type: string; uploaded: string; uploadedBy: string }>;
+    messages: Array<{ id: string; sender: string; senderRole: string; message: string; timestamp: string }>;
+  } | null>(null);
 
   useEffect(() => {
     // Mock API call - in real app, fetch from /api/admin/disputes/[id]
@@ -75,7 +87,7 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
           ],
         });
       } catch (error) {
-        setError('Failed to load dispute data');
+        console.error('Failed to load dispute data:', error);
       } finally {
         setLoading(false);
       }

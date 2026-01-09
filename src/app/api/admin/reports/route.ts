@@ -43,7 +43,7 @@ export async function POST(request: Request) {
       success: true,
       data: report,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to generate report' },
       { status: 500 }

@@ -40,7 +40,7 @@ export async function GET() {
       success: true,
       data: defaultSettings,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to fetch settings' },
       { status: 500 }
@@ -59,7 +59,7 @@ export async function PATCH(request: Request) {
       message: 'Settings updated successfully',
       data: { ...defaultSettings, ...updates },
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to update settings' },
       { status: 500 }

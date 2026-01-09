@@ -9,8 +9,25 @@ export default function LandDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [landData, setLandData] = useState<any>(null);
+  const [landData, setLandData] = useState<{
+    id: string;
+    title: string;
+    owner: string;
+    ownerId: string;
+    location: string;
+    size: number;
+    cropSuitability: string;
+    soilQuality: string;
+    waterSource: string;
+    elevation: number;
+    price: number;
+    status: string;
+    listed: string;
+    description: string;
+    coordinates: { lat: number; lng: number };
+    documents: Array<{ id: string; name: string; type: string; status: string; uploaded: string }>;
+    proposals: Array<{ id: string; investor: string; amount: number; status: string; submitted: string }>;
+  } | null>(null);
 
   useEffect(() => {
     // Mock API call - in real app, fetch from /api/admin/lands/[id]
@@ -45,7 +62,7 @@ export default function LandDetailPage({ params }: { params: { id: string } }) {
           ],
         });
       } catch (error) {
-        setError('Failed to load land data');
+        console.error('Failed to load land data:', error);
       } finally {
         setLoading(false);
       }

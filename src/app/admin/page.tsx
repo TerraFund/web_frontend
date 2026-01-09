@@ -211,8 +211,9 @@ export default function AdminDashboard() {
               </div>
          </div>
 
-         {/* Tab Content */}
-           {activeTab === 'users' && (
+          {/* Tab Content */}
+          <div>
+            {activeTab === 'users' && (
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
               <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-center justify-between">
@@ -524,12 +525,11 @@ export default function AdminDashboard() {
                </div>
              </div>
             </div>
-          )}
+           )}
 
+          </div>
 
-
-
-         </div>
+        </div>
        </div>
      </div>
    );

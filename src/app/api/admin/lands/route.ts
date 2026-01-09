@@ -25,7 +25,7 @@ export async function GET() {
       success: true,
       data: mockLands,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to fetch lands' },
       { status: 500 }

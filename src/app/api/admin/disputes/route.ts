@@ -45,7 +45,7 @@ export async function GET() {
       success: true,
       data: mockDisputes,
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { success: false, error: 'Failed to fetch disputes' },
       { status: 500 }

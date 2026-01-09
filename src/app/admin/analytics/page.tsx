@@ -6,7 +6,19 @@ import { TrendingUp, Users, Map, DollarSign, Activity, BarChart3, PieChart, Pie,
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 
 export default function AdminAnalyticsPage() {
-  const [analytics, setAnalytics] = useState<any>(null);
+  const [analytics, setAnalytics] = useState<{
+    userGrowth: Array<{ month: string; users: number }>;
+    dealVolume: Array<{ month: string; deals: number }>;
+    revenue: Array<{ month: string; revenue: number }>;
+    userDistribution: Array<{ name: string; value: number; color: string }>;
+    platformMetrics: {
+      totalUsers: number;
+      totalLands: number;
+      activeDeals: number;
+      pendingVerifications: number;
+      monthlyRevenue: number;
+    };
+  } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

@@ -3,14 +3,28 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/Button';
-import { ArrowLeft, Edit, Save, X, User, Mail, Shield, Calendar, MapPin, Phone, FileText, Activity } from 'lucide-react';
+import { ArrowLeft, Edit, Save, X, User, Mail, Shield, MapPin, Phone, FileText, Activity } from 'lucide-react';
 
 export default function UserDetailPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<{
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    status: string;
+    phone: string;
+    location: string;
+    joined: string;
+    kycStatus: string;
+    totalLands: number;
+    activeDeals: number;
+    totalInvestments: number;
+    bio: string;
+    documents: Array<{ id: string; name: string; type: string; status: string; uploaded: string }>;
+  } | null>(null);
 
   useEffect(() => {
     // Mock API call - in real app, fetch from /api/admin/users/[id]
@@ -38,7 +52,7 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
           ],
         });
       } catch (error) {
-        setError('Failed to load user data');
+        console.error('Failed to load user data:', error);
       } finally {
         setLoading(false);
       }

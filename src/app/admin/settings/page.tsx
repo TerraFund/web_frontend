@@ -5,7 +5,39 @@ import Button from '@/components/Button';
 import { Settings, Save, Mail, Shield, DollarSign, Globe, Database, Bell } from 'lucide-react';
 
 export default function AdminSettingsPage() {
-  const [settings, setSettings] = useState<any>(null);
+  const [settings, setSettings] = useState<{
+    platform: {
+      name: string;
+      description: string;
+      contactEmail: string;
+      supportEmail: string;
+    };
+    security: {
+      sessionTimeout: number;
+      passwordMinLength: number;
+      twoFactorRequired: boolean;
+      ipWhitelist: string;
+    };
+    payments: {
+      escrowFee: number;
+      platformFee: number;
+      minInvestment: number;
+      maxInvestment: number;
+      currency: string;
+    };
+    notifications: {
+      emailNotifications: boolean;
+      pushNotifications: boolean;
+      disputeAlerts: boolean;
+      systemAlerts: boolean;
+    };
+    features: {
+      aiRecommendations: boolean;
+      disputeResolution: boolean;
+      escrowService: boolean;
+      kycRequired: boolean;
+    };
+  } | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -85,37 +117,6 @@ export default function AdminSettingsPage() {
   }
 
   const [activeTab, setActiveTab] = useState<'platform' | 'security' | 'payments' | 'notifications' | 'features'>('platform');
-    platform: {
-      name: 'TerraFund',
-      description: 'Decentralized Land Investment Platform',
-      contactEmail: 'admin@terrafund.com',
-      supportEmail: 'support@terrafund.com',
-    },
-    security: {
-      sessionTimeout: 30,
-      passwordMinLength: 8,
-      twoFactorRequired: false,
-      ipWhitelist: '',
-    },
-    payments: {
-      escrowFee: 2.5,
-      platformFee: 5.0,
-      minInvestment: 1000,
-      maxInvestment: 100000,
-      currency: 'USD',
-    },
-    notifications: {
-      emailNotifications: true,
-      pushNotifications: true,
-      disputeAlerts: true,
-      systemAlerts: true,
-    },
-    features: {
-      aiRecommendations: true,
-      disputeResolution: true,
-      escrowService: true,
-      kycRequired: true,
-    },
   });
 
   const [activeTab, setActiveTab] = useState<'platform' | 'security' | 'payments' | 'notifications' | 'features'>('platform');

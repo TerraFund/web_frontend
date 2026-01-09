@@ -174,7 +174,7 @@ export default function Home() {
                   ★★★★★
                 </div>
                 <p className="text-gray-600 dark:text-gray-300 mb-6 text-lg leading-relaxed">
-                  "I found great investment opportunities in sustainable agriculture through TerraFund. The platform's analytics helped me make informed decisions."
+                  &ldquo;I found great investment opportunities in sustainable agriculture through TerraFund. The platform&apos;s analytics helped me make informed decisions.&rdquo;
                 </p>
                 <div className="flex items-center">
                   <div className="w-12 h-12 bg-gradient-to-br from-accent to-accent/80 rounded-full flex items-center justify-center text-white font-bold mr-4 shadow-lg">
@@ -192,7 +192,7 @@ export default function Home() {
                   ★★★★★
                 </div>
                 <p className="text-gray-600 dark:text-gray-300 mb-6 text-lg leading-relaxed">
-                  "The platform's verification process gives me confidence in every transaction. The carbon credit system is a great bonus for sustainable investing."
+                  &ldquo;The platform&apos;s verification process gives me confidence in every transaction. The carbon credit system is a great bonus for sustainable investing.&rdquo;
                 </p>
                 <div className="flex items-center">
                   <div className="w-12 h-12 bg-gradient-to-br from-secondary to-secondary/80 rounded-full flex items-center justify-center text-white font-bold mr-4 shadow-lg">

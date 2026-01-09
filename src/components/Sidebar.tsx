@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import { Home, Map, FileText, MessageSquare, CreditCard, Settings, Users, Bell } from 'lucide-react';
+import { Home, Map, FileText, MessageSquare, CreditCard, Settings, Users, Bell, BarChart3 } from 'lucide-react';
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -35,7 +35,8 @@ export default function Sidebar() {
     { href: '/admin', icon: Home, label: 'Dashboard' },
     { href: '/admin/users', icon: Users, label: 'Users' },
     { href: '/admin/lands', icon: Map, label: 'Lands' },
-    { href: '/admin/analytics', icon: FileText, label: 'Analytics' },
+    { href: '/admin/analytics', icon: BarChart3, label: 'Analytics' },
+    { href: '/admin/reports', icon: FileText, label: 'Reports' },
     { href: '/admin/settings', icon: Settings, label: 'Settings' },
   ];
 

@@ -104,6 +104,24 @@ export default function AdminDashboard() {
     setSelectedLands([]);
   };
 
+  if (loading) {
+    return (
+      <div className="p-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-300 rounded w-1/4 mb-8"></div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+              {[...Array(4)].map((_, i) => (
+                <div key={i} className="h-24 bg-gray-300 rounded"></div>
+              ))}
+            </div>
+            <div className="h-64 bg-gray-300 rounded"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">

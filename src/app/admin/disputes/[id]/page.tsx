@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/Button';
 import { ArrowLeft, MessageSquare, FileText, CheckCircle, XCircle, AlertTriangle, Send, User, Calendar } from 'lucide-react';
@@ -9,61 +9,80 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
   const router = useRouter();
   const [resolution, setResolution] = useState('');
   const [newMessage, setNewMessage] = useState('');
-  const [disputeData, setDisputeData] = useState({
-    id: params.id,
-    title: 'Contract Breach - Payment Delay',
-    parties: 'John Doe vs Sarah Smith',
-    status: 'open',
-    priority: 'high',
-    created: '2024-01-20',
-    description: 'Investor claims landowner delayed payment release after milestone completion. The contract specifies payments should be released within 7 days of milestone verification, but landowner has not complied.',
-    plaintiff: {
-      id: '2',
-      name: 'Sarah Smith',
-      role: 'investor',
-      email: 'sarah@example.com',
-    },
-    defendant: {
-      id: '1',
-      name: 'John Doe',
-      role: 'landowner',
-      email: 'john@example.com',
-    },
-    contract: {
-      id: 'C001',
-      title: 'Coffee Farm Investment Agreement',
-      value: 37500,
-      signed: '2024-01-15',
-    },
-    evidence: [
-      { id: '1', name: 'Milestone Completion Report', type: 'Report', uploaded: '2024-01-18', uploadedBy: 'John Doe' },
-      { id: '2', name: 'Payment Request Email', type: 'Email', uploaded: '2024-01-19', uploadedBy: 'Sarah Smith' },
-      { id: '3', name: 'Contract Terms', type: 'Document', uploaded: '2024-01-20', uploadedBy: 'System' },
-    ],
-    messages: [
-      {
-        id: '1',
-        sender: 'Sarah Smith',
-        senderRole: 'investor',
-        message: 'The milestone was completed on January 15th, but I have not received payment yet. According to the contract, payment should be released within 7 days.',
-        timestamp: '2024-01-20 10:30 AM',
-      },
-      {
-        id: '2',
-        sender: 'John Doe',
-        senderRole: 'landowner',
-        message: 'I apologize for the delay. There was an issue with the escrow service. I will resolve this immediately.',
-        timestamp: '2024-01-20 2:15 PM',
-      },
-      {
-        id: '3',
-        sender: 'Admin',
-        senderRole: 'admin',
-        message: 'I have reviewed the contract and evidence. The payment is indeed overdue. Please provide an update on when the payment will be released.',
-        timestamp: '2024-01-21 9:45 AM',
-      },
-    ],
-  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [disputeData, setDisputeData] = useState<any>(null);
+
+  useEffect(() => {
+    // Mock API call - in real app, fetch from /api/admin/disputes/[id]
+    const fetchDispute = async () => {
+      try {
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 500));
+        setDisputeData({
+          id: params.id,
+          title: 'Contract Breach - Payment Delay',
+          parties: 'John Doe vs Sarah Smith',
+          status: 'open',
+          priority: 'high',
+          created: '2024-01-20',
+          description: 'Investor claims landowner delayed payment release after milestone completion. The contract specifies payments should be released within 7 days of milestone verification, but landowner has not complied.',
+          plaintiff: {
+            id: '2',
+            name: 'Sarah Smith',
+            role: 'investor',
+            email: 'sarah@example.com',
+          },
+          defendant: {
+            id: '1',
+            name: 'John Doe',
+            role: 'landowner',
+            email: 'john@example.com',
+          },
+          contract: {
+            id: 'C001',
+            title: 'Coffee Farm Investment Agreement',
+            value: 37500,
+            signed: '2024-01-15',
+          },
+          evidence: [
+            { id: '1', name: 'Milestone Completion Report', type: 'Report', uploaded: '2024-01-18', uploadedBy: 'John Doe' },
+            { id: '2', name: 'Payment Request Email', type: 'Email', uploaded: '2024-01-19', uploadedBy: 'Sarah Smith' },
+            { id: '3', name: 'Contract Terms', type: 'Document', uploaded: '2024-01-20', uploadedBy: 'System' },
+          ],
+          messages: [
+            {
+              id: '1',
+              sender: 'Sarah Smith',
+              senderRole: 'investor',
+              message: 'The milestone was completed on January 15th, but I have not received payment yet. According to the contract, payment should be released within 7 days.',
+              timestamp: '2024-01-20 10:30 AM',
+            },
+            {
+              id: '2',
+              sender: 'John Doe',
+              senderRole: 'landowner',
+              message: 'I apologize for the delay. There was an issue with the escrow service. I will resolve this immediately.',
+              timestamp: '2024-01-20 2:15 PM',
+            },
+            {
+              id: '3',
+              sender: 'Admin',
+              senderRole: 'admin',
+              message: 'I have reviewed the contract and evidence. The payment is indeed overdue. Please provide an update on when the payment will be released.',
+              timestamp: '2024-01-21 9:45 AM',
+            },
+          ],
+        });
+      } catch (error) {
+        setError('Failed to load dispute data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDispute();
+  }, [params.id]);
 
   const handleResolve = (status: 'resolved' | 'dismissed') => {
     if (!resolution.trim()) return;
@@ -95,6 +114,47 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
 
     setNewMessage('');
   };
+
+  if (loading) {
+    return (
+      <div className="p-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="animate-pulse">
+            <div className="flex items-center space-x-4 mb-8">
+              <div className="h-5 w-5 bg-gray-300 rounded"></div>
+              <div className="h-8 bg-gray-300 rounded w-1/3"></div>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="lg:col-span-2 space-y-6">
+                <div className="h-64 bg-gray-300 rounded"></div>
+                <div className="h-48 bg-gray-300 rounded"></div>
+              </div>
+              <div className="space-y-6">
+                <div className="h-32 bg-gray-300 rounded"></div>
+                <div className="h-32 bg-gray-300 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !disputeData) {
+    return (
+      <div className="p-8">
+        <div className="max-w-6xl mx-auto text-center">
+          <div className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-6">
+            <h2 className="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">Error Loading Dispute</h2>
+            <p className="text-red-600 dark:text-red-300 mb-4">{error}</p>
+            <Button onClick={() => window.location.reload()}>
+              Try Again
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-8">

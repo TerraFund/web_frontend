@@ -88,26 +88,26 @@ export default function BrowseLands() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">Browse Lands</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">Discover investment opportunities in sustainable agriculture</p>
+          <h1 className="text-4xl font-bold text-gray-900">Browse Lands</h1>
+          <p className="text-lg text-gray-600">Discover investment opportunities in sustainable agriculture</p>
         </div>
 
         {/* Search and Controls */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-8">
+        <div className="bg-white">
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Search Bar */}
             <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-5 h-5" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search by location, crop type, or land name..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full pl-12 pr-4 py-3 border border-gray-200"
               />
             </div>
 
@@ -118,20 +118,20 @@ export default function BrowseLands() {
                 className={`flex items-center gap-2 px-4 py-3 rounded-xl font-medium transition-all duration-200 ${
                   showFilters
                     ? 'bg-primary text-white'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    : 'bg-gray-100
                 }`}
               >
                 <Filter className="w-5 h-5" />
                 Filters
               </button>
 
-              <div className="flex items-center border border-gray-200 dark:border-gray-700 rounded-xl">
+              <div className="flex items-center border border-gray-200">
                 <button
                   onClick={() => setViewMode('grid')}
                   className={`p-3 rounded-l-xl transition-all duration-200 ${
                     viewMode === 'grid'
                       ? 'bg-primary text-white'
-                      : 'text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
+                      : 'text-gray-600
                   }`}
                 >
                   <Grid className="w-5 h-5" />
@@ -141,7 +141,7 @@ export default function BrowseLands() {
                   className={`p-3 rounded-r-xl transition-all duration-200 ${
                     viewMode === 'list'
                       ? 'bg-primary text-white'
-                      : 'text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
+                      : 'text-gray-600
                   }`}
                 >
                   <List className="w-5 h-5" />
@@ -151,7 +151,7 @@ export default function BrowseLands() {
                <select
                  value={sortBy}
                  onChange={(e) => setSortBy(e.target.value)}
-                 className="px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent"
+                 className="px-4 py-3 border border-gray-200"
                >
                  <option value="newest">Newest First</option>
                  <option value="price-low">Price: Low to High</option>
@@ -175,7 +175,7 @@ export default function BrowseLands() {
 
           {/* Filters Panel */}
           {showFilters && (
-            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+            <div className="mt-6 pt-6 border-t border-gray-200">
               <LandFilters onFiltersChange={handleFiltersChange} />
             </div>
           )}
@@ -185,33 +185,33 @@ export default function BrowseLands() {
          <div className="bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 rounded-2xl p-6 mb-8">
            <div className="flex items-center mb-4">
              <Sparkles className="w-6 h-6 text-accent mr-3" />
-             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">AI Recommendations</h2>
+             <h2 className="text-xl font-semibold text-gray-900">AI Recommendations</h2>
            </div>
-           <p className="text-gray-600 dark:text-gray-300 mb-4">
+           <p className="text-gray-600">
              Based on your profile and market trends, here are personalized land investment opportunities:
            </p>
            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-             <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
-               <h3 className="font-medium text-gray-900 dark:text-white mb-2">High ROI Potential</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Coffee farms in Central Rwanda showing 15-20% annual returns</p>
+             <div className="bg-white">
+               <h3 className="font-medium text-gray-900">High ROI Potential</h3>
+                <p className="text-sm text-gray-600">Coffee farms in Central Rwanda showing 15-20% annual returns</p>
              </div>
-             <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
-               <h3 className="font-medium text-gray-900 dark:text-white mb-2">Sustainable Focus</h3>
-               <p className="text-sm text-gray-600 dark:text-gray-400">Organic maize fields with water conservation features</p>
+             <div className="bg-white">
+               <h3 className="font-medium text-gray-900">Sustainable Focus</h3>
+               <p className="text-sm text-gray-600">Organic maize fields with water conservation features</p>
              </div>
-             <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
-               <h3 className="font-medium text-gray-900 dark:text-white mb-2">Market Trend</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Increasing demand for avocado orchards in Western Rwanda</p>
+             <div className="bg-white">
+               <h3 className="font-medium text-gray-900">Market Trend</h3>
+                <p className="text-sm text-gray-600">Increasing demand for avocado orchards in Western Rwanda</p>
              </div>
            </div>
          </div>
 
          {/* Results Count */}
          <div className="flex items-center justify-between mb-6">
-           <p className="text-gray-600 dark:text-gray-300">
-             Showing <span className="font-semibold text-gray-900 dark:text-white">{filteredLands.length}</span> lands
+           <p className="text-gray-600">
+             Showing <span className="font-semibold text-gray-900">{filteredLands.length}</span> lands
            </p>
-           <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+           <div className="flex items-center gap-2 text-sm text-gray-500">
              <MapPin className="w-4 h-4" />
               Central Rwanda • Eastern Rwanda • Western Rwanda
            </div>
@@ -240,21 +240,21 @@ export default function BrowseLands() {
 
             {filteredLands.length === 0 && (
               <div className="text-center py-12">
-                <MapPin className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No lands found</h3>
-                <p className="text-gray-600 dark:text-gray-300">Try adjusting your search criteria or filters</p>
+                <MapPin className="w-16 h-16 text-gray-300" />
+                <h3 className="text-xl font-semibold text-gray-900">No lands found</h3>
+                <p className="text-gray-600">Try adjusting your search criteria or filters</p>
               </div>
             )}
           </div>
 
           <div className="lg:col-span-1 space-y-6">
             {/* Map View */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <div className="bg-white">
+              <h3 className="text-lg font-semibold text-gray-900">
                 <MapPin className="w-5 h-5 text-primary" />
                 Map View
               </h3>
-              <Suspense fallback={<div className="h-64 bg-gray-200 dark:bg-gray-700 rounded-xl animate-pulse"></div>}>
+              <Suspense fallback={<div className="h-64 bg-gray-200"></div>}>
                 <Map
                   center={[-1.2864, 36.8172]}
                   zoom={8}
@@ -268,51 +268,51 @@ export default function BrowseLands() {
             </div>
 
             {/* Quick Stats */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Market Overview</h3>
+            <div className="bg-white">
+              <h3 className="text-lg font-semibold text-gray-900">Market Overview</h3>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">Total Lands</span>
+                  <span className="text-sm text-gray-600">Total Lands</span>
                   <span className="text-lg font-bold text-primary">{mockLands.length}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">Average Price</span>
+                  <span className="text-sm text-gray-600">Average Price</span>
                   <span className="text-lg font-bold text-accent">$1,500/acre</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">Regions</span>
+                  <span className="text-sm text-gray-600">Regions</span>
                   <span className="text-lg font-bold text-secondary">3</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">Total Area</span>
+                  <span className="text-sm text-gray-600">Total Area</span>
                   <span className="text-lg font-bold text-primary">90 acres</span>
                 </div>
               </div>
             </div>
 
             {/* Recent Activity */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Recent Activity</h3>
+            <div className="bg-white">
+              <h3 className="text-lg font-semibold text-gray-900">Recent Activity</h3>
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
                   <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
                   <div>
-                     <p className="text-sm text-gray-900 dark:text-white">New land listing in Central Rwanda</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">2 hours ago</p>
+                     <p className="text-sm text-gray-900">New land listing in Central Rwanda</p>
+                    <p className="text-xs text-gray-500">2 hours ago</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
                   <div>
-                    <p className="text-sm text-gray-900 dark:text-white">Investment proposal submitted</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">5 hours ago</p>
+                    <p className="text-sm text-gray-900">Investment proposal submitted</p>
+                    <p className="text-xs text-gray-500">5 hours ago</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-2 h-2 bg-purple-500 rounded-full mt-2"></div>
                   <div>
-                    <p className="text-sm text-gray-900 dark:text-white">Contract signed for Fruit Orchard</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">1 day ago</p>
+                    <p className="text-sm text-gray-900">Contract signed for Fruit Orchard</p>
+                    <p className="text-xs text-gray-500">1 day ago</p>
                   </div>
                 </div>
               </div>

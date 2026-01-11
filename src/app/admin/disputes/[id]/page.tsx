@@ -156,9 +156,9 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
     return (
       <div className="p-8">
         <div className="max-w-6xl mx-auto text-center">
-          <div className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-6">
-            <h2 className="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">Error Loading Dispute</h2>
-            <p className="text-red-600 dark:text-red-300 mb-4">{error}</p>
+          <div className="bg-red-50">
+            <h2 className="text-lg font-semibold text-red-800">Error Loading Dispute</h2>
+            <p className="text-red-600">{error}</p>
             <Button onClick={() => window.location.reload()}>
               Try Again
             </Button>
@@ -176,31 +176,31 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
           <div className="flex items-center space-x-4">
             <button
               onClick={() => router.back()}
-              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              className="p-2 hover:bg-gray-100"
             >
               <ArrowLeft className="h-5 w-5" />
             </button>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{disputeData.title}</h1>
-              <p className="text-gray-600 dark:text-gray-400">Dispute ID: {disputeData.id}</p>
+              <h1 className="text-3xl font-bold text-gray-900">{disputeData.title}</h1>
+              <p className="text-gray-600">Dispute ID: {disputeData.id}</p>
             </div>
           </div>
           <div className="flex items-center space-x-3">
             <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${
               disputeData.status === 'open'
-                ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                ? 'bg-red-100 text-red-800
                 : disputeData.status === 'investigating'
-                ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                ? 'bg-yellow-100 text-yellow-800
+                : 'bg-green-100 text-green-800
             }`}>
               {disputeData.status}
             </span>
             <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${
               disputeData.priority === 'high'
-                ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                ? 'bg-red-100 text-red-800
                 : disputeData.priority === 'medium'
-                ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                ? 'bg-yellow-100 text-yellow-800
+                : 'bg-green-100 text-green-800
             }`}>
               {disputeData.priority} Priority
             </span>
@@ -211,70 +211,70 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Dispute Details */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-              <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Dispute Details</h2>
+            <div className="bg-white">
+              <h2 className="text-xl font-semibold mb-4 text-gray-900">Dispute Details</h2>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
-                  <p className="text-gray-600 dark:text-gray-400">{disputeData.description}</p>
+                  <label className="block text-sm font-medium text-gray-700">Description</label>
+                  <p className="text-gray-600">{disputeData.description}</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Created</label>
-                    <p className="text-gray-900 dark:text-white flex items-center">
+                    <label className="block text-sm font-medium text-gray-700">Created</label>
+                    <p className="text-gray-900">
                       <Calendar className="h-4 w-4 mr-2 text-gray-500" />
                       {disputeData.created}
                     </p>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Related Contract</label>
-                    <p className="text-gray-900 dark:text-white">{disputeData.contract.title} (${disputeData.contract.value.toLocaleString()})</p>
+                    <label className="block text-sm font-medium text-gray-700">Related Contract</label>
+                    <p className="text-gray-900">{disputeData.contract.title} (${disputeData.contract.value.toLocaleString()})</p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Parties Involved */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-              <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Parties Involved</h2>
+            <div className="bg-white">
+              <h2 className="text-xl font-semibold mb-4 text-gray-900">Parties Involved</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-                  <h3 className="font-medium text-gray-900 dark:text-white mb-2">Plaintiff</h3>
+                <div className="p-4 border border-gray-200">
+                  <h3 className="font-medium text-gray-900">Plaintiff</h3>
                   <div className="space-y-2">
-                    <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center">
+                    <p className="text-sm text-gray-600">
                       <User className="h-4 w-4 mr-2" />
                       {disputeData.plaintiff.name}
                     </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 capitalize">{disputeData.plaintiff.role}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{disputeData.plaintiff.email}</p>
+                    <p className="text-sm text-gray-600">{disputeData.plaintiff.role}</p>
+                    <p className="text-sm text-gray-600">{disputeData.plaintiff.email}</p>
                   </div>
                 </div>
-                <div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
-                  <h3 className="font-medium text-gray-900 dark:text-white mb-2">Defendant</h3>
+                <div className="p-4 border border-gray-200">
+                  <h3 className="font-medium text-gray-900">Defendant</h3>
                   <div className="space-y-2">
-                    <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center">
+                    <p className="text-sm text-gray-600">
                       <User className="h-4 w-4 mr-2" />
                       {disputeData.defendant.name}
                     </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 capitalize">{disputeData.defendant.role}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{disputeData.defendant.email}</p>
+                    <p className="text-sm text-gray-600">{disputeData.defendant.role}</p>
+                    <p className="text-sm text-gray-600">{disputeData.defendant.email}</p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Evidence */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-              <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white flex items-center">
+            <div className="bg-white">
+              <h2 className="text-xl font-semibold mb-4 text-gray-900">
                 <FileText className="h-5 w-5 mr-2 text-primary" />
                 Evidence
               </h2>
               <div className="space-y-3">
                 {disputeData.evidence.map((evidence) => (
-                  <div key={evidence.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <div key={evidence.id} className="flex items-center justify-between p-3 bg-gray-50">
                     <div>
-                      <p className="font-medium text-gray-900 dark:text-white">{evidence.name}</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                      <p className="font-medium text-gray-900">{evidence.name}</p>
+                      <p className="text-sm text-gray-600">
                         Type: {evidence.type} • Uploaded by: {evidence.uploadedBy} • {evidence.uploaded}
                       </p>
                     </div>
@@ -288,11 +288,11 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
 
             {/* Resolution */}
             {disputeData.status !== 'resolved' && disputeData.status !== 'dismissed' && (
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Resolution</h2>
+              <div className="bg-white">
+                <h2 className="text-xl font-semibold mb-4 text-gray-900">Resolution</h2>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-gray-700">
                       Resolution Details
                     </label>
                     <textarea
@@ -300,7 +300,7 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
                       onChange={(e) => setResolution(e.target.value)}
                       rows={4}
                       placeholder="Describe how this dispute was resolved..."
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300"
                     />
                   </div>
                   <div className="flex space-x-3">
@@ -330,21 +330,21 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Communication */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-              <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white flex items-center">
+            <div className="bg-white">
+              <h3 className="text-lg font-semibold mb-4 text-gray-900">
                 <MessageSquare className="h-5 w-5 mr-2 text-primary" />
                 Communication
               </h3>
               <div className="space-y-4 max-h-96 overflow-y-auto">
                 {disputeData.messages.map((message) => (
-                  <div key={message.id} className="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <div key={message.id} className="p-3 bg-gray-50">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium text-sm text-gray-900 dark:text-white">
+                      <span className="font-medium text-sm text-gray-900">
                         {message.sender} ({message.senderRole})
                       </span>
-                      <span className="text-xs text-gray-500 dark:text-gray-400">{message.timestamp}</span>
+                      <span className="text-xs text-gray-500">{message.timestamp}</span>
                     </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{message.message}</p>
+                    <p className="text-sm text-gray-600">{message.message}</p>
                   </div>
                 ))}
               </div>
@@ -355,7 +355,7 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
                     onChange={(e) => setNewMessage(e.target.value)}
                     rows={3}
                     placeholder="Send a message to both parties..."
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300"
                   />
                   <Button onClick={handleSendMessage} disabled={!newMessage.trim()} className="w-full">
                     <Send className="h-4 w-4 mr-2" />
@@ -366,8 +366,8 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-              <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Quick Actions</h3>
+            <div className="bg-white">
+              <h3 className="text-lg font-semibold mb-4 text-gray-900">Quick Actions</h3>
               <div className="space-y-3">
                 <Button variant="outline" className="w-full justify-start">
                   <FileText className="h-4 w-4 mr-2" />

@@ -5,10 +5,8 @@ import { RootState } from '@/store';
 import { Facebook, Twitter, Instagram, Mail } from 'lucide-react';
 
 export default function Footer() {
-  const { darkMode } = useSelector((state: RootState) => state.ui);
-
   return (
-    <footer className={`w-full ${darkMode ? 'bg-background_dark text-text_secondary' : 'bg-background_light text-gray-600'} py-12`}>
+    <footer className="w-full bg-background_light text-gray-600 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
@@ -47,7 +45,7 @@ export default function Footer() {
               <input
                 type="email"
                 placeholder="Subscribe to newsletter"
-                className={`w-full px-3 py-2 rounded-lg ${darkMode ? 'bg-gray-700 text-white' : 'bg-white text-gray-900'} border`}
+                className="w-full px-3 py-2 rounded-lg bg-white text-gray-900 border"
               />
               <button className="mt-2 w-full bg-primary text-white py-2 rounded-lg hover:bg-accent">
                 Subscribe
@@ -55,7 +53,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 text-center text-sm">
+        <div className="mt-8 pt-8 border-t border-gray-200">
           <p>&copy; 2025 TerraFund. All rights reserved.</p>
         </div>
       </div>

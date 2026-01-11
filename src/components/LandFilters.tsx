@@ -39,15 +39,15 @@ export default function LandFilters({ onFiltersChange }: LandFiltersProps) {
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+    <div className="bg-white">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+        <h3 className="text-lg font-semibold text-gray-900">
           <Filter className="h-5 w-5 mr-2" />
           Filters
         </h3>
         <button
           onClick={clearFilters}
-          className="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 flex items-center"
+          className="text-sm text-gray-500 hover:text-gray-700"
         >
           <X className="h-4 w-4 mr-1" />
           Clear
@@ -56,21 +56,21 @@ export default function LandFilters({ onFiltersChange }: LandFiltersProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className="block text-sm font-medium text-gray-700">
             Size (acres)
           </label>
           <div className="flex space-x-2">
             <input
               type="number"
               placeholder="Min"
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+              className="w-full px-3 py-2 border border-gray-300"
               value={filters.sizeMin}
               onChange={(e) => handleChange('sizeMin', e.target.value)}
             />
             <input
               type="number"
               placeholder="Max"
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+              className="w-full px-3 py-2 border border-gray-300"
               value={filters.sizeMax}
               onChange={(e) => handleChange('sizeMax', e.target.value)}
             />
@@ -78,11 +78,11 @@ export default function LandFilters({ onFiltersChange }: LandFiltersProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className="block text-sm font-medium text-gray-700">
             Region
           </label>
           <select
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+            className="w-full px-3 py-2 border border-gray-300"
             value={filters.region}
             onChange={(e) => handleChange('region', e.target.value)}
           >
@@ -97,11 +97,11 @@ export default function LandFilters({ onFiltersChange }: LandFiltersProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className="block text-sm font-medium text-gray-700">
             Soil Quality
           </label>
           <select
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+            className="w-full px-3 py-2 border border-gray-300"
             value={filters.soilQuality}
             onChange={(e) => handleChange('soilQuality', e.target.value)}
           >
@@ -114,11 +114,11 @@ export default function LandFilters({ onFiltersChange }: LandFiltersProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className="block text-sm font-medium text-gray-700">
             Water Source
           </label>
           <select
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+            className="w-full px-3 py-2 border border-gray-300"
             value={filters.waterSource}
             onChange={(e) => handleChange('waterSource', e.target.value)}
           >
@@ -132,21 +132,21 @@ export default function LandFilters({ onFiltersChange }: LandFiltersProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className="block text-sm font-medium text-gray-700">
             Elevation (m)
           </label>
           <div className="flex space-x-2">
             <input
               type="number"
               placeholder="Min"
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+              className="w-full px-3 py-2 border border-gray-300"
               value={filters.elevationMin}
               onChange={(e) => handleChange('elevationMin', e.target.value)}
             />
             <input
               type="number"
               placeholder="Max"
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white text-sm"
+              className="w-full px-3 py-2 border border-gray-300"
               value={filters.elevationMax}
               onChange={(e) => handleChange('elevationMax', e.target.value)}
             />

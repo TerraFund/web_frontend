@@ -86,7 +86,7 @@ export default function NotificationDropdown() {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 hover:scale-110"
+        className="relative p-2 text-gray-400 hover:text-gray-600"
       >
         <Bell className={`h-6 w-6 transition-all duration-200 ${unreadCount > 0 ? 'animate-pulse' : ''}`} />
         {unreadCount > 0 && (
@@ -97,19 +97,19 @@ export default function NotificationDropdown() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 animate-in slide-in-from-top-4 duration-300">
-          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="absolute right-0 mt-2 w-80 bg-white">
+          <div className="p-4 border-b border-gray-200">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Notifications</h3>
+              <h3 className="text-lg font-semibold text-gray-900">Notifications</h3>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                className="text-gray-400 hover:text-gray-600"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
             {unreadCount > 0 && (
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              <p className="text-sm text-gray-500">
                 {unreadCount} unread notification{unreadCount !== 1 ? 's' : ''}
               </p>
             )}
@@ -117,7 +117,7 @@ export default function NotificationDropdown() {
 
           <div className="max-h-96 overflow-y-auto">
             {notifications.length === 0 ? (
-              <div className="p-8 text-center text-gray-500 dark:text-gray-400">
+              <div className="p-8 text-center text-gray-500">
                 <Bell className="h-8 w-8 mx-auto mb-2 opacity-50" />
                 <p>No notifications yet</p>
               </div>
@@ -125,7 +125,7 @@ export default function NotificationDropdown() {
               notifications.map((notification, index) => (
                 <div
                   key={notification.id}
-                  className={`p-4 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-all duration-200 hover:scale-[1.02] animate-in slide-in-from-bottom-4`}
+                  className={`p-4 border-b border-gray-100
                   style={{ animationDelay: `${index * 50}ms` }}
                   onClick={() => markAsRead(notification.id)}
                 >
@@ -134,13 +134,13 @@ export default function NotificationDropdown() {
                       {getIcon(notification.type)}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      <p className="text-sm font-medium text-gray-900">
                         {notification.title}
                       </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 truncate">
+                      <p className="text-sm text-gray-600">
                         {notification.message}
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                      <p className="text-xs text-gray-500">
                         {notification.timestamp}
                       </p>
                     </div>
@@ -153,7 +153,7 @@ export default function NotificationDropdown() {
             )}
           </div>
 
-          <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="p-4 border-t border-gray-200">
             <button className="text-sm text-primary hover:text-accent transition-colors duration-200 hover:underline">
               View all notifications →
             </button>

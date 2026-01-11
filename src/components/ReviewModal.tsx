@@ -34,16 +34,16 @@ export default function ReviewModal({ targetUserId, targetUserName, onSubmit }: 
 
   return (
     <div className="max-w-md w-full">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+      <h2 className="text-2xl font-bold text-gray-900">
         Leave a Review
       </h2>
-      <p className="text-gray-600 dark:text-gray-400 mb-6">
+      <p className="text-gray-600">
         Share your experience with <strong>{targetUserName}</strong>
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+          <label className="block text-sm font-medium text-gray-700">
             Rating
           </label>
           <div className="flex space-x-1">
@@ -67,18 +67,18 @@ export default function ReviewModal({ targetUserId, targetUserName, onSubmit }: 
             ))}
           </div>
           {rating > 0 && (
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+            <p className="text-sm text-gray-600">
               {rating} star{rating !== 1 ? 's' : ''}
             </p>
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-gray-700">
             Comment (Optional)
           </label>
           <textarea
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 resize-none"
+            className="w-full px-3 py-2 border border-gray-300"
             rows={4}
             placeholder="Tell others about your experience..."
             value={comment}

@@ -104,9 +104,9 @@ export default function AdminSettingsPage() {
     return (
       <div className="p-8">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-6">
-            <h2 className="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">Error</h2>
-            <p className="text-red-600 dark:text-red-300 mb-4">{error}</p>
+          <div className="bg-red-50">
+            <h2 className="text-lg font-semibold text-red-800">Error</h2>
+            <p className="text-red-600">{error}</p>
             <Button onClick={() => window.location.reload()}>
               Try Again
             </Button>
@@ -133,12 +133,12 @@ export default function AdminSettingsPage() {
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center space-x-3 mb-8">
           <Settings className="h-8 w-8 text-primary" />
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Platform Settings</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Platform Settings</h1>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
+        <div className="bg-white">
           {/* Tabs */}
-          <div className="border-b border-gray-200 dark:border-gray-700">
+          <div className="border-b border-gray-200">
             <nav className="flex">
               {[
                 { id: 'platform', label: 'Platform', icon: Globe },
@@ -171,50 +171,50 @@ export default function AdminSettingsPage() {
             {/* Platform Settings */}
             {activeTab === 'platform' && (
               <div className="space-y-6">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Platform Configuration</h2>
+                <h2 className="text-xl font-semibold text-gray-900">Platform Configuration</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-gray-700">
                       Platform Name
                     </label>
                     <input
                       type="text"
                       value={settings.platform.name}
                       onChange={(e) => updateSetting('platform', 'name', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-gray-700">
                       Contact Email
                     </label>
                     <input
                       type="email"
                       value={settings.platform.contactEmail}
                       onChange={(e) => updateSetting('platform', 'contactEmail', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300"
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-gray-700">
                       Description
                     </label>
                     <textarea
                       value={settings.platform.description}
                       onChange={(e) => updateSetting('platform', 'description', e.target.value)}
                       rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-gray-700">
                       Support Email
                     </label>
                     <input
                       type="email"
                       value={settings.platform.supportEmail}
                       onChange={(e) => updateSetting('platform', 'supportEmail', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300"
                     />
                   </div>
                 </div>
@@ -224,28 +224,28 @@ export default function AdminSettingsPage() {
             {/* Security Settings */}
             {activeTab === 'security' && (
               <div className="space-y-6">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Security Configuration</h2>
+                <h2 className="text-xl font-semibold text-gray-900">Security Configuration</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-gray-700">
                       Session Timeout (minutes)
                     </label>
                     <input
                       type="number"
                       value={settings.security.sessionTimeout}
                       onChange={(e) => updateSetting('security', 'sessionTimeout', parseInt(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-gray-700">
                       Minimum Password Length
                     </label>
                     <input
                       type="number"
                       value={settings.security.passwordMinLength}
                       onChange={(e) => updateSetting('security', 'passwordMinLength', parseInt(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300"
                     />
                   </div>
                   <div className="md:col-span-2">
@@ -256,13 +256,13 @@ export default function AdminSettingsPage() {
                         onChange={(e) => updateSetting('security', 'twoFactorRequired', e.target.checked)}
                         className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
                       />
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <span className="text-sm font-medium text-gray-700">
                         Require Two-Factor Authentication
                       </span>
                     </label>
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-gray-700">
                       IP Whitelist (comma-separated)
                     </label>
                     <textarea
@@ -270,7 +270,7 @@ export default function AdminSettingsPage() {
                       onChange={(e) => updateSetting('security', 'ipWhitelist', e.target.value)}
                       placeholder="192.168.1.1, 10.0.0.1"
                       rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300"
                     />
                   </div>
                 </div>
@@ -280,10 +280,10 @@ export default function AdminSettingsPage() {
             {/* Payment Settings */}
             {activeTab === 'payments' && (
               <div className="space-y-6">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Payment Configuration</h2>
+                <h2 className="text-xl font-semibold text-gray-900">Payment Configuration</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-gray-700">
                       Escrow Fee (%)
                     </label>
                     <input
@@ -291,11 +291,11 @@ export default function AdminSettingsPage() {
                       step="0.1"
                       value={settings.payments.escrowFee}
                       onChange={(e) => updateSetting('payments', 'escrowFee', parseFloat(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-gray-700">
                       Platform Fee (%)
                     </label>
                     <input
@@ -303,39 +303,39 @@ export default function AdminSettingsPage() {
                       step="0.1"
                       value={settings.payments.platformFee}
                       onChange={(e) => updateSetting('payments', 'platformFee', parseFloat(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-gray-700">
                       Minimum Investment ($)
                     </label>
                     <input
                       type="number"
                       value={settings.payments.minInvestment}
                       onChange={(e) => updateSetting('payments', 'minInvestment', parseInt(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-gray-700">
                       Maximum Investment ($)
                     </label>
                     <input
                       type="number"
                       value={settings.payments.maxInvestment}
                       onChange={(e) => updateSetting('payments', 'maxInvestment', parseInt(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-gray-700">
                       Default Currency
                     </label>
                     <select
                       value={settings.payments.currency}
                       onChange={(e) => updateSetting('payments', 'currency', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300"
                     >
                       <option value="USD">USD</option>
                       <option value="EUR">EUR</option>
@@ -349,7 +349,7 @@ export default function AdminSettingsPage() {
             {/* Notification Settings */}
             {activeTab === 'notifications' && (
               <div className="space-y-6">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Notification Preferences</h2>
+                <h2 className="text-xl font-semibold text-gray-900">Notification Preferences</h2>
                 <div className="space-y-4">
                   {[
                     { key: 'emailNotifications', label: 'Email Notifications' },
@@ -364,7 +364,7 @@ export default function AdminSettingsPage() {
                         onChange={(e) => updateSetting('notifications', setting.key, e.target.checked)}
                         className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
                       />
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <span className="text-sm font-medium text-gray-700">
                         {setting.label}
                       </span>
                     </label>
@@ -376,7 +376,7 @@ export default function AdminSettingsPage() {
             {/* Feature Settings */}
             {activeTab === 'features' && (
               <div className="space-y-6">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Feature Toggles</h2>
+                <h2 className="text-xl font-semibold text-gray-900">Feature Toggles</h2>
                 <div className="space-y-4">
                   {[
                     { key: 'aiRecommendations', label: 'AI Recommendations' },
@@ -391,7 +391,7 @@ export default function AdminSettingsPage() {
                         onChange={(e) => updateSetting('features', feature.key, e.target.checked)}
                         className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
                       />
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <span className="text-sm font-medium text-gray-700">
                         {feature.label}
                       </span>
                     </label>
@@ -401,7 +401,7 @@ export default function AdminSettingsPage() {
             )}
 
              {/* Save Button */}
-             <div className="flex justify-end pt-6 border-t border-gray-200 dark:border-gray-700">
+             <div className="flex justify-end pt-6 border-t border-gray-200">
                <Button onClick={handleSave} disabled={saving}>
                  <Save className="h-4 w-4 mr-2" />
                  {saving ? 'Saving...' : 'Save Settings'}

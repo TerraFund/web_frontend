@@ -83,11 +83,11 @@ export default function KYCUpload() {
   return (
     <div className="flex items-center justify-center min-h-screen py-12">
       <div className="max-w-2xl w-full mx-4">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
-            <h1 className="text-2xl font-bold text-center mb-6 text-gray-900 dark:text-white">
+          <div className="bg-white">
+            <h1 className="text-2xl font-bold text-center mb-6 text-gray-900">
               Upload KYC Documents
             </h1>
-            <p className="text-center text-gray-600 dark:text-gray-400 mb-8">
+            <p className="text-center text-gray-600">
               Please upload your identification documents to verify your identity.
               Accepted formats: PDF, JPG, PNG. Max size: 15MB each.
             </p>
@@ -96,14 +96,14 @@ export default function KYCUpload() {
               className={`border-2 border-dashed rounded-lg p-8 text-center mb-6 transition-all duration-200 ${
                 isDragOver
                   ? 'border-primary bg-primary/5 scale-105'
-                  : 'border-gray-300 dark:border-gray-600 hover:border-primary hover:bg-primary/5'
+                  : 'border-gray-300
               }`}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
             >
-              <Upload className={`mx-auto h-12 w-12 mb-4 transition-colors ${isDragOver ? 'text-primary' : 'text-gray-400 dark:text-gray-500'}`} />
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
+              <Upload className={`mx-auto h-12 w-12 mb-4 transition-colors ${isDragOver ? 'text-primary' : 'text-gray-400
+              <p className="text-gray-600">
                 {isDragOver ? 'Drop files here' : 'Drag and drop files here, or click to select'}
               </p>
               <input
@@ -125,23 +125,23 @@ export default function KYCUpload() {
 
             {files.length > 0 && (
               <div className="mb-6">
-                <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Selected Files</h3>
+                <h3 className="text-lg font-semibold mb-4 text-gray-900">Selected Files</h3>
                 <div className="space-y-3">
                   {files.map((file, index) => {
                     const progress = uploadProgress[file.name] || 0;
                     const isUploaded = uploadedFiles.includes(file.name);
 
                     return (
-                      <div key={index} className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg animate-in slide-in-from-bottom-4 duration-300">
+                      <div key={index} className="bg-gray-50">
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center">
                             {isUploaded ? (
                               <CheckCircle className="h-5 w-5 text-green-500 mr-3 animate-in zoom-in duration-300" />
                             ) : (
-                              <FileText className="h-5 w-5 text-gray-400 dark:text-gray-500 mr-3" />
+                              <FileText className="h-5 w-5 text-gray-400" />
                             )}
-                            <span className="text-sm text-gray-900 dark:text-white">{file.name}</span>
-                            <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">
+                            <span className="text-sm text-gray-900">{file.name}</span>
+                            <span className="text-xs text-gray-500">
                               ({(file.size / 1024 / 1024).toFixed(2)} MB)
                             </span>
                           </div>
@@ -157,11 +157,11 @@ export default function KYCUpload() {
 
                         {uploading && !isUploaded && (
                           <div className="mt-2">
-                            <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
+                            <div className="flex items-center justify-between text-xs text-gray-600">
                               <span>Uploading...</span>
                               <span>{Math.round(progress)}%</span>
                             </div>
-                            <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                            <div className="w-full bg-gray-200">
                               <div
                                 className="bg-primary h-2 rounded-full transition-all duration-300"
                                 style={{ width: `${progress}%` }}
@@ -171,7 +171,7 @@ export default function KYCUpload() {
                         )}
 
                         {isUploaded && (
-                          <div className="mt-2 text-xs text-green-600 dark:text-green-400 animate-in slide-in-from-bottom-4 duration-300">
+                          <div className="mt-2 text-xs text-green-600">
                             ✓ Upload successful
                           </div>
                         )}

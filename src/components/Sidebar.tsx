@@ -9,7 +9,7 @@ import { Home, Map, FileText, MessageSquare, CreditCard, Settings, Users, Bell, 
 export default function Sidebar() {
   const pathname = usePathname();
   const { user } = useSelector((state: RootState) => state.auth);
-  const { darkMode } = useSelector((state: RootState) => state.ui);
+
 
   const landownerLinks = [
     { href: '/dashboard', icon: Home, label: 'Dashboard' },
@@ -43,7 +43,7 @@ export default function Sidebar() {
   const links = user?.role === 'landowner' ? landownerLinks : user?.role === 'investor' ? investorLinks : adminLinks;
 
   return (
-    <aside className={`w-64 min-h-screen ${darkMode ? 'bg-secondary text-text_primary' : 'bg-white text-gray-900'} shadow-lg`}>
+    <aside className="w-64 min-h-screen bg-white text-gray-900 shadow-lg">
       <div className="p-6">
         <h2 className="text-xl font-bold text-primary">Menu</h2>
       </div>
@@ -58,7 +58,7 @@ export default function Sidebar() {
                   className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
                     isActive
                       ? 'bg-primary text-white'
-                      : `hover:bg-gray-100 dark:hover:bg-gray-700 ${
+                      : `hover:bg-gray-100
                           darkMode ? 'text-text_primary' : 'text-gray-900'
                         }`
                   }`}

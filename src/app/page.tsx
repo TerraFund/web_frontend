@@ -7,17 +7,17 @@ import { MapPin, Users, Shield } from 'lucide-react';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background_light dark:bg-background_dark">
+    <div className="min-h-screen bg-background_light">
       <Navbar />
       <main className="pt-16">
         <HeroSection />
 
         {/* How It Works */}
-        <section className="py-24 bg-white dark:bg-gray-800">
+        <section className="py-24 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">How It Works</h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              <h2 className="text-4xl font-bold text-gray-900">How It Works</h2>
+              <p className="text-xl text-gray-600">
                 Simple, secure, and sustainable process to connect landowners with investors
               </p>
             </div>
@@ -36,8 +36,8 @@ export default function Home() {
                     1
                   </div>
                 </div>
-                <h3 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">List Your Land</h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                <h3 className="text-2xl font-semibold mb-4 text-gray-900">List Your Land</h3>
+                <p className="text-gray-600">
                   Landowners register and list their unused land with comprehensive details about location, size, soil quality, and agricultural suitability.
                 </p>
               </div>
@@ -51,8 +51,8 @@ export default function Home() {
                     2
                   </div>
                 </div>
-                <h3 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">Connect with Investors</h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                <h3 className="text-2xl font-semibold mb-4 text-gray-900">Connect with Investors</h3>
+                <p className="text-gray-600">
                   Investors browse verified lands, filter by criteria, and send personalized investment proposals with competitive terms.
                 </p>
               </div>
@@ -66,8 +66,8 @@ export default function Home() {
                     3
                   </div>
                 </div>
-                <h3 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">Secure Transactions</h3>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                <h3 className="text-2xl font-semibold mb-4 text-gray-900">Secure Transactions</h3>
+                <p className="text-gray-600">
                   Negotiate terms through our platform, sign digital contracts, and complete transactions with built-in escrow protection.
                 </p>
               </div>
@@ -78,17 +78,17 @@ export default function Home() {
         <FeaturesSection />
 
         {/* Video Demo Section */}
-        <section className="py-24 bg-gray-50 dark:bg-gray-900">
+        <section className="py-24 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">See TerraFund in Action</h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              <h2 className="text-4xl font-bold text-gray-900">See TerraFund in Action</h2>
+              <p className="text-xl text-gray-600">
                 Watch how our platform connects landowners and investors seamlessly
               </p>
             </div>
 
             <div className="max-w-4xl mx-auto">
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+              <div className="bg-white">
                 <div className="aspect-video bg-gradient-to-br from-primary to-accent flex items-center justify-center">
                   <div className="text-center text-white">
                     <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -101,8 +101,8 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Platform Overview</h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  <h3 className="text-xl font-semibold text-gray-900">Platform Overview</h3>
+                  <p className="text-gray-600">
                     Learn how TerraFund revolutionizes land investment with our secure, transparent platform that connects landowners with global investors.
                   </p>
                   <div className="flex flex-wrap gap-2">
@@ -141,21 +141,21 @@ export default function Home() {
         </section>
 
         {/* Testimonials */}
-        <section className="py-24 bg-gray-50 dark:bg-gray-900">
+        <section className="py-24 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">What Our Users Say</h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              <h2 className="text-4xl font-bold text-gray-900">What Our Users Say</h2>
+              <p className="text-xl text-gray-600">
                 Real stories from landowners and investors using TerraFund
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 relative">
+              <div className="bg-white">
                 <div className="absolute top-4 right-4 text-yellow-400">
                   ★★★★★
                 </div>
-                <p className="text-gray-600 dark:text-gray-300 mb-6 text-lg leading-relaxed">
+                <p className="text-gray-600">
                   "TerraFund helped me find investors for my family farm. The process was transparent and secure. I got fair market value and the platform handled all the paperwork."
                 </p>
                 <div className="flex items-center">
@@ -163,17 +163,17 @@ export default function Home() {
                     J
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-900 dark:text-white">John Doe</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Landowner • Kigali, Rwanda</p>
+                    <p className="font-semibold text-gray-900">John Doe</p>
+                    <p className="text-sm text-gray-500">Landowner • Kigali, Rwanda</p>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 relative">
+              <div className="bg-white">
                 <div className="absolute top-4 right-4 text-yellow-400">
                   ★★★★★
                 </div>
-                <p className="text-gray-600 dark:text-gray-300 mb-6 text-lg leading-relaxed">
+                <p className="text-gray-600">
                   &ldquo;I found great investment opportunities in sustainable agriculture through TerraFund. The platform&apos;s analytics helped me make informed decisions.&rdquo;
                 </p>
                 <div className="flex items-center">
@@ -181,17 +181,17 @@ export default function Home() {
                     S
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-900 dark:text-white">Sarah Smith</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Investor • London, UK</p>
+                    <p className="font-semibold text-gray-900">Sarah Smith</p>
+                    <p className="text-sm text-gray-500">Investor • London, UK</p>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 relative">
+              <div className="bg-white">
                 <div className="absolute top-4 right-4 text-yellow-400">
                   ★★★★★
                 </div>
-                <p className="text-gray-600 dark:text-gray-300 mb-6 text-lg leading-relaxed">
+                <p className="text-gray-600">
                   &ldquo;The platform&apos;s verification process gives me confidence in every transaction. The carbon credit system is a great bonus for sustainable investing.&rdquo;
                 </p>
                 <div className="flex items-center">
@@ -199,8 +199,8 @@ export default function Home() {
                     M
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-900 dark:text-white">Mike Johnson</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Landowner • Eastern Rwanda, Rwanda</p>
+                    <p className="font-semibold text-gray-900">Mike Johnson</p>
+                    <p className="text-sm text-gray-500">Landowner • Eastern Rwanda, Rwanda</p>
                   </div>
                 </div>
               </div>

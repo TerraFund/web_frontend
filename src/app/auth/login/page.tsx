@@ -65,35 +65,35 @@ export default function Login() {
   return (
     <div className="flex items-center justify-center min-h-screen py-12">
       <div className="max-w-md w-full mx-4">
-           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
-            <h1 className="text-2xl font-bold text-center mb-6 text-gray-900 dark:text-white">{t('auth.login.title')}</h1>
+           <div className="bg-white">
+            <h1 className="text-2xl font-bold text-center mb-6 text-gray-900">{t('auth.login.title')}</h1>
              <form onSubmit={handleSubmit} className="space-y-4">
                {error && (
-                 <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3">
-                   <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+                 <div className="bg-red-50">
+                   <p className="text-sm text-red-600">{error}</p>
                  </div>
                )}
                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700">
                     {t('auth.login.email')}
                   </label>
                  <input
                    type="email"
                    required
-                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                   className="w-full px-3 py-2 border border-gray-300"
                    value={formData.email}
                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                    disabled={isLoading}
                  />
                </div>
                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-gray-700">
                     {t('auth.login.password')}
                   </label>
                  <input
                    type="password"
                    required
-                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white"
+                   className="w-full px-3 py-2 border border-gray-300"
                    value={formData.password}
                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                    disabled={isLoading}
@@ -102,7 +102,7 @@ export default function Login() {
                <div className="flex items-center">
                   <label className="flex items-center">
                     <input type="checkbox" className="mr-2" disabled={isLoading} />
-                    <span className="text-sm text-gray-600 dark:text-gray-400">{t('auth.login.rememberMe')}</span>
+                    <span className="text-sm text-gray-600">{t('auth.login.rememberMe')}</span>
                   </label>
                </div>
                <button
@@ -120,7 +120,7 @@ export default function Login() {
                   )}
                </button>
              </form>
-            <p className="text-center mt-4 text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-center mt-4 text-sm text-gray-600">
               {t('auth.login.noAccount')}{' '}
               <Link href="/auth/register" className="text-primary hover:text-accent">
                 {t('auth.login.register')}

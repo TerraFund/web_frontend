@@ -156,20 +156,20 @@ export default function Notifications() {
       case 'review':
         return <Star className="h-5 w-5 text-orange-500" />;
       default:
-        return <Bell className="h-5 w-5 text-gray-500 dark:text-gray-400" />;
+        return <Bell className="h-5 w-5 text-gray-500" />;
     }
   };
 
   const getPriorityColor = (priority?: string) => {
     switch (priority) {
       case 'high':
-        return 'border-l-red-500 bg-red-50 dark:bg-red-900/20';
+        return 'border-l-red-500 bg-red-50
       case 'medium':
-        return 'border-l-yellow-500 bg-yellow-50 dark:bg-yellow-900/20';
+        return 'border-l-yellow-500 bg-yellow-50
       case 'low':
-        return 'border-l-gray-500 bg-gray-50 dark:bg-gray-700';
+        return 'border-l-gray-500 bg-gray-50
       default:
-        return 'border-l-gray-300 bg-white dark:bg-gray-800';
+        return 'border-l-gray-300 bg-white
     }
   };
 
@@ -229,10 +229,10 @@ export default function Notifications() {
       <div className="p-8">
         <div className="max-w-4xl mx-auto">
           <div className="animate-pulse space-y-4">
-            <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-1/4"></div>
+            <div className="h-8 bg-gray-200"></div>
             <div className="space-y-3">
               {[...Array(5)].map((_, i) => (
-                <div key={i} className="h-20 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                <div key={i} className="h-20 bg-gray-200"></div>
               ))}
             </div>
           </div>
@@ -242,14 +242,14 @@ export default function Notifications() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">Notifications</h1>
-              <p className="text-lg text-gray-600 dark:text-gray-300">
+              <h1 className="text-4xl font-bold text-gray-900">Notifications</h1>
+              <p className="text-lg text-gray-600">
                 Stay updated with your latest activity and messages
               </p>
             </div>
@@ -268,19 +268,19 @@ export default function Notifications() {
         </div>
 
         {/* Filters and Actions */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
+        <div className="bg-white">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
             {/* Filters */}
             <div className="flex flex-wrap items-center space-x-4">
               <div className="flex items-center space-x-2">
-                <Filter className="h-4 w-4 text-gray-500 dark:text-gray-400" />
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Filter:</span>
+                <Filter className="h-4 w-4 text-gray-500" />
+                <span className="text-sm font-medium text-gray-700">Filter:</span>
               </div>
 
               <select
                 value={filter}
                 onChange={(e) => setFilter(e.target.value as 'all' | 'unread' | 'read')}
-                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="px-3 py-2 border border-gray-300"
               >
                 <option value="all">All Notifications</option>
                 <option value="unread">Unread Only</option>
@@ -290,7 +290,7 @@ export default function Notifications() {
               <select
                 value={typeFilter}
                 onChange={(e) => setTypeFilter(e.target.value)}
-                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="px-3 py-2 border border-gray-300"
               >
                 <option value="all">All Types</option>
                 <option value="proposal">Proposals</option>
@@ -305,7 +305,7 @@ export default function Notifications() {
             {/* Bulk Actions */}
             {selectedNotifications.length > 0 && (
               <div className="flex items-center space-x-3">
-                <span className="text-sm text-gray-600 dark:text-gray-400">
+                <span className="text-sm text-gray-600">
                   {selectedNotifications.length} selected
                 </span>
                 <Button variant="outline" size="sm" onClick={markSelectedAsRead}>
@@ -324,10 +324,10 @@ export default function Notifications() {
         {/* Notifications List */}
         <div className="space-y-4">
           {filteredNotifications.length === 0 ? (
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-12 text-center">
-              <Bell className="h-16 w-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No notifications found</h3>
-              <p className="text-gray-600 dark:text-gray-400">
+            <div className="bg-white">
+              <Bell className="h-16 w-16 text-gray-300" />
+              <h3 className="text-xl font-semibold text-gray-900">No notifications found</h3>
+              <p className="text-gray-600">
                 {filter === 'unread' ? 'You have no unread notifications.' :
                  filter === 'read' ? 'You have no read notifications.' :
                  'You have no notifications yet.'}
@@ -337,7 +337,7 @@ export default function Notifications() {
             filteredNotifications.map((notification) => (
               <div
                 key={notification.id}
-                className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg border-l-4 transition-all duration-200 hover:shadow-xl ${
+                className={`bg-white
                   getPriorityColor(notification.priority)
                 } ${!notification.read ? 'ring-2 ring-primary/20' : ''}`}
               >
@@ -368,19 +368,19 @@ export default function Notifications() {
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
                             <h3 className={`text-lg font-semibold ${
-                              notification.read ? 'text-gray-900 dark:text-white' : 'text-gray-900 dark:text-white'
+                              notification.read ? 'text-gray-900
                             }`}>
                               {notification.title}
                             </h3>
                             <p className={`mt-1 text-sm ${
-                              notification.read ? 'text-gray-600 dark:text-gray-400' : 'text-gray-700 dark:text-gray-300'
+                              notification.read ? 'text-gray-600
                             }`}>
                               {notification.message}
                             </p>
 
                             {/* Metadata */}
                             {notification.metadata && (
-                              <div className="mt-2 flex items-center space-x-4 text-xs text-gray-500 dark:text-gray-400">
+                              <div className="mt-2 flex items-center space-x-4 text-xs text-gray-500">
                                 {notification.metadata.amount && (
                                   <span className="flex items-center">
                                     <DollarSign className="h-3 w-3 mr-1" />
@@ -399,7 +399,7 @@ export default function Notifications() {
 
                           {/* Time and Actions */}
                           <div className="flex items-center space-x-2 ml-4">
-                            <span className="text-xs text-gray-500 dark:text-gray-400 flex items-center">
+                            <span className="text-xs text-gray-500">
                               <Clock className="h-3 w-3 mr-1" />
                               {formatTimeAgo(notification.createdAt)}
                             </span>
@@ -408,7 +408,7 @@ export default function Notifications() {
                               {!notification.read ? (
                                 <button
                                   onClick={() => markAsRead(notification.id)}
-                                  className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                                  className="p-1 text-gray-400 hover:text-gray-600"
                                   title="Mark as read"
                                 >
                                   <Check className="h-4 w-4" />
@@ -416,7 +416,7 @@ export default function Notifications() {
                               ) : (
                                 <button
                                   onClick={() => markAsUnread(notification.id)}
-                                  className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                                  className="p-1 text-gray-400 hover:text-gray-600"
                                   title="Mark as unread"
                                 >
                                   <Bell className="h-4 w-4" />
@@ -425,7 +425,7 @@ export default function Notifications() {
 
                               <button
                                 onClick={() => deleteNotification(notification.id)}
-                                className="p-1 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+                                className="p-1 text-gray-400 hover:text-red-600"
                                 title="Delete notification"
                               >
                                 <Trash2 className="h-4 w-4" />

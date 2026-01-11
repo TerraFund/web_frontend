@@ -67,8 +67,8 @@ export default function Map({
         const popup = new mapboxgl.Popup({ offset: 25 })
           .setHTML(`
             <div class="p-2">
-              <h3 class="font-semibold text-gray-900 dark:text-white">${marker.title}</h3>
-              ${marker.description ? `<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">${marker.description}</p>` : ''}
+              <h3 class="font-semibold text-gray-900">${marker.title}</h3>
+              ${marker.description ? `<p class="text-sm text-gray-600">${marker.description}</p>` : ''}
             </div>
           `);
 
@@ -120,8 +120,8 @@ export default function Map({
         const popup = new mapboxgl.Popup({ offset: 25 })
           .setHTML(`
             <div class="p-2">
-              <h3 class="font-semibold text-gray-900 dark:text-white">${marker.title}</h3>
-              ${marker.description ? `<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">${marker.description}</p>` : ''}
+              <h3 class="font-semibold text-gray-900">${marker.title}</h3>
+              ${marker.description ? `<p class="text-sm text-gray-600">${marker.description}</p>` : ''}
             </div>
           `);
 
@@ -139,11 +139,11 @@ export default function Map({
 
   if (!process.env.NEXT_PUBLIC_MAPBOX_TOKEN) {
     return (
-      <div className={`w-full h-96 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center ${className}`}>
+      <div className={`w-full h-96 bg-gray-100
         <div className="text-center">
           <div className="text-6xl mb-4">🗺️</div>
-           <p className="text-gray-600 dark:text-gray-400 mb-2">Interactive Map</p>
-           <p className="text-sm text-gray-500 dark:text-gray-400">
+           <p className="text-gray-600">Interactive Map</p>
+           <p className="text-sm text-gray-500">
              Mapbox token required for full functionality
            </p>
         </div>

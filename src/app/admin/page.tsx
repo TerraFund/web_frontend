@@ -128,9 +128,9 @@ export default function AdminDashboard() {
     return (
       <div className="p-8">
         <div className="max-w-7xl mx-auto text-center">
-          <div className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-6">
-            <h2 className="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">Error Loading Data</h2>
-            <p className="text-red-600 dark:text-red-300 mb-4">{error}</p>
+          <div className="bg-red-50">
+            <h2 className="text-lg font-semibold text-red-800">Error Loading Data</h2>
+            <p className="text-red-600">{error}</p>
             <Button onClick={() => window.location.reload()}>
               Try Again
             </Button>
@@ -143,43 +143,43 @@ export default function AdminDashboard() {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Admin Dashboard</h1>
+        <h1 className="text-3xl font-bold mb-8 text-gray-900">Admin Dashboard</h1>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 animate-in slide-in-from-bottom-4 duration-500">
+              <div className="bg-white">
                 <div className="flex items-center">
                   <Users className="h-8 w-8 text-primary mr-3" />
                    <div>
-                     <p className="text-2xl font-bold text-gray-900 dark:text-white">{currentStats.totalUsers}</p>
-                     <p className="text-sm text-gray-600 dark:text-gray-400">Total Users</p>
+                     <p className="text-2xl font-bold text-gray-900">{currentStats.totalUsers}</p>
+                     <p className="text-sm text-gray-600">Total Users</p>
                    </div>
                 </div>
               </div>
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 animate-in slide-in-from-bottom-4 duration-500 delay-100">
+              <div className="bg-white">
                 <div className="flex items-center">
                   <Map className="h-8 w-8 text-accent mr-3" />
                    <div>
-                     <p className="text-2xl font-bold text-gray-900 dark:text-white">{currentStats.totalLands}</p>
-                     <p className="text-sm text-gray-600 dark:text-gray-400">Total Lands</p>
+                     <p className="text-2xl font-bold text-gray-900">{currentStats.totalLands}</p>
+                     <p className="text-sm text-gray-600">Total Lands</p>
                    </div>
                 </div>
               </div>
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 animate-in slide-in-from-bottom-4 duration-500 delay-200">
+              <div className="bg-white">
                 <div className="flex items-center">
                   <BarChart3 className="h-8 w-8 text-secondary mr-3" />
                    <div>
-                     <p className="text-2xl font-bold text-gray-900 dark:text-white">{currentStats.activeDeals}</p>
-                     <p className="text-sm text-gray-600 dark:text-gray-400">Active Deals</p>
+                     <p className="text-2xl font-bold text-gray-900">{currentStats.activeDeals}</p>
+                     <p className="text-sm text-gray-600">Active Deals</p>
                    </div>
                 </div>
               </div>
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 animate-in slide-in-from-bottom-4 duration-500 delay-300">
+              <div className="bg-white">
                 <div className="flex items-center">
                   <AlertTriangle className="h-8 w-8 text-yellow-500 mr-3" />
                    <div>
-                     <p className="text-2xl font-bold text-gray-900 dark:text-white">{currentStats.pendingVerifications}</p>
-                     <p className="text-sm text-gray-600 dark:text-gray-400">Pending Verifications</p>
+                     <p className="text-2xl font-bold text-gray-900">{currentStats.pendingVerifications}</p>
+                     <p className="text-sm text-gray-600">Pending Verifications</p>
                    </div>
                 </div>
               </div>
@@ -187,7 +187,7 @@ export default function AdminDashboard() {
 
         {/* Tabs */}
         <div className="mb-6">
-              <div className="border-b border-gray-200 dark:border-gray-700">
+              <div className="border-b border-gray-200">
                 <nav className="-mb-px flex space-x-8">
                   {[
                       { id: 'overview', label: 'Overview' },
@@ -214,13 +214,13 @@ export default function AdminDashboard() {
           {/* Tab Content */}
           <div>
             {activeTab === 'users' && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-              <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+            <div className="bg-white">
+              <div className="px-6 py-4 border-b border-gray-200">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">User Management</h2>
+                  <h2 className="text-lg font-semibold text-gray-900">User Management</h2>
                   {selectedUsers.length > 0 && (
                     <div className="flex items-center space-x-2">
-                      <span className="text-sm text-gray-600 dark:text-gray-400">{selectedUsers.length} selected</span>
+                      <span className="text-sm text-gray-600">{selectedUsers.length} selected</span>
                       <Button variant="outline" size="sm" onClick={() => handleBulkUserAction('suspend')}>
                         Suspend
                       </Button>
@@ -236,9 +236,9 @@ export default function AdminDashboard() {
               </div>
                 <div className="overflow-x-auto">
                   <table className="w-full">
-                    <thead className="bg-gray-50 dark:bg-gray-700">
+                    <thead className="bg-gray-50">
                       <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">
                            <input
                              type="checkbox"
                              checked={selectedUsers.length === users.length}
@@ -246,17 +246,17 @@ export default function AdminDashboard() {
                              className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
                            />
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Name</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Email</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Role</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Joined</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Name</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Email</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Role</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Status</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Joined</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Actions</th>
                       </tr>
                     </thead>
-                       <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                       <tbody className="bg-white">
                          {users.map((user, index) => (
-                          <tr key={user.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 animate-in slide-in-from-bottom-4 duration-300" style={{ animationDelay: `${index * 50}ms` }}>
+                          <tr key={user.id} className="hover:bg-gray-50" style={{ animationDelay: `${index * 50}ms` }}>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <input
                                 type="checkbox"
@@ -269,19 +269,19 @@ export default function AdminDashboard() {
                                 className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
                               />
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{user.name}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{user.email}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 capitalize">{user.role}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{user.name}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.email}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.role}</td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
                                 user.kyc_status === 'verified'
-                                  ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                                  : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                                  ? 'bg-green-100 text-green-800
+                                  : 'bg-yellow-100 text-yellow-800
                               }`}>
                                 {user.kyc_status}
                               </span>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{new Date(user.created_at).toLocaleDateString()}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(user.created_at).toLocaleDateString()}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                               <div className="flex items-center space-x-2">
                                 <button
@@ -308,13 +308,13 @@ export default function AdminDashboard() {
             )}
 
           {activeTab === 'lands' && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-              <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+            <div className="bg-white">
+              <div className="px-6 py-4 border-b border-gray-200">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Land Management</h2>
+                  <h2 className="text-lg font-semibold text-gray-900">Land Management</h2>
                   {selectedLands.length > 0 && (
                     <div className="flex items-center space-x-2">
-                      <span className="text-sm text-gray-600 dark:text-gray-400">{selectedLands.length} selected</span>
+                      <span className="text-sm text-gray-600">{selectedLands.length} selected</span>
                       <Button variant="outline" size="sm" onClick={() => handleBulkLandAction('verify')}>
                         Verify
                       </Button>
@@ -330,9 +330,9 @@ export default function AdminDashboard() {
               </div>
                 <div className="overflow-x-auto">
                   <table className="w-full">
-                     <thead className="bg-gray-50 dark:bg-gray-700">
+                     <thead className="bg-gray-50">
                        <tr>
-                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">
                             <input
                               type="checkbox"
                               checked={selectedLands.length === lands.length}
@@ -340,16 +340,16 @@ export default function AdminDashboard() {
                               className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
                             />
                          </th>
-                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Title</th>
-                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Owner</th>
-                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
-                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Listed</th>
-                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Title</th>
+                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Owner</th>
+                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Status</th>
+                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Listed</th>
+                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Actions</th>
                        </tr>
                      </thead>
-                       <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                       <tbody className="bg-white">
                          {lands.map((land, index) => (
-                          <tr key={land.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 animate-in slide-in-from-bottom-4 duration-300" style={{ animationDelay: `${index * 50}ms` }}>
+                          <tr key={land.id} className="hover:bg-gray-50" style={{ animationDelay: `${index * 50}ms` }}>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <input
                                 type="checkbox"
@@ -362,18 +362,18 @@ export default function AdminDashboard() {
                                 className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
                               />
                             </td>
-                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{land.title}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{land.owner}</td>
+                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{land.title}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{land.owner}</td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
                                 land.verified
-                                  ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                                  : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                                  ? 'bg-green-100 text-green-800
+                                  : 'bg-yellow-100 text-yellow-800
                               }`}>
                                 {land.verified ? 'verified' : 'pending'}
                               </span>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{new Date(land.created_at).toLocaleDateString()}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(land.created_at).toLocaleDateString()}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                               <div className="flex items-center space-x-2">
                                 <button
@@ -383,10 +383,10 @@ export default function AdminDashboard() {
                                 >
                                   <Eye className="h-4 w-4" />
                                 </button>
-                                <button className="px-3 py-1 bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-200 dark:hover:bg-green-800 rounded-md transition-all duration-200 hover:scale-105 text-xs" title="Verify Land">
+                                <button className="px-3 py-1 bg-green-100 text-green-800 hover:bg-green-200" title="Verify Land">
                                   Verify
                                 </button>
-                                <button className="px-3 py-1 bg-red-100 text-red-800 hover:bg-red-200 dark:bg-red-900 dark:text-red-200 dark:hover:bg-red-800 rounded-md transition-all duration-200 hover:scale-105 text-xs" title="Hide Land">
+                                <button className="px-3 py-1 bg-red-100 text-red-800 hover:bg-red-200" title="Hide Land">
                                   Hide
                                 </button>
                               </div>
@@ -402,39 +402,39 @@ export default function AdminDashboard() {
 
 
           {activeTab === 'disputes' && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-              <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Dispute Management</h2>
+            <div className="bg-white">
+              <div className="px-6 py-4 border-b border-gray-200">
+                <h2 className="text-lg font-semibold text-gray-900">Dispute Management</h2>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full">
-                   <thead className="bg-gray-50 dark:bg-gray-700">
+                   <thead className="bg-gray-50">
                      <tr>
-                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Title</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Parties</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Priority</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Created</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Title</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Parties</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Status</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Priority</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Created</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Actions</th>
                     </tr>
                   </thead>
-                   <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                   <tbody className="bg-white">
                       {disputes.map((dispute, index) => (
-                       <tr key={dispute.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 animate-in slide-in-from-bottom-4 duration-300" style={{ animationDelay: `${index * 50}ms` }}>
+                       <tr key={dispute.id} className="hover:bg-gray-50" style={{ animationDelay: `${index * 50}ms` }}>
                          <td className="px-6 py-4 whitespace-nowrap">
                            <div>
-                             <div className="text-sm font-medium text-gray-900 dark:text-white">{dispute.title}</div>
-                             <div className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-xs">{dispute.description}</div>
+                             <div className="text-sm font-medium text-gray-900">{dispute.title}</div>
+                             <div className="text-sm text-gray-500">{dispute.description}</div>
                            </div>
                          </td>
-                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{dispute.parties}</td>
+                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{dispute.parties}</td>
                          <td className="px-6 py-4 whitespace-nowrap">
                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
                              dispute.status === 'open'
-                               ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                               ? 'bg-red-100 text-red-800
                                : dispute.status === 'investigating'
-                               ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                               : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                               ? 'bg-yellow-100 text-yellow-800
+                               : 'bg-green-100 text-green-800
                            }`}>
                              {dispute.status}
                            </span>
@@ -442,25 +442,25 @@ export default function AdminDashboard() {
                          <td className="px-6 py-4 whitespace-nowrap">
                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                              dispute.priority === 'high'
-                               ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                               ? 'bg-red-100 text-red-800
                                : dispute.priority === 'medium'
-                               ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                               : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                               ? 'bg-yellow-100 text-yellow-800
+                               : 'bg-green-100 text-green-800
                            }`}>
                              {dispute.priority}
                            </span>
                          </td>
-                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{new Date(dispute.created_at).toLocaleDateString()}</td>
+                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(dispute.created_at).toLocaleDateString()}</td>
                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                            <div className="flex items-center space-x-2">
                              <button
                                onClick={() => router.push(`/admin/disputes/${dispute.id}`)}
-                               className="px-3 py-1 bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-200 dark:hover:bg-blue-800 rounded-md transition-all duration-200 hover:scale-105 text-xs"
+                               className="px-3 py-1 bg-blue-100 text-blue-800 hover:bg-blue-200"
                              >
                                View Details
                              </button>
                             {dispute.status !== 'resolved' && (
-                              <button className="px-3 py-1 bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-200 dark:hover:bg-green-800 rounded-md transition-all duration-200 hover:scale-105 text-xs">
+                              <button className="px-3 py-1 bg-green-100 text-green-800 hover:bg-green-200">
                                 Resolve
                               </button>
                             )}
@@ -476,50 +476,50 @@ export default function AdminDashboard() {
 
           {activeTab === 'overview' && (
            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-               <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Recent Activity</h3>
+             <div className="bg-white">
+               <h3 className="text-lg font-semibold mb-4 text-gray-900">Recent Activity</h3>
                <div className="space-y-4">
                  <div className="flex items-center space-x-3">
                    <CheckCircle className="h-5 w-5 text-green-500" />
                    <div>
-                     <p className="text-sm text-gray-900 dark:text-white">New user registered: Sarah Smith</p>
-                     <p className="text-xs text-gray-500 dark:text-gray-400">2 hours ago</p>
+                     <p className="text-sm text-gray-900">New user registered: Sarah Smith</p>
+                     <p className="text-xs text-gray-500">2 hours ago</p>
                    </div>
                  </div>
                  <div className="flex items-center space-x-3">
                    <AlertTriangle className="h-5 w-5 text-yellow-500" />
                    <div>
-                     <p className="text-sm text-gray-900 dark:text-white">Land verification pending: Coffee Farm #5</p>
-                     <p className="text-xs text-gray-500 dark:text-gray-400">4 hours ago</p>
+                     <p className="text-sm text-gray-900">Land verification pending: Coffee Farm #5</p>
+                     <p className="text-xs text-gray-500">4 hours ago</p>
                    </div>
                  </div>
                  <div className="flex items-center space-x-3">
                    <XCircle className="h-5 w-5 text-red-500" />
                    <div>
-                     <p className="text-sm text-gray-900 dark:text-white">Proposal rejected: Maize Field #12</p>
-                     <p className="text-xs text-gray-500 dark:text-gray-400">1 day ago</p>
+                     <p className="text-sm text-gray-900">Proposal rejected: Maize Field #12</p>
+                     <p className="text-xs text-gray-500">1 day ago</p>
                    </div>
                  </div>
                </div>
              </div>
 
-             <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-               <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">System Health</h3>
+             <div className="bg-white">
+               <h3 className="text-lg font-semibold mb-4 text-gray-900">System Health</h3>
                <div className="space-y-4">
                  <div className="flex justify-between items-center">
-                   <span className="text-sm text-gray-600 dark:text-gray-400">Server Status</span>
+                   <span className="text-sm text-gray-600">Server Status</span>
                    <span className="text-sm font-medium text-green-600">Online</span>
                  </div>
                  <div className="flex justify-between items-center">
-                   <span className="text-sm text-gray-600 dark:text-gray-400">Database</span>
+                   <span className="text-sm text-gray-600">Database</span>
                    <span className="text-sm font-medium text-green-600">Healthy</span>
                  </div>
                  <div className="flex justify-between items-center">
-                   <span className="text-sm text-gray-600 dark:text-gray-400">API Response Time</span>
+                   <span className="text-sm text-gray-600">API Response Time</span>
                    <span className="text-sm font-medium text-yellow-600">120ms</span>
                  </div>
                  <div className="flex justify-between items-center">
-                   <span className="text-sm text-gray-600 dark:text-gray-400">Active Users</span>
+                   <span className="text-sm text-gray-600">Active Users</span>
                    <span className="text-sm font-medium text-blue-600">47</span>
                  </div>
                </div>

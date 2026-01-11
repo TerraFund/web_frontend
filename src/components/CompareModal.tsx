@@ -29,20 +29,20 @@ export default function CompareModal({ lands }: CompareModalProps) {
   return (
     <div className="max-w-6xl w-full max-h-[90vh] overflow-y-auto">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+        <h2 className="text-2xl font-bold text-gray-900">
           Compare Lands ({lands.length})
         </h2>
         <button
           onClick={closeModal}
-          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+          className="p-2 hover:bg-gray-100"
         >
-          <X className="h-6 w-6 text-gray-500 dark:text-gray-400" />
+          <X className="h-6 w-6 text-gray-500" />
         </button>
       </div>
 
       <div className={`grid gap-6 ${lands.length === 1 ? 'grid-cols-1' : lands.length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
         {lands.map((land) => (
-          <div key={land.id} className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+          <div key={land.id} className="bg-white">
             {/* Image/Placeholder */}
             <div className="relative h-32 bg-gradient-to-br from-primary via-primary to-accent overflow-hidden">
               {land.image ? (
@@ -58,31 +58,31 @@ export default function CompareModal({ lands }: CompareModalProps) {
             </div>
 
             <div className="p-4">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{land.title}</h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center mb-3">
+              <h3 className="text-lg font-bold text-gray-900">{land.title}</h3>
+              <p className="text-sm text-gray-600">
                 <MapPin className="h-4 w-4 mr-1 text-primary" />
                 {land.location}
               </p>
 
               {/* Key features */}
               <div className="space-y-2 mb-4">
-                <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                <div className="flex items-center text-sm text-gray-600">
                   <Leaf className="h-4 w-4 mr-2 text-green-500" />
                   <span>Crops: {land.cropSuitability}</span>
                 </div>
-                <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                <div className="flex items-center text-sm text-gray-600">
                   <Droplets className="h-4 w-4 mr-2 text-blue-500" />
                   <span>Water: {land.waterSource}</span>
                 </div>
-                <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                <div className="flex items-center text-sm text-gray-600">
                   <TrendingUp className="h-4 w-4 mr-2 text-purple-500" />
                   <span>Size: {land.size} acres</span>
                 </div>
-                <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                <div className="flex items-center text-sm text-gray-600">
                   <Mountain className="h-4 w-4 mr-2 text-gray-500" />
                   <span>Elevation: {land.elevation}m</span>
                 </div>
-                <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+                <div className="flex items-center text-sm text-gray-600">
                   <div className={`w-3 h-3 rounded-full mr-2 ${
                     land.soilQuality === 'Excellent' ? 'bg-green-500' :
                     land.soilQuality === 'Good' ? 'bg-yellow-500' : 'bg-red-500'

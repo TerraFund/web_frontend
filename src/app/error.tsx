@@ -14,13 +14,13 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background_light dark:bg-background_dark">
+    <div className="min-h-screen flex items-center justify-center bg-background_light">
       <div className="text-center">
         <div className="text-6xl font-bold text-red-500 mb-4">⚠️</div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+        <h1 className="text-2xl font-bold text-gray-900">
           Something went wrong!
         </h1>
-        <p className="text-gray-600 dark:text-gray-400 mb-8">
+        <p className="text-gray-600">
           An unexpected error occurred. Please try again.
         </p>
         <button

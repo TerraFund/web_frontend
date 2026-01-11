@@ -61,11 +61,11 @@ export default function Proposals() {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-         <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Proposals</h1>
+         <h1 className="text-3xl font-bold mb-8 text-gray-900">Proposals</h1>
 
          {user?.role === 'landowner' && (
               <div className="mb-6">
-                <div className="border-b border-gray-200 dark:border-gray-700">
+                <div className="border-b border-gray-200">
                   <nav className="-mb-px flex space-x-8">
                     <button
                       onClick={() => setActiveTab('received')}
@@ -92,42 +92,42 @@ export default function Proposals() {
               </div>
             )}
 
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-              <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+            <div className="bg-white">
+              <div className="px-6 py-4 border-b border-gray-200">
+                <h2 className="text-lg font-semibold text-gray-900">
                   {activeTab === 'received' ? 'Received Proposals' : 'Sent Proposals'}
                 </h2>
               </div>
-               <div className="divide-y divide-gray-200 dark:divide-gray-700">
+               <div className="divide-y divide-gray-200">
                  {mockProposals.map((proposal, index) => (
                    <div
                      key={proposal.id}
-                     className={`p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 animate-in slide-in-from-bottom-4`}
+                     className={`p-6 hover:bg-gray-50
                      style={{ animationDelay: `${index * 100}ms` }}
                    >
                      <div className={`flex items-center justify-between ${animatingProposal === proposal.id ? 'animate-pulse' : ''}`}>
                        <div className="flex-1">
                          <div className="flex items-center space-x-3">
-                           <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                           <h3 className="text-lg font-medium text-gray-900">
                              {proposal.investorName}
                            </h3>
                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
                              proposal.status === 'pending'
-                               ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                               ? 'bg-yellow-100 text-yellow-800
                                : proposal.status === 'accepted'
-                               ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                               : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                               ? 'bg-green-100 text-green-800
+                               : 'bg-red-100 text-red-800
                            }`}>
                              {proposal.status}
                            </span>
                          </div>
-                         <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                         <p className="mt-1 text-sm text-gray-600">
                            Interested in: {proposal.landTitle}
                          </p>
-                         <p className="mt-2 text-sm text-gray-900 dark:text-white">
+                         <p className="mt-2 text-sm text-gray-900">
                            {proposal.message}
                          </p>
-                         <div className="mt-3 flex items-center space-x-6 text-sm text-gray-500 dark:text-gray-400">
+                         <div className="mt-3 flex items-center space-x-6 text-sm text-gray-500">
                            <div className="flex items-center">
                              <DollarSign className="w-4 h-4 mr-1" />
                              <span>${proposal.amount.toLocaleString()}</span>
@@ -142,11 +142,11 @@ export default function Proposals() {
                        <div className="flex items-center space-x-2">
                          <button
                            onClick={() => openProposalModal(proposal)}
-                           className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors hover:scale-110"
+                           className="p-2 text-gray-400 hover:text-gray-600"
                          >
                            <Eye className="h-5 w-5" />
                          </button>
-                         <button className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors hover:scale-110">
+                         <button className="p-2 text-gray-400 hover:text-gray-600">
                            <MessageSquare className="h-5 w-5" />
                          </button>
                          {user?.role === 'landowner' && proposal.status === 'pending' && (
@@ -180,15 +180,15 @@ export default function Proposals() {
       {/* Proposal Detail Modal */}
       {showModal && selectedProposal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 animate-in fade-in duration-300">
-          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-300">
+          <div className="bg-white">
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                <h3 className="text-xl font-semibold text-gray-900">
                   Proposal Details
                 </h3>
                 <button
                   onClick={() => setShowModal(false)}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  className="text-gray-400 hover:text-gray-600"
                 >
                   <XCircle className="h-6 w-6" />
                 </button>
@@ -200,45 +200,45 @@ export default function Proposals() {
                     {selectedProposal.investorName.charAt(0)}
                   </div>
                   <div>
-                    <h4 className="font-medium text-gray-900 dark:text-white">{selectedProposal.investorName}</h4>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Investor</p>
+                    <h4 className="font-medium text-gray-900">{selectedProposal.investorName}</h4>
+                    <p className="text-sm text-gray-500">Investor</p>
                   </div>
                   <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ml-auto ${
                     selectedProposal.status === 'pending'
-                      ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                      ? 'bg-yellow-100 text-yellow-800
                       : selectedProposal.status === 'accepted'
-                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                      : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                      ? 'bg-green-100 text-green-800
+                      : 'bg-red-100 text-red-800
                   }`}>
                     {selectedProposal.status}
                   </span>
                 </div>
 
-                <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                  <h5 className="font-medium text-gray-900 dark:text-white mb-2">Land of Interest</h5>
-                  <p className="text-gray-700 dark:text-gray-300">{selectedProposal.landTitle}</p>
+                <div className="bg-gray-50">
+                  <h5 className="font-medium text-gray-900">Land of Interest</h5>
+                  <p className="text-gray-700">{selectedProposal.landTitle}</p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                  <div className="bg-gray-50">
                     <div className="flex items-center mb-2">
                       <DollarSign className="w-4 h-4 text-primary mr-2" />
-                      <span className="font-medium text-gray-900 dark:text-white">Investment Amount</span>
+                      <span className="font-medium text-gray-900">Investment Amount</span>
                     </div>
                     <p className="text-2xl font-bold text-primary">${selectedProposal.amount.toLocaleString()}</p>
                   </div>
-                  <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                  <div className="bg-gray-50">
                     <div className="flex items-center mb-2">
                       <Calendar className="w-4 h-4 text-primary mr-2" />
-                      <span className="font-medium text-gray-900 dark:text-white">Duration</span>
+                      <span className="font-medium text-gray-900">Duration</span>
                     </div>
                     <p className="text-2xl font-bold text-primary">{selectedProposal.duration} years</p>
                   </div>
                 </div>
 
-                <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                  <h5 className="font-medium text-gray-900 dark:text-white mb-2">Message</h5>
-                  <p className="text-gray-700 dark:text-gray-300">{selectedProposal.message}</p>
+                <div className="bg-gray-50">
+                  <h5 className="font-medium text-gray-900">Message</h5>
+                  <p className="text-gray-700">{selectedProposal.message}</p>
                 </div>
 
                 {user?.role === 'landowner' && selectedProposal.status === 'pending' && (

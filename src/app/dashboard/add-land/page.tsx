@@ -83,12 +83,12 @@ export default function AddLandWizard() {
         return (
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700">
                 Land Name
               </label>
               <input
                 type="text"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-200"
+                className="w-full px-3 py-2 border border-gray-300"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 placeholder="e.g., Green Valley Farm"
@@ -96,25 +96,25 @@ export default function AddLandWizard() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-gray-700">
                   Size (acres)
                 </label>
                 <input
                   type="number"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-200"
+                  className="w-full px-3 py-2 border border-gray-300"
                   value={formData.size}
                   onChange={(e) => setFormData({ ...formData, size: e.target.value })}
                   placeholder="100"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-gray-700">
                   Coordinates
                 </label>
                 <input
                   type="text"
                   placeholder="-1.2864, 36.8172"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-200"
+                  className="w-full px-3 py-2 border border-gray-300"
                   value={formData.coordinates}
                   onChange={(e) => setFormData({ ...formData, coordinates: e.target.value })}
                 />
@@ -122,24 +122,24 @@ export default function AddLandWizard() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-gray-700">
                   Region
                 </label>
                 <input
                   type="text"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-200"
+                  className="w-full px-3 py-2 border border-gray-300"
                   value={formData.region}
                   onChange={(e) => setFormData({ ...formData, region: e.target.value })}
                   placeholder="e.g., Rift Valley"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-gray-700">
                   Elevation (m)
                 </label>
                 <input
                   type="number"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white transition-all duration-200"
+                  className="w-full px-3 py-2 border border-gray-300"
                   value={formData.elevation}
                   onChange={(e) => setFormData({ ...formData, elevation: e.target.value })}
                   placeholder="1500"
@@ -147,10 +147,10 @@ export default function AddLandWizard() {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700">
                 Location Preview
               </label>
-              <div className="h-64 rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600">
+              <div className="h-64 rounded-lg overflow-hidden border border-gray-300">
                 <Map
                   center={formData.coordinates ? formData.coordinates.split(',').map(c => parseFloat(c.trim())) as [number, number] : [-1.2864, 36.8172]}
                   zoom={12}
@@ -168,9 +168,9 @@ export default function AddLandWizard() {
       case 2:
         return (
           <div className="space-y-6">
-            <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center">
-              <FileText className="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500 mb-4" />
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
+            <div className="border-2 border-dashed border-gray-300">
+              <FileText className="mx-auto h-12 w-12 text-gray-400" />
+              <p className="text-gray-600">
                 Upload ownership documents (Title deed, UPI document)
               </p>
               <input
@@ -195,13 +195,13 @@ export default function AddLandWizard() {
               <div className="bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 rounded-lg p-4 animate-in slide-in-from-bottom-4 duration-500">
                 <div className="flex items-center mb-3">
                   <Sparkles className="w-5 h-5 text-accent mr-2" />
-                  <h3 className="font-semibold text-gray-900 dark:text-white">AI Recommendations</h3>
+                  <h3 className="font-semibold text-gray-900">AI Recommendations</h3>
                 </div>
                 <div className="space-y-2">
                   {aiRecommendations.map((rec, index) => (
                     <div
                       key={index}
-                      className="flex items-start space-x-2 text-sm text-gray-700 dark:text-gray-300 animate-in slide-in-from-bottom-4"
+                      className="flex items-start space-x-2 text-sm text-gray-700"
                       style={{ animationDelay: `${index * 100}ms` }}
                     >
                       <div className="w-1.5 h-1.5 bg-accent rounded-full mt-2 flex-shrink-0"></div>
@@ -216,15 +216,15 @@ export default function AddLandWizard() {
       case 4:
         return (
           <div className="space-y-6">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Review & Publish</h3>
-            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+            <h3 className="text-lg font-semibold text-gray-900">Review & Publish</h3>
+            <div className="bg-gray-50">
               <p><strong>Land Name:</strong> {formData.name || 'Not provided'}</p>
               <p><strong>Size:</strong> {formData.size ? `${formData.size} acres` : 'Not provided'}</p>
               <p><strong>Location:</strong> {formData.coordinates || 'Not provided'}</p>
               <p><strong>Region:</strong> {formData.region || 'Not provided'}</p>
               <p><strong>Elevation:</strong> {formData.elevation ? `${formData.elevation}m` : 'Not provided'}</p>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
+            <p className="text-sm text-gray-600">
               By publishing, your land will be listed on the TerraFund platform for potential investors and partners.
             </p>
           </div>
@@ -237,7 +237,7 @@ export default function AddLandWizard() {
   return (
     <div className="p-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Add New Land</h1>
+        <h1 className="text-3xl font-bold mb-8 text-gray-900">Add New Land</h1>
 
         {/* Progress Bar */}
         <div className="mb-8">
@@ -247,21 +247,21 @@ export default function AddLandWizard() {
               return (
                 <div key={step.id} className="flex items-center">
                   <div className={`flex items-center justify-center w-10 h-10 rounded-full ${
-                    currentStep >= step.id ? 'bg-primary text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500'
+                    currentStep >= step.id ? 'bg-primary text-white' : 'bg-gray-200
                   }`}>
                     <Icon className="h-5 w-5" />
                   </div>
                   <span className={`ml-2 text-sm font-medium ${
-                    currentStep >= step.id ? 'text-primary' : 'text-gray-400 dark:text-gray-500'
+                    currentStep >= step.id ? 'text-primary' : 'text-gray-400
                   }`}>
                     {step.title}
                   </span>
-                  {step.id < 4 && <ChevronRight className="h-4 w-4 mx-2 text-gray-400 dark:text-gray-500" />}
+                  {step.id < 4 && <ChevronRight className="h-4 w-4 mx-2 text-gray-400" />}
                 </div>
               );
             })}
           </div>
-          <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+          <div className="w-full bg-gray-200">
             <div
               className="bg-primary h-2 rounded-full transition-all duration-300"
               style={{ width: `${(currentStep / 4) * 100}%` }}
@@ -270,7 +270,7 @@ export default function AddLandWizard() {
         </div>
 
         {/* Step Content */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-8 mb-8">
+        <div className="bg-white">
           {renderStepContent()}
         </div>
 
@@ -279,7 +279,7 @@ export default function AddLandWizard() {
           <button
             onClick={handlePrev}
             disabled={currentStep === 1}
-            className="flex items-center px-6 py-3 border border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-100 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center px-6 py-3 border border-gray-300"
           >
             <ChevronLeft className="h-5 w-5 mr-2" />
             Previous

@@ -40,7 +40,7 @@ export default function LandCard({
   return (
     <div
       onClick={onClick}
-      className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden transform hover:-translate-y-1 group"
+      className="bg-white"
     >
       {/* Image/Placeholder */}
       <div className="relative h-48 bg-gradient-to-br from-primary via-primary to-accent overflow-hidden">
@@ -94,33 +94,33 @@ export default function LandCard({
       <div className="p-6">
         <div className="flex items-start justify-between mb-3">
           <div>
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">{title}</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center">
+            <h3 className="text-xl font-bold text-gray-900">{title}</h3>
+            <p className="text-sm text-gray-600">
               <MapPin className="h-4 w-4 mr-1 text-primary" />
               {location}
             </p>
           </div>
           <div className="flex items-center text-yellow-400">
             <Star className="h-4 w-4 fill-current" />
-            <span className="text-sm font-medium ml-1 text-gray-700 dark:text-gray-300">4.8</span>
+            <span className="text-sm font-medium ml-1 text-gray-700">4.8</span>
           </div>
         </div>
 
         {/* Key features */}
         <div className="grid grid-cols-2 gap-3 mb-4">
-          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+          <div className="flex items-center text-sm text-gray-600">
             <Leaf className="h-4 w-4 mr-2 text-green-500" />
             <span className="truncate">{cropSuitability}</span>
           </div>
-          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+          <div className="flex items-center text-sm text-gray-600">
             <Droplets className="h-4 w-4 mr-2 text-blue-500" />
             <span>{waterSource}</span>
           </div>
-          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+          <div className="flex items-center text-sm text-gray-600">
             <TrendingUp className="h-4 w-4 mr-2 text-purple-500" />
             <span>{size} acres</span>
           </div>
-          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+          <div className="flex items-center text-sm text-gray-600">
             <Mountain className="h-4 w-4 mr-2 text-gray-500" />
             <span>{elevation}m</span>
           </div>
@@ -133,7 +133,7 @@ export default function LandCard({
               soilQuality === 'Excellent' ? 'bg-green-500' :
               soilQuality === 'Good' ? 'bg-yellow-500' : 'bg-red-500'
             }`}></div>
-            <span className="text-sm text-gray-600 dark:text-gray-400">Soil: {soilQuality}</span>
+            <span className="text-sm text-gray-600">Soil: {soilQuality}</span>
           </div>
           <button className="bg-gradient-to-r from-primary to-accent text-white px-4 py-2 rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-200 text-sm font-medium">
             View Details

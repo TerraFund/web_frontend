@@ -101,7 +101,7 @@ export default function ProposalModal({ landId, landTitle, onSubmit }: ProposalM
   return (
     <div className="max-w-md w-full">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+        <h2 className="text-2xl font-bold text-gray-900">
           Send Proposal
         </h2>
         <div className={`flex items-center text-sm ${isOnline ? 'text-green-600' : 'text-red-600'}`}>
@@ -109,19 +109,19 @@ export default function ProposalModal({ landId, landTitle, onSubmit }: ProposalM
           {isOnline ? 'Online' : 'Offline'}
         </div>
       </div>
-      <p className="text-gray-600 dark:text-gray-400 mb-4">
+      <p className="text-gray-600">
         Submit your investment proposal for <strong>{landTitle}</strong>
       </p>
       {hasDraft && (
-        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3 mb-4">
-          <p className="text-sm text-blue-800 dark:text-blue-200">
+        <div className="bg-blue-50">
+          <p className="text-sm text-blue-800">
             Draft loaded from previous session
           </p>
         </div>
       )}
       {!isOnline && (
-        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 mb-4">
-          <p className="text-sm text-yellow-800 dark:text-yellow-200">
+        <div className="bg-yellow-50">
+          <p className="text-sm text-yellow-800">
             You&apos;re offline. Your proposal will be saved and sent when you&apos;re back online.
           </p>
         </div>
@@ -147,11 +147,11 @@ export default function ProposalModal({ landId, landTitle, onSubmit }: ProposalM
         />
 
         <div className="space-y-1">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+          <label className="block text-sm font-medium text-gray-700">
             Message
           </label>
           <textarea
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 resize-none"
+            className="w-full px-3 py-2 border border-gray-300"
             rows={4}
             placeholder="Describe your investment plan..."
             value={formData.message}

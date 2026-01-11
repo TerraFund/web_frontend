@@ -19,14 +19,14 @@ export default function Button({
 }: ButtonProps) {
   const baseClasses = 'inline-flex items-center justify-center font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform active:scale-95';
 
-   const variantClasses = {
-     primary: 'bg-primary text-white hover:bg-primary/90 hover:shadow-lg focus:ring-primary rounded-xl',
-     secondary: 'bg-secondary text-white hover:bg-secondary/90 hover:shadow-lg focus:ring-secondary rounded-xl',
-     outline: 'border-2 border-gray-300
-     ghost: 'text-gray-700
-     gradient: 'bg-gradient-to-r from-primary to-accent text-white hover:shadow-xl hover:from-primary/90 hover:to-accent/90 focus:ring-primary rounded-xl',
-     danger: 'bg-red-500 text-white hover:bg-red-600 hover:shadow-lg focus:ring-red-500 rounded-xl',
-   };
+    const variantClasses = {
+      primary: 'bg-primary text-white hover:bg-primary/90 hover:shadow-lg focus:ring-primary rounded-xl',
+      secondary: 'bg-secondary text-white hover:bg-secondary/90 hover:shadow-lg focus:ring-secondary rounded-xl',
+      outline: 'border-2 border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-500 rounded-xl',
+      ghost: 'text-gray-700 hover:bg-gray-50 focus:ring-gray-500 rounded-xl',
+      gradient: 'bg-gradient-to-r from-primary to-accent text-white hover:shadow-xl hover:from-primary/90 hover:to-accent/90 focus:ring-primary rounded-xl',
+      danger: 'bg-red-500 text-white hover:bg-red-600 hover:shadow-lg focus:ring-red-500 rounded-xl',
+    };
 
   const sizeClasses = {
     sm: 'px-3 py-1.5 text-sm rounded-lg',

@@ -139,13 +139,13 @@ export default function Map({
 
   if (!process.env.NEXT_PUBLIC_MAPBOX_TOKEN) {
     return (
-      <div className={`w-full h-96 bg-gray-100
+      <div className="w-full h-96 bg-gray-100 flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300">
         <div className="text-center">
           <div className="text-6xl mb-4">🗺️</div>
-           <p className="text-gray-600">Interactive Map</p>
-           <p className="text-sm text-gray-500">
-             Mapbox token required for full functionality
-           </p>
+          <p className="text-gray-600">Interactive Map</p>
+          <p className="text-sm text-gray-500">
+            Mapbox token required for full functionality
+          </p>
         </div>
       </div>
     );

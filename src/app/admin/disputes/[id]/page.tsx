@@ -188,19 +188,19 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
           <div className="flex items-center space-x-3">
             <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${
               disputeData.status === 'open'
-                ? 'bg-red-100 text-red-800
+                ? 'bg-red-100 text-red-800'
                 : disputeData.status === 'investigating'
-                ? 'bg-yellow-100 text-yellow-800
-                : 'bg-green-100 text-green-800
+                ? 'bg-yellow-100 text-yellow-800'
+                : 'bg-green-100 text-green-800'
             }`}>
               {disputeData.status}
             </span>
             <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${
               disputeData.priority === 'high'
-                ? 'bg-red-100 text-red-800
+                ? 'bg-red-100 text-red-800'
                 : disputeData.priority === 'medium'
-                ? 'bg-yellow-100 text-yellow-800
-                : 'bg-green-100 text-green-800
+                ? 'bg-yellow-100 text-yellow-800'
+                : 'bg-green-100 text-green-800'
             }`}>
               {disputeData.priority} Priority
             </span>

@@ -254,10 +254,10 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
                   ) : (
                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full capitalize ${
                       userData.role === 'landowner'
-                        ? 'bg-green-100 text-green-800
+                        ? 'bg-green-100 text-green-800'
                         : userData.role === 'investor'
-                        ? 'bg-blue-100 text-blue-800
-                        : 'bg-purple-100 text-purple-800
+                        ? 'bg-blue-100 text-blue-800'
+                        : 'bg-purple-100 text-purple-800'
                     }`}>
                       {userData.role}
                     </span>
@@ -278,10 +278,10 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
                   ) : (
                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                       userData.status === 'verified'
-                        ? 'bg-green-100 text-green-800
+                        ? 'bg-green-100 text-green-800'
                         : userData.status === 'pending'
-                        ? 'bg-yellow-100 text-yellow-800
-                        : 'bg-red-100 text-red-800
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-red-100 text-red-800'
                     }`}>
                       {userData.status}
                     </span>

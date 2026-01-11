@@ -275,8 +275,8 @@ export default function AdminDashboard() {
                             <td className="px-6 py-4 whitespace-nowrap">
                               <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
                                 user.kyc_status === 'verified'
-                                  ? 'bg-green-100 text-green-800
-                                  : 'bg-yellow-100 text-yellow-800
+                                  ? 'bg-green-100 text-green-800'
+                                  : 'bg-yellow-100 text-yellow-800'
                               }`}>
                                 {user.kyc_status}
                               </span>
@@ -367,8 +367,8 @@ export default function AdminDashboard() {
                             <td className="px-6 py-4 whitespace-nowrap">
                               <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
                                 land.verified
-                                  ? 'bg-green-100 text-green-800
-                                  : 'bg-yellow-100 text-yellow-800
+                                  ? 'bg-green-100 text-green-800'
+                                  : 'bg-yellow-100 text-yellow-800'
                               }`}>
                                 {land.verified ? 'verified' : 'pending'}
                               </span>
@@ -428,26 +428,26 @@ export default function AdminDashboard() {
                            </div>
                          </td>
                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{dispute.parties}</td>
-                         <td className="px-6 py-4 whitespace-nowrap">
-                           <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
-                             dispute.status === 'open'
-                               ? 'bg-red-100 text-red-800
-                               : dispute.status === 'investigating'
-                               ? 'bg-yellow-100 text-yellow-800
-                               : 'bg-green-100 text-green-800
-                           }`}>
-                             {dispute.status}
-                           </span>
-                         </td>
-                         <td className="px-6 py-4 whitespace-nowrap">
-                           <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                             dispute.priority === 'high'
-                               ? 'bg-red-100 text-red-800
-                               : dispute.priority === 'medium'
-                               ? 'bg-yellow-100 text-yellow-800
-                               : 'bg-green-100 text-green-800
-                           }`}>
-                             {dispute.priority}
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
+                              dispute.status === 'open'
+                                ? 'bg-red-100 text-red-800'
+                                : dispute.status === 'investigating'
+                                ? 'bg-yellow-100 text-yellow-800'
+                                : 'bg-green-100 text-green-800'
+                            }`}>
+                              {dispute.status}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                              dispute.priority === 'high'
+                                ? 'bg-red-100 text-red-800'
+                                : dispute.priority === 'medium'
+                                ? 'bg-yellow-100 text-yellow-800'
+                                : 'bg-green-100 text-green-800'
+                            }`}>
+                              {dispute.priority}
                            </span>
                          </td>
                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(dispute.created_at).toLocaleDateString()}</td>

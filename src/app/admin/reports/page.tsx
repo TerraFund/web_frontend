@@ -100,7 +100,7 @@ export default function AdminReportsPage() {
                       className={`w-full flex items-center px-3 py-2 rounded-lg text-left transition-colors ${
                         reportType === type.id
                           ? 'bg-primary text-white'
-                          : 'text-gray-700
+                          : 'text-gray-700'
                       }`}
                     >
                       <Icon className="h-4 w-4 mr-3" />

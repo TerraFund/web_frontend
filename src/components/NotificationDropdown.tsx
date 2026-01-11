@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Bell, MessageSquare, CheckCircle, AlertTriangle, X } from 'lucide-react';
 
 interface Notification {
@@ -125,7 +125,7 @@ export default function NotificationDropdown() {
               notifications.map((notification, index) => (
                 <div
                   key={notification.id}
-                  className={`p-4 border-b border-gray-100
+                  className="p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer"
                   style={{ animationDelay: `${index * 50}ms` }}
                   onClick={() => markAsRead(notification.id)}
                 >

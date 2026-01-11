@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import { CheckCircle, XCircle, MessageSquare, Eye, Send, DollarSign, Calendar } from 'lucide-react';
@@ -100,24 +100,24 @@ export default function Proposals() {
               </div>
                <div className="divide-y divide-gray-200">
                  {mockProposals.map((proposal, index) => (
-                   <div
-                     key={proposal.id}
-                     className={`p-6 hover:bg-gray-50
-                     style={{ animationDelay: `${index * 100}ms` }}
-                   >
+                    <div
+                      key={proposal.id}
+                      className="p-6 hover:bg-gray-50 transition-colors cursor-pointer"
+                      style={{ animationDelay: `${index * 100}ms` }}
+                    >
                      <div className={`flex items-center justify-between ${animatingProposal === proposal.id ? 'animate-pulse' : ''}`}>
                        <div className="flex-1">
                          <div className="flex items-center space-x-3">
                            <h3 className="text-lg font-medium text-gray-900">
                              {proposal.investorName}
                            </h3>
-                           <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
-                             proposal.status === 'pending'
-                               ? 'bg-yellow-100 text-yellow-800
-                               : proposal.status === 'accepted'
-                               ? 'bg-green-100 text-green-800
-                               : 'bg-red-100 text-red-800
-                           }`}>
+                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
+                              proposal.status === 'pending'
+                                ? 'bg-yellow-100 text-yellow-800'
+                                : proposal.status === 'accepted'
+                                ? 'bg-green-100 text-green-800'
+                                : 'bg-red-100 text-red-800'
+                            }`}>
                              {proposal.status}
                            </span>
                          </div>
@@ -203,13 +203,13 @@ export default function Proposals() {
                     <h4 className="font-medium text-gray-900">{selectedProposal.investorName}</h4>
                     <p className="text-sm text-gray-500">Investor</p>
                   </div>
-                  <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ml-auto ${
-                    selectedProposal.status === 'pending'
-                      ? 'bg-yellow-100 text-yellow-800
-                      : selectedProposal.status === 'accepted'
-                      ? 'bg-green-100 text-green-800
-                      : 'bg-red-100 text-red-800
-                  }`}>
+                   <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ml-auto ${
+                     selectedProposal.status === 'pending'
+                       ? 'bg-yellow-100 text-yellow-800'
+                       : selectedProposal.status === 'accepted'
+                       ? 'bg-green-100 text-green-800'
+                       : 'bg-red-100 text-red-800'
+                   }`}>
                     {selectedProposal.status}
                   </span>
                 </div>

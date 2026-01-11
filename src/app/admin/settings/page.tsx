@@ -117,14 +117,6 @@ export default function AdminSettingsPage() {
   }
 
   const [activeTab, setActiveTab] = useState<'platform' | 'security' | 'payments' | 'notifications' | 'features'>('platform');
-  });
-
-  const [activeTab, setActiveTab] = useState<'platform' | 'security' | 'payments' | 'notifications' | 'features'>('platform');
-
-  const handleSave = () => {
-    // Mock API call
-    console.log('Saving settings:', settings);
-  };
 
   const updateSetting = (category: string, key: string, value: any) => {
     setSettings(prev => ({

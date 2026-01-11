@@ -163,13 +163,13 @@ export default function Notifications() {
   const getPriorityColor = (priority?: string) => {
     switch (priority) {
       case 'high':
-        return 'border-l-red-500 bg-red-50
+        return 'border-l-red-500 bg-red-50';
       case 'medium':
-        return 'border-l-yellow-500 bg-yellow-50
+        return 'border-l-yellow-500 bg-yellow-50';
       case 'low':
-        return 'border-l-gray-500 bg-gray-50
+        return 'border-l-gray-500 bg-gray-50';
       default:
-        return 'border-l-gray-300 bg-white
+        return 'border-l-gray-300 bg-white';
     }
   };
 
@@ -368,12 +368,12 @@ export default function Notifications() {
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
                             <h3 className={`text-lg font-semibold ${
-                              notification.read ? 'text-gray-900
+                              notification.read ? 'text-gray-900' : 'text-gray-900'
                             }`}>
                               {notification.title}
                             </h3>
                             <p className={`mt-1 text-sm ${
-                              notification.read ? 'text-gray-600
+                              notification.read ? 'text-gray-600' : 'text-gray-600'
                             }`}>
                               {notification.message}
                             </p>

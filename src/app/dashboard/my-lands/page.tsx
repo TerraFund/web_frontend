@@ -30,13 +30,13 @@ export default function MyLands() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'published':
-        return 'text-green-600
+        return 'text-green-600';
       case 'pending':
-        return 'text-yellow-600
+        return 'text-yellow-600';
       case 'sold':
-        return 'text-blue-600
+        return 'text-blue-600';
       default:
-        return 'text-gray-600
+        return 'text-gray-600';
     }
   };
 

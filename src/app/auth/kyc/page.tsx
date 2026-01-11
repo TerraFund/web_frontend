@@ -96,13 +96,13 @@ export default function KYCUpload() {
               className={`border-2 border-dashed rounded-lg p-8 text-center mb-6 transition-all duration-200 ${
                 isDragOver
                   ? 'border-primary bg-primary/5 scale-105'
-                  : 'border-gray-300
+                  : 'border-gray-300'
               }`}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
             >
-              <Upload className={`mx-auto h-12 w-12 mb-4 transition-colors ${isDragOver ? 'text-primary' : 'text-gray-400
+              <Upload className={`mx-auto h-12 w-12 mb-4 transition-colors ${isDragOver ? 'text-primary' : 'text-gray-400'}`} />
               <p className="text-gray-600">
                 {isDragOver ? 'Drop files here' : 'Drag and drop files here, or click to select'}
               </p>

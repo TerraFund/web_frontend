@@ -135,7 +135,7 @@ export default function Chat() {
                   <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg shadow-sm ${
                     msg.isMe
                       ? 'bg-primary text-white'
-                      : 'bg-gray-200
+                      : 'bg-gray-200'
                   }`}>
                     {msg.attachments && msg.attachments.length > 0 && (
                       <div className="mb-2 space-y-1">
@@ -149,7 +149,7 @@ export default function Chat() {
                       </div>
                     )}
                     <p className="text-sm">{msg.content}</p>
-                    <p className={`text-xs mt-1 ${msg.isMe ? 'text-primary-100' : 'text-gray-500
+                    <p className={`text-xs mt-1 ${msg.isMe ? 'text-primary-100' : 'text-gray-500'}`}>
                       {msg.timestamp}
                     </p>
                   </div>

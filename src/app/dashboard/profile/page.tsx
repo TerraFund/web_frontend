@@ -153,7 +153,7 @@ export default function Profile() {
                     className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center ${
                       activeTab === tab.id
                         ? 'border-primary text-primary'
-                        : 'border-transparent text-gray-500
+                        : 'border-transparent text-gray-500'
                     }`}
                   >
                     <Icon className="h-4 w-4 mr-2" />
@@ -470,7 +470,7 @@ export default function Profile() {
                                 <Star
                                   key={i}
                                   className={`h-4 w-4 ${
-                                    i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300
+                                    i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
                                   }`}
                                 />
                               ))}

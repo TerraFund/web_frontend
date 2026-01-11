@@ -277,10 +277,10 @@ export default function LandDetailPage({ params }: { params: { id: string } }) {
                   ) : (
                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                       landData.soilQuality === 'Excellent'
-                        ? 'bg-green-100 text-green-800
+                        ? 'bg-green-100 text-green-800'
                         : landData.soilQuality === 'Good'
-                        ? 'bg-yellow-100 text-yellow-800
-                        : 'bg-red-100 text-red-800
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-red-100 text-red-800'
                     }`}>
                       {landData.soilQuality}
                     </span>
@@ -331,8 +331,8 @@ export default function LandDetailPage({ params }: { params: { id: string } }) {
                     <div className="flex items-center space-x-2">
                       <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                         doc.status === 'verified'
-                          ? 'bg-green-100 text-green-800
-                          : 'bg-yellow-100 text-yellow-800
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-yellow-100 text-yellow-800'
                       }`}>
                         {doc.status}
                       </span>
@@ -363,10 +363,10 @@ export default function LandDetailPage({ params }: { params: { id: string } }) {
                     <div className="flex items-center space-x-2">
                       <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                         proposal.status === 'accepted'
-                          ? 'bg-green-100 text-green-800
+                          ? 'bg-green-100 text-green-800'
                           : proposal.status === 'pending'
-                          ? 'bg-yellow-100 text-yellow-800
-                          : 'bg-red-100 text-red-800
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : 'bg-red-100 text-red-800'
                       }`}>
                         {proposal.status}
                       </span>

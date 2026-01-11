@@ -247,12 +247,12 @@ export default function AddLandWizard() {
               return (
                 <div key={step.id} className="flex items-center">
                   <div className={`flex items-center justify-center w-10 h-10 rounded-full ${
-                    currentStep >= step.id ? 'bg-primary text-white' : 'bg-gray-200
+                    currentStep >= step.id ? 'bg-primary text-white' : 'bg-gray-200'
                   }`}>
                     <Icon className="h-5 w-5" />
                   </div>
                   <span className={`ml-2 text-sm font-medium ${
-                    currentStep >= step.id ? 'text-primary' : 'text-gray-400
+                    currentStep >= step.id ? 'text-primary' : 'text-gray-400'
                   }`}>
                     {step.title}
                   </span>

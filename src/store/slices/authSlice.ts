@@ -7,10 +7,18 @@ interface AuthState {
   isAuthenticated: boolean;
 }
 
+// Default mock user so the app works without login
 const initialState: AuthState = {
-  user: null,
-  token: null,
-  isAuthenticated: false,
+  user: {
+    id: 'mock-user-1',
+    name: 'Demo User',
+    email: 'demo@terrafund.com',
+    role: 'investor',
+    phone: '+254 700 000 000',
+    kycStatus: 'verified',
+  } as User,
+  token: 'mock-token',
+  isAuthenticated: true,
 };
 
 const authSlice = createSlice({
@@ -23,9 +31,10 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
     },
     logout: (state) => {
-      state.user = null;
-      state.token = null;
-      state.isAuthenticated = false;
+      // No-op: keep user logged in
+      state.user = initialState.user;
+      state.token = initialState.token;
+      state.isAuthenticated = true;
     },
   },
 });

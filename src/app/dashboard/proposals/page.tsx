@@ -59,9 +59,9 @@ export default function Proposals() {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-4 md:p-8 w-full max-w-full overflow-hidden">
       <div className="max-w-7xl mx-auto">
-         <h1 className="text-3xl font-bold mb-8 text-foreground">Proposals</h1>
+         <h1 className="text-3xl font-bold mb-6 md:mb-8 text-foreground">Proposals</h1>
 
          {user?.role === 'landowner' && (
               <div className="mb-6">
@@ -92,7 +92,7 @@ export default function Proposals() {
               </div>
             )}
 
-            <div className="bg-card rounded-2xl shadow-xl p-6 max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto lg border border-border">
+            <div className="bg-card rounded-2xl shadow-xl w-full max-w-2xl max-h-[80vh] overflow-y-auto border border-border">
               <div className="px-6 py-4 border-b border-border">
                 <h2 className="text-lg font-semibold text-foreground">
                   {activeTab === 'received' ? 'Received Proposals' : 'Sent Proposals'}
@@ -127,7 +127,7 @@ export default function Proposals() {
                          <p className="mt-2 text-sm text-foreground">
                            {proposal.message}
                          </p>
-                         <div className="mt-3 flex items-center space-x-6 text-sm text-muted-foreground">
+                         <div className="mt-4 flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm text-muted-foreground">
                            <div className="flex items-center">
                              <DollarSign className="w-4 h-4 mr-1" />
                              <span>${proposal.amount.toLocaleString()}</span>
@@ -139,7 +139,7 @@ export default function Proposals() {
                            <span>Received: {proposal.createdAt}</span>
                          </div>
                        </div>
-                       <div className="flex items-center space-x-2">
+                       <div className="flex flex-col sm:flex-row items-center gap-2 mt-4 sm:mt-0 ml-0 sm:ml-4">
                          <button
                            onClick={() => openProposalModal(proposal)}
                            className="p-2 text-muted-foreground hover:text-muted-foreground"

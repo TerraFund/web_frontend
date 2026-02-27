@@ -137,8 +137,8 @@ export default function Profile() {
 
         {/* Tabs */}
         <div className="mb-8">
-          <div className="border-b border-border">
-            <nav className="-mb-px flex space-x-8">
+          <div className="border-b border-border overflow-x-auto no-scrollbar scroll-smooth">
+            <nav className="-mb-px flex space-x-4 md:space-x-8 min-w-max px-1">
               {[
                 { id: 'overview', label: 'Overview', icon: User },
                 { id: 'portfolio', label: user.role === 'landowner' ? 'My Lands' : 'Investments', icon: TrendingUp },

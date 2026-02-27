@@ -98,12 +98,12 @@ export default function MyLands() {
                         </span>
                       </div>
 
-                      <div className="flex space-x-2">
-                        <Button variant="outline" size="sm" className="flex-1">
+                      <div className="flex flex-wrap sm:flex-nowrap gap-2">
+                        <Button variant="outline" size="sm" className="w-full sm:flex-1">
                           <Eye className="h-4 w-4 mr-1" />
                           View
                         </Button>
-                        <Button variant="outline" size="sm" className="flex-1">
+                        <Button variant="outline" size="sm" className="w-full sm:flex-1">
                           <Edit className="h-4 w-4 mr-1" />
                           Edit
                         </Button>
@@ -111,7 +111,7 @@ export default function MyLands() {
                           variant="outline"
                           size="sm"
                           onClick={() => handleDelete(land.id)}
-                          className="text-red-600 hover:text-red-800"
+                          className="w-full sm:w-auto text-red-600 hover:text-red-800"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>

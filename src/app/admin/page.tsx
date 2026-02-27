@@ -108,7 +108,7 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="p-8">
+      <div className="p-4 md:p-8 w-full max-w-full overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="animate-pulse">
             <div className="h-8 bg-gray-300 rounded w-1/4 mb-8"></div>
@@ -126,7 +126,7 @@ export default function AdminDashboard() {
 
   if (error) {
     return (
-      <div className="p-8">
+      <div className="p-4 md:p-8 w-full max-w-full overflow-hidden">
         <div className="max-w-7xl mx-auto text-center">
           <div className="bg-red-50 rounded-2xl p-6">
             <h2 className="text-lg font-semibold text-red-800">Error Loading Data</h2>
@@ -141,9 +141,9 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-4 md:p-8 w-full max-w-full overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-foreground">Admin Dashboard</h1>
+        <h1 className="text-3xl font-bold mb-6 md:mb-8 text-foreground">Admin Dashboard</h1>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -187,8 +187,8 @@ export default function AdminDashboard() {
 
         {/* Tabs */}
         <div className="mb-6">
-              <div className="border-b border-border">
-                <nav className="-mb-px flex space-x-8">
+              <div className="border-b border-border overflow-x-auto no-scrollbar scroll-smooth">
+                <nav className="-mb-px flex space-x-4 md:space-x-8 min-w-max px-1">
                   {[
                       { id: 'overview', label: 'Overview' },
                       { id: 'users', label: 'Users' },

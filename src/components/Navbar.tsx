@@ -131,12 +131,13 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile menu button */}
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-xl transition-all duration-200 hover:bg-muted text-muted-foreground"
+              className="p-2 -mr-2 rounded-xl transition-all duration-200 hover:bg-muted text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+              aria-expanded={isMenuOpen}
             >
+              <span className="sr-only">Open main menu</span>
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
@@ -144,10 +145,9 @@ export default function Navbar() {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-border bg-card/95 backdrop-blur-md">
-            <div className="px-4 py-6 space-y-4">
+          <div className="md:hidden border-t border-border bg-card/95 backdrop-blur-md absolute top-16 left-0 w-full shadow-lg pb-4 px-4 sm:px-6 z-50 animate-in slide-in-from-top-2">
               {isAppPage ? (
-                <div className="space-y-3">
+                <div className="space-y-4 pt-4">
                   <div className="relative">
                     <input
                       type="text"
@@ -156,16 +156,30 @@ export default function Navbar() {
                     />
                     <Search className="absolute left-3 top-3.5 h-5 w-5 text-muted-foreground" />
                   </div>
-                  <div className="flex items-center space-x-3 p-3 rounded-xl bg-muted">
-                    <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white font-bold">
-                      {user?.name?.charAt(0).toUpperCase()}
+                  
+                  <div className="flex items-center justify-between border-t border-border pt-4">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white font-bold text-lg">
+                        {user?.name?.charAt(0).toUpperCase()}
+                      </div>
+                      <div>
+                        <p className="font-medium text-foreground">{user?.name}</p>
+                        <p className="text-sm text-muted-foreground capitalize">{user?.role}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium">{user?.name}</p>
-                      <p className="text-sm text-muted-foreground capitalize">{user?.role}</p>
+                    <div className="flex items-center gap-2">
+                       <NotificationDropdown />
+                       <button
+                          onClick={() => {
+                            setIsMenuOpen(false);
+                            handleLogout();
+                          }}
+                          className="p-2 text-red-500 hover:bg-red-500/10 rounded-xl transition-colors"
+                        >
+                          <LogOut className="h-5 w-5" />
+                        </button>
                     </div>
                   </div>
-                  <NotificationDropdown />
                 </div>
               ) : (
                 <div className="space-y-3">
@@ -178,7 +192,6 @@ export default function Navbar() {
                 </div>
               )}
             </div>
-          </div>
         )}
       </div>
     </nav>

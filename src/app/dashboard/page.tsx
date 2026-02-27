@@ -22,7 +22,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-4 md:p-8 w-full max-w-full overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold mb-8 text-foreground">
           Welcome back, {user.name}!

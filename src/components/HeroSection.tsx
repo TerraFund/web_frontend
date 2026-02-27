@@ -13,9 +13,9 @@ export default function HeroSection() {
       <div className="absolute inset-0 gradient-hero" />
 
       {/* Animated shapes */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-accent/10 rounded-full blur-3xl float" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/10 rounded-full blur-3xl float" style={{ animationDelay: '1.5s' }} />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none hidden md:block">
+        <div className="absolute top-20 left-10 lg:w-72 lg:h-72 bg-accent/10 rounded-full blur-3xl float" />
+        <div className="absolute bottom-20 right-10 lg:w-96 lg:h-96 bg-primary/10 rounded-full blur-3xl float" style={{ animationDelay: '1.5s' }} />
         <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-white/5 rounded-full blur-2xl float" style={{ animationDelay: '0.8s' }} />
       </div>
 
@@ -34,20 +34,20 @@ export default function HeroSection() {
               <span>Sustainable Land Investment Platform</span>
             </div>
 
-            <h1 className="text-5xl lg:text-7xl font-bold leading-tight tracking-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight tracking-tight mt-6">
               Invest in{' '}
               <span className="gradient-text-accent">Africa&apos;s</span>
-              <br />Agricultural Future
+              <br className="hidden sm:block" /> Agricultural Future
             </h1>
 
-            <p className="text-lg lg:text-xl text-gray-300 max-w-lg leading-relaxed">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-300 max-w-lg leading-relaxed">
               {t('hero.subtitle', 'Connect with verified landowners, access AI-powered recommendations, and fund sustainable agriculture across Africa.')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/auth/register"
-                className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent hover:bg-accent/90 text-secondary font-bold rounded-xl transition-all duration-300 hover:shadow-xl hover:shadow-accent/25 hover:-translate-y-0.5"
+                className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent hover:bg-accent/90 text-secondary font-bold rounded-xl transition-all duration-300 hover:shadow-xl hover:shadow-accent/25 hover:-translate-y-0.5"
               >
                 {t('hero.cta', 'Get Started')}
                 <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -61,7 +61,7 @@ export default function HeroSection() {
             </div>
 
             {/* Trust indicators */}
-            <div className="flex items-center gap-8 pt-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 pt-6 sm:pt-4">
               <div className="flex items-center gap-2">
                 <TrendingUp className="h-5 w-5 text-accent" />
                 <span className="text-sm text-gray-300"><strong className="text-white">1,200+</strong> Active Users</span>

@@ -235,9 +235,9 @@ export default function AddLandWizard() {
    };
 
   return (
-    <div className="p-8">
+    <div className="p-4 md:p-8 w-full max-w-full overflow-hidden">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-foreground">Add New Land</h1>
+        <h1 className="text-3xl font-bold mb-6 md:mb-8 text-foreground">Add New Land</h1>
 
         {/* Progress Bar */}
         <div className="mb-8">
@@ -246,17 +246,17 @@ export default function AddLandWizard() {
               const Icon = step.icon;
               return (
                 <div key={step.id} className="flex items-center">
-                  <div className={`flex items-center justify-center w-10 h-10 rounded-full ${
+                  <div className={`flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full ${
                     currentStep >= step.id ? 'bg-primary text-white' : 'bg-gray-200'
                   }`}>
-                    <Icon className="h-5 w-5" />
+                    <Icon className="h-4 w-4 md:h-5 md:w-5" />
                   </div>
-                  <span className={`ml-2 text-sm font-medium ${
+                  <span className={`ml-2 text-xs md:text-sm font-medium hidden sm:inline-block ${
                     currentStep >= step.id ? 'text-primary' : 'text-muted-foreground'
                   }`}>
                     {step.title}
                   </span>
-                  {step.id < 4 && <ChevronRight className="h-4 w-4 mx-2 text-muted-foreground" />}
+                  {step.id < 4 && <ChevronRight className="h-4 w-4 mx-1 md:mx-2 text-muted-foreground" />}
                 </div>
               );
             })}

@@ -29,10 +29,10 @@ export default function Footer() {
   };
 
   const socialLinks = [
-    { icon: Facebook, href: '#', label: 'Facebook' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
-    { icon: Instagram, href: '#', label: 'Instagram' },
+    { icon: Facebook, href: 'http://instagram.com/kawacu_kennedy', label: 'Facebook' },
+    { icon: Twitter, href: 'https://x.com/Arnaud_Kennedy', label: 'Twitter' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/kawacu-kennedy-47470a3a6/', label: 'LinkedIn' },
+    { icon: Instagram, href: 'http://instagram.com/kawacu_kennedy', label: 'Instagram' },
   ];
 
   return (
@@ -53,6 +53,8 @@ export default function Footer() {
                 <a
                   key={social.label}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={social.label}
                   className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-gray-300 hover:bg-accent hover:text-white transition-all duration-300 hover:scale-110"
                 >
@@ -82,7 +84,7 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-center space-x-3 text-gray-300 text-sm">
                 <MapPin className="h-4 w-4 text-accent flex-shrink-0" />
-                <span>Nairobi, Kenya</span>
+                <span>Kigali, Rwanda</span>
               </li>
               <li className="flex items-center space-x-3 text-gray-300 text-sm">
                 <Mail className="h-4 w-4 text-accent flex-shrink-0" />
@@ -90,7 +92,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center space-x-3 text-gray-300 text-sm">
                 <Phone className="h-4 w-4 text-accent flex-shrink-0" />
-                <span>+254 700 000 000</span>
+                <span>+250785256553</span>
               </li>
             </ul>
           </div>

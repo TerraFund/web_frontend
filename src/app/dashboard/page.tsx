@@ -21,6 +21,8 @@ export default function Dashboard() {
     setSelectedPartner(null);
   };
 
+  if (!user) return null;
+
   return (
     <div className="p-4 md:p-8 w-full max-w-full overflow-hidden">
       <div className="max-w-7xl mx-auto">

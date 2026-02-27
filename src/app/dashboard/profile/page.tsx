@@ -59,16 +59,16 @@ export default function Profile() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-muted">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900">Profile</h1>
-          <p className="text-lg text-gray-600">Manage your account and view your activity</p>
+          <h1 className="text-4xl font-bold text-foreground">Profile</h1>
+          <p className="text-lg text-muted-foreground">Manage your account and view your activity</p>
         </div>
 
         {/* Profile Header */}
-        <div className="bg-white">
+        <div className="bg-card rounded-2xl shadow-lg border border-border">
           <div className="flex flex-col md:flex-row items-start md:items-center space-y-6 md:space-y-0 md:space-x-8">
             {/* Profile Picture */}
             <div className="relative">
@@ -84,9 +84,9 @@ export default function Profile() {
             <div className="flex-1">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
                 <div>
-                  <h2 className="text-3xl font-bold text-gray-900">{user.name}</h2>
-                  <p className="text-lg text-gray-600">{user.role}</p>
-                  <div className="flex items-center space-x-4 text-sm text-gray-500">
+                  <h2 className="text-3xl font-bold text-foreground">{user.name}</h2>
+                  <p className="text-lg text-muted-foreground">{user.role}</p>
+                  <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                     <div className="flex items-center">
                       <MapPin className="h-4 w-4 mr-1" />
                       Kigali, Rwanda
@@ -113,22 +113,22 @@ export default function Profile() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-primary">4.8</div>
-                  <div className="text-sm text-gray-600">
+                  <div className="text-sm text-muted-foreground">
                     <Star className="h-4 w-4 text-yellow-400 fill-current mr-1" />
                     Rating
                   </div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-accent">12</div>
-                  <div className="text-sm text-gray-600">Total Deals</div>
+                  <div className="text-sm text-muted-foreground">Total Deals</div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-secondary">$125K</div>
-                  <div className="text-sm text-gray-600">Portfolio Value</div>
+                  <div className="text-sm text-muted-foreground">Portfolio Value</div>
                 </div>
                 <div className="text-center">
                   <div className="text-2xl font-bold text-primary">98%</div>
-                  <div className="text-sm text-gray-600">Success Rate</div>
+                  <div className="text-sm text-muted-foreground">Success Rate</div>
                 </div>
               </div>
             </div>
@@ -137,7 +137,7 @@ export default function Profile() {
 
         {/* Tabs */}
         <div className="mb-8">
-          <div className="border-b border-gray-200">
+          <div className="border-b border-border">
             <nav className="-mb-px flex space-x-8">
               {[
                 { id: 'overview', label: 'Overview', icon: User },
@@ -153,7 +153,7 @@ export default function Profile() {
                     className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center ${
                       activeTab === tab.id
                         ? 'border-primary text-primary'
-                        : 'border-transparent text-gray-500'
+                        : 'border-transparent text-muted-foreground'
                     }`}
                   >
                     <Icon className="h-4 w-4 mr-2" />
@@ -171,9 +171,9 @@ export default function Profile() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Personal Information */}
               <div className="lg:col-span-2 space-y-6">
-                <div className="bg-white">
+                <div className="bg-card rounded-2xl shadow-lg border border-border">
                   <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-xl font-semibold text-gray-900">
+                    <h3 className="text-xl font-semibold text-foreground">
                       <User className="h-5 w-5 mr-2" />
                       Personal Information
                     </h3>
@@ -210,9 +210,9 @@ export default function Profile() {
                         onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                       />
                       <div className="md:col-span-2">
-                        <label className="block text-sm font-medium text-gray-700">Bio</label>
+                        <label className="block text-sm font-medium text-foreground/80">Bio</label>
                         <textarea
-                          className="w-full px-3 py-2 border border-gray-300"
+                          className="w-full px-3 py-2 border border-border"
                           rows={3}
                           value={formData.bio}
                           onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
@@ -228,25 +228,25 @@ export default function Profile() {
                     <div className="space-y-6">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700">Full Name</label>
-                          <p className="text-gray-900">{user.name}</p>
+                          <label className="block text-sm font-medium text-foreground/80">Full Name</label>
+                          <p className="text-foreground">{user.name}</p>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700">Email</label>
-                          <p className="text-gray-900">{user.email}</p>
+                          <label className="block text-sm font-medium text-foreground/80">Email</label>
+                          <p className="text-foreground">{user.email}</p>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700">Phone</label>
-                          <p className="text-gray-900">{user.phone || 'Not provided'}</p>
+                          <label className="block text-sm font-medium text-foreground/80">Phone</label>
+                          <p className="text-foreground">{user.phone || 'Not provided'}</p>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700">Location</label>
-                          <p className="text-gray-900">Kigali, Rwanda</p>
+                          <label className="block text-sm font-medium text-foreground/80">Location</label>
+                          <p className="text-foreground">Kigali, Rwanda</p>
                         </div>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700">Bio</label>
-                        <p className="text-gray-600">
+                        <label className="block text-sm font-medium text-foreground/80">Bio</label>
+                        <p className="text-muted-foreground">
                           Experienced landowner with over 10 years in sustainable agriculture. Passionate about connecting investors with high-quality agricultural opportunities in Rwanda.
                         </p>
                       </div>
@@ -255,8 +255,8 @@ export default function Profile() {
                 </div>
 
                 {/* Verification Status */}
-                <div className="bg-white">
-                  <h3 className="text-xl font-semibold text-gray-900">
+                <div className="bg-card rounded-2xl shadow-lg border border-border">
+                  <h3 className="text-xl font-semibold text-foreground">
                     <Shield className="h-5 w-5 mr-2" />
                     Verification Status
                   </h3>
@@ -267,9 +267,9 @@ export default function Profile() {
                         user.kyc_status === 'pending' ? 'bg-yellow-500' : 'bg-red-500'
                       }`}></div>
                       <div>
-                        <span className="text-gray-900">{user.kyc_status}</span>
+                        <span className="text-foreground">{user.kyc_status}</span>
                         {user.kyc_status === 'verified' && (
-                          <p className="text-sm text-gray-600">Your account is fully verified</p>
+                          <p className="text-sm text-muted-foreground">Your account is fully verified</p>
                         )}
                       </div>
                     </div>
@@ -293,27 +293,27 @@ export default function Profile() {
               {/* Sidebar */}
               <div className="space-y-6">
                 {/* Quick Stats */}
-                <div className="bg-white">
-                  <h3 className="text-lg font-semibold text-gray-900">Quick Stats</h3>
+                <div className="bg-card rounded-2xl shadow-lg border border-border">
+                  <h3 className="text-lg font-semibold text-foreground">Quick Stats</h3>
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between p-3 bg-gray-50">
+                    <div className="flex items-center justify-between p-3 bg-muted">
                       <div className="flex items-center">
                         <TrendingUp className="h-5 w-5 text-green-500 mr-3" />
-                        <span className="text-sm text-gray-600">Portfolio Growth</span>
+                        <span className="text-sm text-muted-foreground">Portfolio Growth</span>
                       </div>
                       <span className="text-lg font-bold text-green-600">+12.5%</span>
                     </div>
-                    <div className="flex items-center justify-between p-3 bg-gray-50">
+                    <div className="flex items-center justify-between p-3 bg-muted">
                       <div className="flex items-center">
                         <DollarSign className="h-5 w-5 text-blue-500 mr-3" />
-                        <span className="text-sm text-gray-600">Total Invested</span>
+                        <span className="text-sm text-muted-foreground">Total Invested</span>
                       </div>
                       <span className="text-lg font-bold text-blue-600">$125K</span>
                     </div>
-                    <div className="flex items-center justify-between p-3 bg-gray-50">
+                    <div className="flex items-center justify-between p-3 bg-muted">
                       <div className="flex items-center">
                         <Users className="h-5 w-5 text-purple-500 mr-3" />
-                        <span className="text-sm text-gray-600">Active Partners</span>
+                        <span className="text-sm text-muted-foreground">Active Partners</span>
                       </div>
                       <span className="text-lg font-bold text-purple-600">8</span>
                     </div>
@@ -321,8 +321,8 @@ export default function Profile() {
                 </div>
 
                 {/* Achievements */}
-                <div className="bg-white">
-                  <h3 className="text-lg font-semibold text-gray-900">
+                <div className="bg-card rounded-2xl shadow-lg border border-border">
+                  <h3 className="text-lg font-semibold text-foreground">
                     <Award className="h-5 w-5 mr-2" />
                     Achievements
                   </h3>
@@ -330,15 +330,15 @@ export default function Profile() {
                     <div className="flex items-center space-x-3 p-3 bg-yellow-50">
                       <Award className="h-6 w-6 text-yellow-500" />
                       <div>
-                        <p className="text-sm font-medium text-gray-900">Top Landowner</p>
-                        <p className="text-xs text-gray-600">Highest rated in Q4 2024</p>
+                        <p className="text-sm font-medium text-foreground">Top Landowner</p>
+                        <p className="text-xs text-muted-foreground">Highest rated in Q4 2024</p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-3 p-3 bg-blue-50">
                       <CheckCircle className="h-6 w-6 text-blue-500" />
                       <div>
-                        <p className="text-sm font-medium text-gray-900">Verified Partner</p>
-                        <p className="text-xs text-gray-600">Completed 50+ successful deals</p>
+                        <p className="text-sm font-medium text-foreground">Verified Partner</p>
+                        <p className="text-xs text-muted-foreground">Completed 50+ successful deals</p>
                       </div>
                     </div>
                   </div>
@@ -350,8 +350,8 @@ export default function Profile() {
           {activeTab === 'portfolio' && (
             <div className="space-y-8">
               {/* Portfolio Summary Chart */}
-              <div className="bg-white">
-                <h3 className="text-xl font-semibold text-gray-900">
+              <div className="bg-card rounded-2xl shadow-lg border border-border">
+                <h3 className="text-xl font-semibold text-foreground">
                   <TrendingUp className="h-5 w-5 mr-2" />
                   Portfolio Performance
                 </h3>
@@ -369,12 +369,12 @@ export default function Profile() {
               {/* Portfolio Items */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {mockPortfolio.map((item) => (
-                  <div key={item.id} className="bg-white">
+                  <div key={item.id} className="bg-card">
                     {user.role === 'landowner' && 'image' in item && (
                       <div className="h-48 bg-gradient-to-br from-primary to-accent relative">
                         <div className="absolute top-4 right-4">
                           <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            item.status === 'listed' ? 'bg-green-500 text-white' : 'bg-gray-500 text-white'
+                            item.status === 'listed' ? 'bg-green-500 text-white' : 'bg-muted0 text-white'
                           }`}>
                             {item.status}
                           </span>
@@ -382,25 +382,25 @@ export default function Profile() {
                       </div>
                     )}
                     <div className="p-6">
-                      <h4 className="text-lg font-semibold text-gray-900">{item.name}</h4>
-                      <p className="text-sm text-gray-600">
+                      <h4 className="text-lg font-semibold text-foreground">{item.name}</h4>
+                      <p className="text-sm text-muted-foreground">
                         <MapPin className="h-4 w-4 mr-1" />
                         {item.location}
                       </p>
                       {user.role === 'landowner' && 'size' in item && (
                         <div className="flex justify-between items-center">
-                          <span className="text-sm text-gray-600">{item.size} acres</span>
+                          <span className="text-sm text-muted-foreground">{item.size} acres</span>
                           <span className="text-lg font-bold text-primary">${item.price}/acre</span>
                         </div>
                       )}
                       {user.role === 'investor' && 'amount' in item && (
                         <div className="space-y-2">
                           <div className="flex justify-between">
-                            <span className="text-sm text-gray-600">Invested</span>
-                            <span className="text-sm font-medium text-gray-900">${item.amount.toLocaleString()}</span>
+                            <span className="text-sm text-muted-foreground">Invested</span>
+                            <span className="text-sm font-medium text-foreground">${item.amount.toLocaleString()}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-sm text-gray-600">ROI</span>
+                            <span className="text-sm text-muted-foreground">ROI</span>
                             <span className="text-sm font-medium text-green-600">+{item.roi}%</span>
                           </div>
                         </div>
@@ -413,15 +413,15 @@ export default function Profile() {
           )}
 
           {activeTab === 'activity' && (
-            <div className="bg-white">
-              <div className="p-6 border-b border-gray-200">
-                <h3 className="text-xl font-semibold text-gray-900">Recent Activity</h3>
+            <div className="bg-card rounded-2xl shadow-lg border border-border">
+              <div className="p-6 border-b border-border">
+                <h3 className="text-xl font-semibold text-foreground">Recent Activity</h3>
               </div>
               <div className="divide-y divide-gray-200">
                 {mockActivity.map((activity) => {
                   const Icon = activity.icon;
                   return (
-                    <div key={activity.id} className="p-6 hover:bg-gray-50">
+                    <div key={activity.id} className="p-6 hover:bg-muted">
                       <div className="flex items-start space-x-4">
                         <div className="flex-shrink-0">
                           <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
@@ -429,9 +429,9 @@ export default function Profile() {
                           </div>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-gray-900">{activity.title}</p>
-                          <p className="text-sm text-gray-600">{activity.description}</p>
-                          <p className="text-xs text-gray-500">{activity.date}</p>
+                          <p className="text-sm font-medium text-foreground">{activity.title}</p>
+                          <p className="text-sm text-muted-foreground">{activity.description}</p>
+                          <p className="text-xs text-muted-foreground">{activity.date}</p>
                         </div>
                       </div>
                     </div>
@@ -443,28 +443,28 @@ export default function Profile() {
 
           {activeTab === 'reviews' && (
             <div className="space-y-6">
-              <div className="bg-white">
+              <div className="bg-card rounded-2xl shadow-lg border border-border">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-semibold text-gray-900">Reviews & Ratings</h3>
+                  <h3 className="text-xl font-semibold text-foreground">Reviews & Ratings</h3>
                   <div className="flex items-center space-x-2">
                     <div className="flex items-center">
                       <Star className="h-5 w-5 text-yellow-400 fill-current" />
-                      <span className="text-lg font-bold text-gray-900">4.8</span>
+                      <span className="text-lg font-bold text-foreground">4.8</span>
                     </div>
-                    <span className="text-sm text-gray-600">(12 reviews)</span>
+                    <span className="text-sm text-muted-foreground">(12 reviews)</span>
                   </div>
                 </div>
 
                 <div className="space-y-6">
                   {mockReviews.map((review) => (
-                    <div key={review.id} className="border-b border-gray-200">
+                    <div key={review.id} className="border-b border-border">
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex items-center space-x-3">
                           <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white font-bold">
                             {review.from.charAt(0)}
                           </div>
                           <div>
-                            <p className="text-sm font-medium text-gray-900">{review.from}</p>
+                            <p className="text-sm font-medium text-foreground">{review.from}</p>
                             <div className="flex items-center">
                               {[...Array(5)].map((_, i) => (
                                 <Star
@@ -477,9 +477,9 @@ export default function Profile() {
                             </div>
                           </div>
                         </div>
-                        <span className="text-xs text-gray-500">{review.date}</span>
+                        <span className="text-xs text-muted-foreground">{review.date}</span>
                       </div>
-                      <p className="text-gray-700">{review.comment}</p>
+                      <p className="text-foreground/80">{review.comment}</p>
                     </div>
                   ))}
                 </div>

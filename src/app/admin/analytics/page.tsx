@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Button from '@/components/Button';
-import { TrendingUp, Users, Map, DollarSign, Activity, BarChart3, PieChart, Pie, Cell } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { TrendingUp, Users, Map, DollarSign, Activity, BarChart3 } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from 'recharts';
 
 export default function AdminAnalyticsPage() {
   const [analytics, setAnalytics] = useState<{
@@ -82,44 +82,44 @@ export default function AdminAnalyticsPage() {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center space-x-3 mb-8">
           <BarChart3 className="h-8 w-8 text-primary" />
-          <h1 className="text-3xl font-bold text-gray-900">Analytics Dashboard</h1>
+          <h1 className="text-3xl font-bold text-foreground">Analytics Dashboard</h1>
         </div>
 
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white">
+          <div className="bg-card">
             <div className="flex items-center">
               <Users className="h-8 w-8 text-primary mr-3" />
               <div>
-                <p className="text-2xl font-bold text-gray-900">{analytics.platformMetrics.totalUsers}</p>
-                <p className="text-sm text-gray-600">Total Users</p>
+                <p className="text-2xl font-bold text-foreground">{analytics.platformMetrics.totalUsers}</p>
+                <p className="text-sm text-muted-foreground">Total Users</p>
               </div>
             </div>
           </div>
-          <div className="bg-white">
+          <div className="bg-card">
             <div className="flex items-center">
               <Map className="h-8 w-8 text-accent mr-3" />
               <div>
-                <p className="text-2xl font-bold text-gray-900">{analytics.platformMetrics.totalLands}</p>
-                <p className="text-sm text-gray-600">Total Lands</p>
+                <p className="text-2xl font-bold text-foreground">{analytics.platformMetrics.totalLands}</p>
+                <p className="text-sm text-muted-foreground">Total Lands</p>
               </div>
             </div>
           </div>
-          <div className="bg-white">
+          <div className="bg-card">
             <div className="flex items-center">
               <Activity className="h-8 w-8 text-secondary mr-3" />
               <div>
-                <p className="text-2xl font-bold text-gray-900">{analytics.platformMetrics.activeDeals}</p>
-                <p className="text-sm text-gray-600">Active Deals</p>
+                <p className="text-2xl font-bold text-foreground">{analytics.platformMetrics.activeDeals}</p>
+                <p className="text-sm text-muted-foreground">Active Deals</p>
               </div>
             </div>
           </div>
-          <div className="bg-white">
+          <div className="bg-card">
             <div className="flex items-center">
               <DollarSign className="h-8 w-8 text-green-500 mr-3" />
               <div>
-                <p className="text-2xl font-bold text-gray-900">${analytics.platformMetrics.monthlyRevenue.toLocaleString()}</p>
-                <p className="text-sm text-gray-600">Monthly Revenue</p>
+                <p className="text-2xl font-bold text-foreground">${analytics.platformMetrics.monthlyRevenue.toLocaleString()}</p>
+                <p className="text-sm text-muted-foreground">Monthly Revenue</p>
               </div>
             </div>
           </div>
@@ -127,8 +127,8 @@ export default function AdminAnalyticsPage() {
 
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          <div className="bg-white">
-            <h3 className="text-lg font-semibold mb-4 text-gray-900">
+          <div className="bg-card">
+            <h3 className="text-lg font-semibold mb-4 text-foreground">
               <TrendingUp className="w-5 h-5 mr-2 text-primary" />
               User Growth
             </h3>
@@ -143,8 +143,8 @@ export default function AdminAnalyticsPage() {
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-white">
-            <h3 className="text-lg font-semibold mb-4 text-gray-900">
+          <div className="bg-card">
+            <h3 className="text-lg font-semibold mb-4 text-foreground">
               <Activity className="w-5 h-5 mr-2 text-accent" />
               Deal Volume
             </h3>
@@ -161,8 +161,8 @@ export default function AdminAnalyticsPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="bg-white">
-            <h3 className="text-lg font-semibold mb-4 text-gray-900">
+          <div className="bg-card">
+            <h3 className="text-lg font-semibold mb-4 text-foreground">
               <DollarSign className="w-5 h-5 mr-2 text-secondary" />
               Revenue Trends
             </h3>
@@ -177,8 +177,8 @@ export default function AdminAnalyticsPage() {
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-white">
-            <h3 className="text-lg font-semibold mb-4 text-gray-900">User Distribution</h3>
+          <div className="bg-card">
+            <h3 className="text-lg font-semibold mb-4 text-foreground">User Distribution</h3>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
@@ -202,27 +202,27 @@ export default function AdminAnalyticsPage() {
         </div>
 
         {/* Detailed Metrics */}
-        <div className="mt-8 bg-white">
-          <h3 className="text-lg font-semibold mb-4 text-gray-900">Platform Metrics</h3>
+        <div className="mt-8 bg-card">
+          <h3 className="text-lg font-semibold mb-4 text-foreground">Platform Metrics</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="text-center">
               <div className="text-2xl font-bold text-primary">{analytics.platformMetrics.totalUsers}</div>
-              <div className="text-sm text-gray-600">Total Users</div>
+              <div className="text-sm text-muted-foreground">Total Users</div>
               <div className="text-xs text-green-600 mt-1">+12% this month</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-accent">{analytics.platformMetrics.totalLands}</div>
-              <div className="text-sm text-gray-600">Active Lands</div>
+              <div className="text-sm text-muted-foreground">Active Lands</div>
               <div className="text-xs text-green-600 mt-1">+8% this month</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-secondary">{analytics.platformMetrics.activeDeals}</div>
-              <div className="text-sm text-gray-600">Active Deals</div>
+              <div className="text-sm text-muted-foreground">Active Deals</div>
               <div className="text-xs text-green-600 mt-1">+15% this month</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-green-600">${analytics.platformMetrics.monthlyRevenue.toLocaleString()}</div>
-              <div className="text-sm text-gray-600">Monthly Revenue</div>
+              <div className="text-sm text-muted-foreground">Monthly Revenue</div>
               <div className="text-xs text-green-600 mt-1">+18% this month</div>
             </div>
           </div>

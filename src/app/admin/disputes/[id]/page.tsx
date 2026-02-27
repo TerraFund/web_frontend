@@ -176,13 +176,13 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
           <div className="flex items-center space-x-4">
             <button
               onClick={() => router.back()}
-              className="p-2 hover:bg-gray-100"
+              className="p-2 hover:bg-muted"
             >
               <ArrowLeft className="h-5 w-5" />
             </button>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">{disputeData.title}</h1>
-              <p className="text-gray-600">Dispute ID: {disputeData.id}</p>
+              <h1 className="text-3xl font-bold text-foreground">{disputeData.title}</h1>
+              <p className="text-muted-foreground">Dispute ID: {disputeData.id}</p>
             </div>
           </div>
           <div className="flex items-center space-x-3">
@@ -211,70 +211,70 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Dispute Details */}
-            <div className="bg-white">
-              <h2 className="text-xl font-semibold mb-4 text-gray-900">Dispute Details</h2>
+            <div className="bg-card">
+              <h2 className="text-xl font-semibold mb-4 text-foreground">Dispute Details</h2>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Description</label>
-                  <p className="text-gray-600">{disputeData.description}</p>
+                  <label className="block text-sm font-medium text-foreground/80">Description</label>
+                  <p className="text-muted-foreground">{disputeData.description}</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Created</label>
-                    <p className="text-gray-900">
-                      <Calendar className="h-4 w-4 mr-2 text-gray-500" />
+                    <label className="block text-sm font-medium text-foreground/80">Created</label>
+                    <p className="text-foreground">
+                      <Calendar className="h-4 w-4 mr-2 text-muted-foreground" />
                       {disputeData.created}
                     </p>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">Related Contract</label>
-                    <p className="text-gray-900">{disputeData.contract.title} (${disputeData.contract.value.toLocaleString()})</p>
+                    <label className="block text-sm font-medium text-foreground/80">Related Contract</label>
+                    <p className="text-foreground">{disputeData.contract.title} (${disputeData.contract.value.toLocaleString()})</p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Parties Involved */}
-            <div className="bg-white">
-              <h2 className="text-xl font-semibold mb-4 text-gray-900">Parties Involved</h2>
+            <div className="bg-card">
+              <h2 className="text-xl font-semibold mb-4 text-foreground">Parties Involved</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="p-4 border border-gray-200">
-                  <h3 className="font-medium text-gray-900">Plaintiff</h3>
+                <div className="p-4 border border-border">
+                  <h3 className="font-medium text-foreground">Plaintiff</h3>
                   <div className="space-y-2">
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-muted-foreground">
                       <User className="h-4 w-4 mr-2" />
                       {disputeData.plaintiff.name}
                     </p>
-                    <p className="text-sm text-gray-600">{disputeData.plaintiff.role}</p>
-                    <p className="text-sm text-gray-600">{disputeData.plaintiff.email}</p>
+                    <p className="text-sm text-muted-foreground">{disputeData.plaintiff.role}</p>
+                    <p className="text-sm text-muted-foreground">{disputeData.plaintiff.email}</p>
                   </div>
                 </div>
-                <div className="p-4 border border-gray-200">
-                  <h3 className="font-medium text-gray-900">Defendant</h3>
+                <div className="p-4 border border-border">
+                  <h3 className="font-medium text-foreground">Defendant</h3>
                   <div className="space-y-2">
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-muted-foreground">
                       <User className="h-4 w-4 mr-2" />
                       {disputeData.defendant.name}
                     </p>
-                    <p className="text-sm text-gray-600">{disputeData.defendant.role}</p>
-                    <p className="text-sm text-gray-600">{disputeData.defendant.email}</p>
+                    <p className="text-sm text-muted-foreground">{disputeData.defendant.role}</p>
+                    <p className="text-sm text-muted-foreground">{disputeData.defendant.email}</p>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Evidence */}
-            <div className="bg-white">
-              <h2 className="text-xl font-semibold mb-4 text-gray-900">
+            <div className="bg-card">
+              <h2 className="text-xl font-semibold mb-4 text-foreground">
                 <FileText className="h-5 w-5 mr-2 text-primary" />
                 Evidence
               </h2>
               <div className="space-y-3">
                 {disputeData.evidence.map((evidence) => (
-                  <div key={evidence.id} className="flex items-center justify-between p-3 bg-gray-50">
+                  <div key={evidence.id} className="flex items-center justify-between p-3 bg-muted">
                     <div>
-                      <p className="font-medium text-gray-900">{evidence.name}</p>
-                      <p className="text-sm text-gray-600">
+                      <p className="font-medium text-foreground">{evidence.name}</p>
+                      <p className="text-sm text-muted-foreground">
                         Type: {evidence.type} • Uploaded by: {evidence.uploadedBy} • {evidence.uploaded}
                       </p>
                     </div>
@@ -288,11 +288,11 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
 
             {/* Resolution */}
             {disputeData.status !== 'resolved' && disputeData.status !== 'dismissed' && (
-              <div className="bg-white">
-                <h2 className="text-xl font-semibold mb-4 text-gray-900">Resolution</h2>
+              <div className="bg-card">
+                <h2 className="text-xl font-semibold mb-4 text-foreground">Resolution</h2>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-foreground/80">
                       Resolution Details
                     </label>
                     <textarea
@@ -300,7 +300,7 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
                       onChange={(e) => setResolution(e.target.value)}
                       rows={4}
                       placeholder="Describe how this dispute was resolved..."
-                      className="w-full px-3 py-2 border border-gray-300"
+                      className="w-full px-3 py-2 border border-border"
                     />
                   </div>
                   <div className="flex space-x-3">
@@ -330,21 +330,21 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Communication */}
-            <div className="bg-white">
-              <h3 className="text-lg font-semibold mb-4 text-gray-900">
+            <div className="bg-card">
+              <h3 className="text-lg font-semibold mb-4 text-foreground">
                 <MessageSquare className="h-5 w-5 mr-2 text-primary" />
                 Communication
               </h3>
               <div className="space-y-4 max-h-96 overflow-y-auto">
                 {disputeData.messages.map((message) => (
-                  <div key={message.id} className="p-3 bg-gray-50">
+                  <div key={message.id} className="p-3 bg-muted">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium text-sm text-gray-900">
+                      <span className="font-medium text-sm text-foreground">
                         {message.sender} ({message.senderRole})
                       </span>
-                      <span className="text-xs text-gray-500">{message.timestamp}</span>
+                      <span className="text-xs text-muted-foreground">{message.timestamp}</span>
                     </div>
-                    <p className="text-sm text-gray-600">{message.message}</p>
+                    <p className="text-sm text-muted-foreground">{message.message}</p>
                   </div>
                 ))}
               </div>
@@ -355,7 +355,7 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
                     onChange={(e) => setNewMessage(e.target.value)}
                     rows={3}
                     placeholder="Send a message to both parties..."
-                    className="w-full px-3 py-2 border border-gray-300"
+                    className="w-full px-3 py-2 border border-border"
                   />
                   <Button onClick={handleSendMessage} disabled={!newMessage.trim()} className="w-full">
                     <Send className="h-4 w-4 mr-2" />
@@ -366,8 +366,8 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white">
-              <h3 className="text-lg font-semibold mb-4 text-gray-900">Quick Actions</h3>
+            <div className="bg-card">
+              <h3 className="text-lg font-semibold mb-4 text-foreground">Quick Actions</h3>
               <div className="space-y-3">
                 <Button variant="outline" className="w-full justify-start">
                   <FileText className="h-4 w-4 mr-2" />

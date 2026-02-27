@@ -34,16 +34,16 @@ export default function ReviewModal({ targetUserId, targetUserName, onSubmit }: 
 
   return (
     <div className="max-w-md w-full">
-      <h2 className="text-2xl font-bold text-gray-900">
+      <h2 className="text-2xl font-bold text-foreground">
         Leave a Review
       </h2>
-      <p className="text-gray-600">
+      <p className="text-muted-foreground">
         Share your experience with <strong>{targetUserName}</strong>
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-foreground/80">
             Rating
           </label>
           <div className="flex space-x-1">
@@ -67,18 +67,18 @@ export default function ReviewModal({ targetUserId, targetUserName, onSubmit }: 
             ))}
           </div>
           {rating > 0 && (
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-muted-foreground">
               {rating} star{rating !== 1 ? 's' : ''}
             </p>
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-foreground/80">
             Comment (Optional)
           </label>
           <textarea
-            className="w-full px-3 py-2 border border-gray-300"
+            className="w-full px-3 py-2 border border-border"
             rows={4}
             placeholder="Tell others about your experience..."
             value={comment}

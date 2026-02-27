@@ -77,14 +77,14 @@ export default function AdminReportsPage() {
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center space-x-3 mb-8">
           <BarChart3 className="h-8 w-8 text-primary" />
-          <h1 className="text-3xl font-bold text-gray-900">Reports & Analytics</h1>
+          <h1 className="text-3xl font-bold text-foreground">Reports & Analytics</h1>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-white">
-              <h3 className="text-lg font-semibold mb-4 text-gray-900">Report Types</h3>
+            <div className="bg-card">
+              <h3 className="text-lg font-semibold mb-4 text-foreground">Report Types</h3>
               <div className="space-y-2">
                 {[
                   { id: 'users', label: 'User Reports', icon: Users },
@@ -100,7 +100,7 @@ export default function AdminReportsPage() {
                       className={`w-full flex items-center px-3 py-2 rounded-lg text-left transition-colors ${
                         reportType === type.id
                           ? 'bg-primary text-white'
-                          : 'text-gray-700'
+                          : 'text-foreground/80'
                       }`}
                     >
                       <Icon className="h-4 w-4 mr-3" />
@@ -112,36 +112,36 @@ export default function AdminReportsPage() {
             </div>
 
             {/* Date Range */}
-            <div className="bg-white">
-              <h3 className="text-lg font-semibold mb-4 text-gray-900">
+            <div className="bg-card">
+              <h3 className="text-lg font-semibold mb-4 text-foreground">
                 <Calendar className="h-5 w-5 mr-2" />
                 Date Range
               </h3>
               <div className="space-y-3">
                 <div>
-                  <label className="block text-sm text-gray-600">Start Date</label>
+                  <label className="block text-sm text-muted-foreground">Start Date</label>
                   <input
                     type="date"
                     value={dateRange.start}
                     onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300"
+                    className="w-full px-3 py-2 border border-border"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-600">End Date</label>
+                  <label className="block text-sm text-muted-foreground">End Date</label>
                   <input
                     type="date"
                     value={dateRange.end}
                     onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300"
+                    className="w-full px-3 py-2 border border-border"
                   />
                 </div>
               </div>
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white">
-              <h3 className="text-lg font-semibold mb-4 text-gray-900">Quick Export</h3>
+            <div className="bg-card">
+              <h3 className="text-lg font-semibold mb-4 text-foreground">Quick Export</h3>
               <div className="space-y-2">
                 <Button onClick={() => exportData('csv')} variant="outline" className="w-full justify-start">
                   <Download className="h-4 w-4 mr-2" />
@@ -162,29 +162,29 @@ export default function AdminReportsPage() {
           {/* Main Content */}
           <div className="lg:col-span-3 space-y-6">
             {/* Generate New Report */}
-            <div className="bg-white">
-              <h2 className="text-xl font-semibold mb-4 text-gray-900">Generate New Report</h2>
+            <div className="bg-card">
+              <h2 className="text-xl font-semibold mb-4 text-foreground">Generate New Report</h2>
               <div className="flex items-center space-x-4">
                 <Button onClick={() => generateReport(reportType)}>
                   <TrendingUp className="h-4 w-4 mr-2" />
                   Generate {reportType.charAt(0).toUpperCase() + reportType.slice(1)} Report
                 </Button>
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-muted-foreground">
                   For date range: {dateRange.start} to {dateRange.end}
                 </span>
               </div>
             </div>
 
             {/* Recent Reports */}
-            <div className="bg-white">
-              <h2 className="text-xl font-semibold mb-4 text-gray-900">Recent Reports</h2>
+            <div className="bg-card">
+              <h2 className="text-xl font-semibold mb-4 text-foreground">Recent Reports</h2>
               <div className="space-y-4">
                 {reports.filter(report => report.type === reportType).map((report) => (
-                  <div key={report.id} className="flex items-center justify-between p-4 border border-gray-200">
+                  <div key={report.id} className="flex items-center justify-between p-4 border border-border">
                     <div className="flex-1">
-                      <h3 className="font-medium text-gray-900">{report.name}</h3>
-                      <p className="text-sm text-gray-600">{report.description}</p>
-                      <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
+                      <h3 className="font-medium text-foreground">{report.name}</h3>
+                      <p className="text-sm text-muted-foreground">{report.description}</p>
+                      <div className="flex items-center space-x-4 mt-2 text-xs text-muted-foreground">
                         <span>Last generated: {report.lastGenerated}</span>
                         <span>Size: {report.size}</span>
                       </div>
@@ -201,15 +201,15 @@ export default function AdminReportsPage() {
             </div>
 
             {/* Report Preview */}
-            <div className="bg-white">
-              <h2 className="text-xl font-semibold mb-4 text-gray-900">Report Preview</h2>
-              <div className="bg-gray-50">
+            <div className="bg-card">
+              <h2 className="text-xl font-semibold mb-4 text-foreground">Report Preview</h2>
+              <div className="bg-muted">
                 <div className="text-center py-8">
-                  <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-600">
+                  <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <p className="text-muted-foreground">
                     Select a report type and date range to preview data
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-muted-foreground">
                     Preview will show sample data and statistics for the selected period
                   </p>
                 </div>

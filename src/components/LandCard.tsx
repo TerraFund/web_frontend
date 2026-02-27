@@ -1,6 +1,7 @@
 'use client';
 
-import { MapPin, Droplets, Mountain, Leaf, Heart, Star, TrendingUp } from 'lucide-react';
+import { useState } from 'react';
+import { Heart, MapPin, Droplets, Mountain, Scale, TrendingUp, Sprout } from 'lucide-react';
 
 interface LandCardProps {
   id: string;
@@ -11,13 +12,12 @@ interface LandCardProps {
   soilQuality: string;
   waterSource: string;
   elevation: number;
-  price?: number;
+  price: number;
   image?: string;
-  onClick?: () => void;
   isFavorite?: boolean;
-  onFavorite?: () => void;
-  isInCompare?: boolean;
-  onCompare?: () => void;
+  onToggleFavorite?: (id: string) => void;
+  onCompare?: (id: string) => void;
+  isComparing?: boolean;
 }
 
 export default function LandCard({
@@ -30,114 +30,120 @@ export default function LandCard({
   waterSource,
   elevation,
   price,
-  image,
-  onClick,
   isFavorite = false,
-  onFavorite,
-  isInCompare = false,
+  onToggleFavorite,
   onCompare,
+  isComparing = false,
 }: LandCardProps) {
+  const [imageError, setImageError] = useState(false);
+
+  const getSoilColor = (quality: string) => {
+    switch (quality.toLowerCase()) {
+      case 'excellent': return 'badge-success';
+      case 'good': return 'badge-info';
+      case 'fair': return 'badge-warning';
+      default: return 'badge-info';
+    }
+  };
+
   return (
-    <div
-      onClick={onClick}
-      className="bg-white"
-    >
-      {/* Image/Placeholder */}
-      <div className="relative h-48 bg-gradient-to-br from-primary via-primary to-accent overflow-hidden">
-        {image ? (
-          <img src={image} alt={title} className="w-full h-full object-cover" />
+    <div className="group bg-card rounded-2xl border border-border overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 card-hover">
+      {/* Image / Placeholder */}
+      <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20">
+        {!imageError ? (
+          <div className="w-full h-full gradient-primary flex items-center justify-center">
+            <Sprout className="h-16 w-16 text-white/30" />
+          </div>
         ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <MapPin className="h-16 w-16 text-white/80" />
+          <div className="w-full h-full gradient-primary flex items-center justify-center">
+            <Sprout className="h-16 w-16 text-white/30" />
           </div>
         )}
 
-        {/* Overlay with price and favorite */}
-        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-start justify-between p-4">
-          <div className="bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1">
-            <span className="text-sm font-bold text-gray-900">${price}/acre</span>
-          </div>
-           <button
-             onClick={(e) => {
-               e.stopPropagation();
-               onFavorite?.();
-             }}
-             className="bg-white/90 backdrop-blur-sm rounded-full p-2 hover:bg-white transition-colors"
-           >
-             <Heart className={`h-4 w-4 ${isFavorite ? 'text-red-500 fill-current' : 'text-gray-600 hover:text-red-500'}`} />
-           </button>
+        {/* Overlay on hover */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+        {/* Price badge */}
+        <div className="absolute top-3 left-3 px-3 py-1.5 bg-accent text-secondary font-bold text-sm rounded-lg shadow-lg">
+          ${price.toLocaleString()}/ha
         </div>
 
-        {/* Status badge */}
-        <div className="absolute top-4 left-4 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-          Available
-        </div>
-
-        {/* Compare checkbox */}
-        <div className="absolute top-4 right-4 flex items-center space-x-2">
+        {/* Favorite button */}
+        {onToggleFavorite && (
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onCompare?.();
-            }}
-            className={`w-6 h-6 rounded border-2 flex items-center justify-center transition-all ${
-              isInCompare
-                ? 'bg-primary border-primary text-white'
-                : 'bg-white/90 border-gray-300 text-gray-600 hover:border-primary'
-            }`}
+            onClick={(e) => { e.stopPropagation(); onToggleFavorite(id); }}
+            className="absolute top-3 right-3 p-2 rounded-full bg-white/90 hover:bg-white transition-all duration-200 shadow-md"
           >
-            {isInCompare && <span className="text-xs">✓</span>}
+            <Heart
+              className={`h-4 w-4 transition-colors ${isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-400'}`}
+            />
           </button>
+        )}
+
+        {/* Soil quality badge */}
+        <div className={`absolute bottom-3 left-3 px-2.5 py-1 rounded-full text-xs font-semibold ${getSoilColor(soilQuality)}`}>
+          {soilQuality} Soil
         </div>
       </div>
 
-      <div className="p-6">
-        <div className="flex items-start justify-between mb-3">
-          <div>
-            <h3 className="text-xl font-bold text-gray-900">{title}</h3>
-            <p className="text-sm text-gray-600">
-              <MapPin className="h-4 w-4 mr-1 text-primary" />
-              {location}
-            </p>
-          </div>
-          <div className="flex items-center text-yellow-400">
-            <Star className="h-4 w-4 fill-current" />
-            <span className="text-sm font-medium ml-1 text-gray-700">4.8</span>
+      {/* Content */}
+      <div className="p-5 space-y-4">
+        <div>
+          <h3 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors line-clamp-1">
+            {title}
+          </h3>
+          <div className="flex items-center gap-1.5 mt-1 text-muted-foreground text-sm">
+            <MapPin className="h-3.5 w-3.5" />
+            <span>{location}</span>
           </div>
         </div>
 
-        {/* Key features */}
-        <div className="grid grid-cols-2 gap-3 mb-4">
-          <div className="flex items-center text-sm text-gray-600">
-            <Leaf className="h-4 w-4 mr-2 text-green-500" />
-            <span className="truncate">{cropSuitability}</span>
+        {/* Stats grid */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="flex items-center gap-2 text-sm">
+            <Scale className="h-4 w-4 text-primary" />
+            <span className="text-muted-foreground">{size} ha</span>
           </div>
-          <div className="flex items-center text-sm text-gray-600">
-            <Droplets className="h-4 w-4 mr-2 text-blue-500" />
-            <span>{waterSource}</span>
+          <div className="flex items-center gap-2 text-sm">
+            <Mountain className="h-4 w-4 text-primary" />
+            <span className="text-muted-foreground">{elevation}m</span>
           </div>
-          <div className="flex items-center text-sm text-gray-600">
-            <TrendingUp className="h-4 w-4 mr-2 text-purple-500" />
-            <span>{size} acres</span>
+          <div className="flex items-center gap-2 text-sm">
+            <Droplets className="h-4 w-4 text-accent" />
+            <span className="text-muted-foreground">{waterSource}</span>
           </div>
-          <div className="flex items-center text-sm text-gray-600">
-            <Mountain className="h-4 w-4 mr-2 text-gray-500" />
-            <span>{elevation}m</span>
+          <div className="flex items-center gap-2 text-sm">
+            <TrendingUp className="h-4 w-4 text-accent" />
+            <span className="text-muted-foreground">12% ROI</span>
           </div>
         </div>
 
-        {/* Soil quality and CTA */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <div className={`w-3 h-3 rounded-full mr-2 ${
-              soilQuality === 'Excellent' ? 'bg-green-500' :
-              soilQuality === 'Good' ? 'bg-yellow-500' : 'bg-red-500'
-            }`}></div>
-            <span className="text-sm text-gray-600">Soil: {soilQuality}</span>
-          </div>
-          <button className="bg-gradient-to-r from-primary to-accent text-white px-4 py-2 rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-200 text-sm font-medium">
-            View Details
+        {/* Crop suitability */}
+        <div className="flex flex-wrap gap-1.5">
+          {cropSuitability.split(', ').map((crop) => (
+            <span key={crop} className="px-2.5 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full">
+              {crop}
+            </span>
+          ))}
+        </div>
+
+        {/* Actions */}
+        <div className="flex gap-2 pt-1">
+          <button className="flex-1 py-2.5 bg-primary hover:bg-primary/90 text-white text-sm font-semibold rounded-xl transition-all duration-200 hover:shadow-lg">
+            Send Proposal
           </button>
+          {onCompare && (
+            <button
+              onClick={(e) => { e.stopPropagation(); onCompare(id); }}
+              className={`px-4 py-2.5 text-sm font-medium rounded-xl border transition-all duration-200 ${
+                isComparing
+                  ? 'bg-accent/10 border-accent text-accent'
+                  : 'border-border text-muted-foreground hover:border-primary hover:text-primary'
+              }`}
+            >
+              Compare
+            </button>
+          )}
         </div>
       </div>
     </div>

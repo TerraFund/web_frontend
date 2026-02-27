@@ -96,36 +96,36 @@ export default function ContractModal({ contractId, contractTerms, onSign }: Con
     <div className="max-w-4xl w-full max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-300">
       <div className="flex items-center mb-6">
         <FileText className="w-8 h-8 text-primary mr-3" />
-        <h2 className="text-2xl font-bold text-gray-900">
+        <h2 className="text-2xl font-bold text-foreground">
           Contract Agreement
         </h2>
       </div>
 
-      <div className="bg-gray-50">
-        <h3 className="text-lg font-semibold text-gray-900">
+      <div className="bg-muted">
+        <h3 className="text-lg font-semibold text-foreground">
           Terms and Conditions
         </h3>
-        <div className="text-sm text-gray-700">
+        <div className="text-sm text-foreground/80">
           {contractTerms}
         </div>
       </div>
 
-      <div className="border border-gray-300">
+      <div className="border border-border">
         <div className="flex items-center mb-4">
           <PenTool className="w-5 h-5 text-primary mr-2" />
-          <h3 className="text-lg font-semibold text-gray-900">
+          <h3 className="text-lg font-semibold text-foreground">
             Digital Signature
           </h3>
           {hasSignature && (
             <CheckCircle className="w-5 h-5 text-green-500 ml-2 animate-in zoom-in duration-300" />
           )}
         </div>
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-muted-foreground">
           Please sign below using your mouse or touch device. Your signature will be legally binding.
         </p>
 
-        <div className={`border-2 rounded-lg p-4 bg-white
-          isDrawing ? 'border-primary shadow-lg' : 'border-gray-300
+        <div className={`border-2 rounded-lg p-4 bg-card
+          isDrawing ? 'border-primary shadow-lg' : 'border-border
         }`}>
           <canvas
             ref={canvasRef}
@@ -142,13 +142,13 @@ export default function ContractModal({ contractId, contractTerms, onSign }: Con
           />
           {!hasSignature && (
             <div className="absolute inset-4 flex items-center justify-center pointer-events-none">
-              <p className="text-gray-400">Sign here</p>
+              <p className="text-muted-foreground">Sign here</p>
             </div>
           )}
         </div>
 
         <div className="flex justify-between items-center mt-4">
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-muted-foreground">
             {hasSignature ? '✓ Signature captured' : 'Please provide your signature'}
           </p>
           <Button
@@ -165,12 +165,12 @@ export default function ContractModal({ contractId, contractTerms, onSign }: Con
 
       {showSuccess && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-in fade-in duration-300">
-          <div className="bg-white">
+          <div className="bg-card">
             <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900">
+            <h3 className="text-xl font-semibold text-foreground">
               Contract Signed Successfully!
             </h3>
-            <p className="text-gray-600">
+            <p className="text-muted-foreground">
               Your digital signature has been recorded and the contract is now legally binding.
             </p>
           </div>

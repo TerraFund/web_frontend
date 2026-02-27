@@ -138,13 +138,13 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
           <div className="flex items-center space-x-4">
             <button
               onClick={() => router.back()}
-              className="p-2 hover:bg-gray-100"
+              className="p-2 hover:bg-muted"
             >
               <ArrowLeft className="h-5 w-5" />
             </button>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">{userData.name}</h1>
-              <p className="text-gray-600">User ID: {userData.id}</p>
+              <h1 className="text-3xl font-bold text-foreground">{userData.name}</h1>
+              <p className="text-muted-foreground">User ID: {userData.id}</p>
             </div>
           </div>
           <div className="flex items-center space-x-3">
@@ -172,80 +172,80 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
           {/* Main Info */}
           <div className="lg:col-span-2 space-y-6">
             {/* Basic Information */}
-            <div className="bg-white">
-              <h2 className="text-xl font-semibold mb-4 text-gray-900">
+            <div className="bg-card">
+              <h2 className="text-xl font-semibold mb-4 text-foreground">
                 <User className="h-5 w-5 mr-2 text-primary" />
                 Basic Information
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Name</label>
+                  <label className="block text-sm font-medium text-foreground/80">Name</label>
                   {isEditing ? (
                     <input
                       type="text"
                       value={editData.name}
                       onChange={(e) => setEditData({ ...editData, name: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300"
+                      className="w-full px-3 py-2 border border-border"
                     />
                   ) : (
-                    <p className="text-gray-900">{userData.name}</p>
+                    <p className="text-foreground">{userData.name}</p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Email</label>
+                  <label className="block text-sm font-medium text-foreground/80">Email</label>
                   {isEditing ? (
                     <input
                       type="email"
                       value={editData.email}
                       onChange={(e) => setEditData({ ...editData, email: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300"
+                      className="w-full px-3 py-2 border border-border"
                     />
                   ) : (
-                    <p className="text-gray-900">
-                      <Mail className="h-4 w-4 mr-2 text-gray-500" />
+                    <p className="text-foreground">
+                      <Mail className="h-4 w-4 mr-2 text-muted-foreground" />
                       {userData.email}
                     </p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Phone</label>
+                  <label className="block text-sm font-medium text-foreground/80">Phone</label>
                   {isEditing ? (
                     <input
                       type="tel"
                       value={editData.phone}
                       onChange={(e) => setEditData({ ...editData, phone: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300"
+                      className="w-full px-3 py-2 border border-border"
                     />
                   ) : (
-                    <p className="text-gray-900">
-                      <Phone className="h-4 w-4 mr-2 text-gray-500" />
+                    <p className="text-foreground">
+                      <Phone className="h-4 w-4 mr-2 text-muted-foreground" />
                       {userData.phone}
                     </p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Location</label>
+                  <label className="block text-sm font-medium text-foreground/80">Location</label>
                   {isEditing ? (
                     <input
                       type="text"
                       value={editData.location}
                       onChange={(e) => setEditData({ ...editData, location: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300"
+                      className="w-full px-3 py-2 border border-border"
                     />
                   ) : (
-                    <p className="text-gray-900">
-                      <MapPin className="h-4 w-4 mr-2 text-gray-500" />
+                    <p className="text-foreground">
+                      <MapPin className="h-4 w-4 mr-2 text-muted-foreground" />
                       {userData.location}
                     </p>
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Role</label>
+                  <label className="block text-sm font-medium text-foreground/80">Role</label>
                   {isEditing ? (
                     <select
                       value={editData.role}
                       onChange={(e) => setEditData({ ...editData, role: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300"
+                      className="w-full px-3 py-2 border border-border"
                     >
                       <option value="landowner">Landowner</option>
                       <option value="investor">Investor</option>
@@ -264,12 +264,12 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Status</label>
+                  <label className="block text-sm font-medium text-foreground/80">Status</label>
                   {isEditing ? (
                     <select
                       value={editData.status}
                       onChange={(e) => setEditData({ ...editData, status: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300"
+                      className="w-full px-3 py-2 border border-border"
                     >
                       <option value="verified">Verified</option>
                       <option value="pending">Pending</option>
@@ -289,32 +289,32 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
                 </div>
               </div>
               <div className="mt-4">
-                <label className="block text-sm font-medium text-gray-700">Bio</label>
+                <label className="block text-sm font-medium text-foreground/80">Bio</label>
                 {isEditing ? (
                   <textarea
                     value={editData.bio}
                     onChange={(e) => setEditData({ ...editData, bio: e.target.value })}
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300"
+                    className="w-full px-3 py-2 border border-border"
                   />
                 ) : (
-                  <p className="text-gray-600">{userData.bio}</p>
+                  <p className="text-muted-foreground">{userData.bio}</p>
                 )}
               </div>
             </div>
 
             {/* Documents */}
-            <div className="bg-white">
-              <h2 className="text-xl font-semibold mb-4 text-gray-900">
+            <div className="bg-card">
+              <h2 className="text-xl font-semibold mb-4 text-foreground">
                 <FileText className="h-5 w-5 mr-2 text-primary" />
                 Documents
               </h2>
               <div className="space-y-3">
                 {userData.documents.map((doc) => (
-                  <div key={doc.id} className="flex items-center justify-between p-3 bg-gray-50">
+                  <div key={doc.id} className="flex items-center justify-between p-3 bg-muted">
                     <div>
-                      <p className="font-medium text-gray-900">{doc.name}</p>
-                      <p className="text-sm text-gray-600">Type: {doc.type} • Uploaded: {doc.uploaded}</p>
+                      <p className="font-medium text-foreground">{doc.name}</p>
+                      <p className="text-sm text-muted-foreground">Type: {doc.type} • Uploaded: {doc.uploaded}</p>
                     </div>
                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                       doc.status === 'verified'
@@ -329,19 +329,19 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
             </div>
 
             {/* Activity Log */}
-            <div className="bg-white">
-              <h2 className="text-xl font-semibold mb-4 text-gray-900">
+            <div className="bg-card">
+              <h2 className="text-xl font-semibold mb-4 text-foreground">
                 <Activity className="h-5 w-5 mr-2 text-primary" />
                 Activity Log
               </h2>
               <div className="space-y-4">
                 {activityLog.map((activity) => (
-                  <div key={activity.id} className="flex items-start space-x-3 pb-4 border-b border-gray-200">
+                  <div key={activity.id} className="flex items-start space-x-3 pb-4 border-b border-border">
                     <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
                     <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-900">{activity.action}</p>
-                      <p className="text-sm text-gray-600">{activity.details}</p>
-                      <p className="text-xs text-gray-500">{activity.timestamp}</p>
+                      <p className="text-sm font-medium text-foreground">{activity.action}</p>
+                      <p className="text-sm text-muted-foreground">{activity.details}</p>
+                      <p className="text-xs text-muted-foreground">{activity.timestamp}</p>
                     </div>
                   </div>
                 ))}
@@ -352,31 +352,31 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Stats */}
-            <div className="bg-white">
-              <h3 className="text-lg font-semibold mb-4 text-gray-900">Statistics</h3>
+            <div className="bg-card">
+              <h3 className="text-lg font-semibold mb-4 text-foreground">Statistics</h3>
               <div className="space-y-4">
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Total Lands</span>
-                  <span className="font-semibold text-gray-900">{userData.totalLands}</span>
+                  <span className="text-sm text-muted-foreground">Total Lands</span>
+                  <span className="font-semibold text-foreground">{userData.totalLands}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Active Deals</span>
-                  <span className="font-semibold text-gray-900">{userData.activeDeals}</span>
+                  <span className="text-sm text-muted-foreground">Active Deals</span>
+                  <span className="font-semibold text-foreground">{userData.activeDeals}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Total Investments</span>
-                  <span className="font-semibold text-gray-900">${userData.totalInvestments.toLocaleString()}</span>
+                  <span className="text-sm text-muted-foreground">Total Investments</span>
+                  <span className="font-semibold text-foreground">${userData.totalInvestments.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-sm text-gray-600">Joined</span>
-                  <span className="font-semibold text-gray-900">{userData.joined}</span>
+                  <span className="text-sm text-muted-foreground">Joined</span>
+                  <span className="font-semibold text-foreground">{userData.joined}</span>
                 </div>
               </div>
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white">
-              <h3 className="text-lg font-semibold mb-4 text-gray-900">Quick Actions</h3>
+            <div className="bg-card">
+              <h3 className="text-lg font-semibold mb-4 text-foreground">Quick Actions</h3>
               <div className="space-y-3">
                 <Button variant="outline" className="w-full justify-start">
                   <Shield className="h-4 w-4 mr-2" />

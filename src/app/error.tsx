@@ -17,10 +17,10 @@ export default function Error({
     <div className="min-h-screen flex items-center justify-center bg-background_light">
       <div className="text-center">
         <div className="text-6xl font-bold text-red-500 mb-4">⚠️</div>
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-2xl font-bold text-foreground">
           Something went wrong!
         </h1>
-        <p className="text-gray-600">
+        <p className="text-muted-foreground">
           An unexpected error occurred. Please try again.
         </p>
         <button

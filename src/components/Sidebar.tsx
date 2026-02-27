@@ -1,76 +1,131 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import { Home, Map, FileText, MessageSquare, CreditCard, Settings, Users, Bell, BarChart3 } from 'lucide-react';
+import {
+  LayoutDashboard,
+  MapPin,
+  FileText,
+  CreditCard,
+  User,
+  Settings,
+  PlusCircle,
+  Search,
+  MessageSquare,
+  Bell,
+  ChevronLeft,
+  ChevronRight,
+  Shield,
+  BarChart3,
+  Compass
+} from 'lucide-react';
+
+const navItems = {
+  landowner: [
+    { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/dashboard/my-lands', label: 'My Lands', icon: MapPin },
+    { href: '/dashboard/add-land', label: 'Add Land', icon: PlusCircle },
+    { href: '/dashboard/proposals', label: 'Proposals', icon: FileText },
+    { href: '/dashboard/chat', label: 'Messages', icon: MessageSquare },
+    { href: '/dashboard/payments', label: 'Payments', icon: CreditCard },
+    { href: '/dashboard/notifications', label: 'Notifications', icon: Bell },
+    { href: '/dashboard/profile', label: 'Profile', icon: User },
+    { href: '/dashboard/settings', label: 'Settings', icon: Settings },
+  ],
+  investor: [
+    { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/dashboard/browse', label: 'Browse Lands', icon: Compass },
+    { href: '/dashboard/proposals', label: 'Proposals', icon: FileText },
+    { href: '/dashboard/chat', label: 'Messages', icon: MessageSquare },
+    { href: '/dashboard/payments', label: 'Payments', icon: CreditCard },
+    { href: '/dashboard/notifications', label: 'Notifications', icon: Bell },
+    { href: '/dashboard/profile', label: 'Profile', icon: User },
+    { href: '/dashboard/settings', label: 'Settings', icon: Settings },
+  ],
+  admin: [
+    { href: '/admin', label: 'Overview', icon: LayoutDashboard },
+    { href: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
+    { href: '/admin/reports', label: 'Reports', icon: FileText },
+    { href: '/admin/settings', label: 'Settings', icon: Shield },
+  ],
+};
 
 export default function Sidebar() {
   const pathname = usePathname();
   const { user } = useSelector((state: RootState) => state.auth);
+  const [collapsed, setCollapsed] = useState(false);
 
-
-  const landownerLinks = [
-    { href: '/dashboard', icon: Home, label: 'Dashboard' },
-    { href: '/dashboard/my-lands', icon: Map, label: 'My Lands' },
-    { href: '/dashboard/proposals', icon: FileText, label: 'Proposals' },
-    { href: '/dashboard/chat', icon: MessageSquare, label: 'Chat' },
-    { href: '/dashboard/notifications', icon: Bell, label: 'Notifications' },
-    { href: '/dashboard/payments', icon: CreditCard, label: 'Payments' },
-    { href: '/dashboard/settings', icon: Settings, label: 'Settings' },
-  ];
-
-  const investorLinks = [
-    { href: '/dashboard', icon: Home, label: 'Dashboard' },
-    { href: '/dashboard/browse', icon: Map, label: 'Browse Lands' },
-    { href: '/dashboard/proposals', icon: FileText, label: 'My Proposals' },
-    { href: '/dashboard/chat', icon: MessageSquare, label: 'Chat' },
-    { href: '/dashboard/notifications', icon: Bell, label: 'Notifications' },
-    { href: '/dashboard/payments', icon: CreditCard, label: 'Payments' },
-    { href: '/dashboard/settings', icon: Settings, label: 'Settings' },
-  ];
-
-  const adminLinks = [
-    { href: '/admin', icon: Home, label: 'Dashboard' },
-    { href: '/admin/users', icon: Users, label: 'Users' },
-    { href: '/admin/lands', icon: Map, label: 'Lands' },
-    { href: '/admin/analytics', icon: BarChart3, label: 'Analytics' },
-    { href: '/admin/reports', icon: FileText, label: 'Reports' },
-    { href: '/admin/settings', icon: Settings, label: 'Settings' },
-  ];
-
-  const links = user?.role === 'landowner' ? landownerLinks : user?.role === 'investor' ? investorLinks : adminLinks;
+  const role = (user?.role as 'landowner' | 'investor' | 'admin') || 'investor';
+  const items = navItems[role] || navItems.investor;
 
   return (
-    <aside className="w-64 min-h-screen bg-white text-gray-900 shadow-lg">
-      <div className="p-6">
-        <h2 className="text-xl font-bold text-primary">Menu</h2>
+    <aside
+      className={`sticky top-16 h-[calc(100vh-4rem)] bg-white dark:bg-card border-r border-border transition-all duration-300 flex flex-col ${
+        collapsed ? 'w-16' : 'w-60'
+      }`}
+    >
+      {/* Collapse toggle */}
+      <div className="flex justify-end p-2">
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        >
+          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+        </button>
       </div>
-      <nav className="px-4">
-        <ul className="space-y-2">
-          {links.map((link) => {
-            const isActive = pathname === link.href;
-            return (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                    isActive
-                      ? 'bg-primary text-white'
-                      : `hover:bg-gray-100
-                          darkMode ? 'text-text_primary' : 'text-gray-900'
-                        }`
-                  }`}
-                >
-                  <link.icon className="h-5 w-5" />
-                  <span>{link.label}</span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+
+      {/* Nav items */}
+      <nav className="flex-1 px-2 space-y-1 overflow-y-auto">
+        {items.map((item) => {
+          const isActive = pathname === item.href;
+          const Icon = item.icon;
+
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 relative ${
+                isActive
+                  ? 'bg-primary/10 text-primary dark:text-primary-foreground'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+              }`}
+              title={collapsed ? item.label : undefined}
+            >
+              {/* Active indicator bar */}
+              {isActive && (
+                <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-r-full transition-all duration-300" />
+              )}
+              <Icon className={`h-5 w-5 flex-shrink-0 transition-colors ${isActive ? 'text-primary' : ''}`} />
+              {!collapsed && (
+                <span className="truncate transition-opacity duration-200">{item.label}</span>
+              )}
+              {/* Hover highlight */}
+              {!isActive && (
+                <span className="absolute inset-0 rounded-xl bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+              )}
+            </Link>
+          );
+        })}
       </nav>
+
+      {/* User info at bottom */}
+      {!collapsed && user && (
+        <div className="p-3 border-t border-border">
+          <div className="flex items-center gap-3 px-2 py-2">
+            <div className="w-8 h-8 rounded-full gradient-primary flex items-center justify-center text-white text-xs font-bold">
+              {user.name?.charAt(0).toUpperCase()}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium truncate">{user.name}</p>
+              <p className="text-xs text-muted-foreground capitalize">{user.role}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </aside>
   );
 }

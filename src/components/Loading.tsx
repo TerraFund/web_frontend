@@ -13,7 +13,7 @@ export default function Loading({ size = 'md', variant = 'spinner', text }: Load
           <div className="h-4 bg-gray-200"></div>
           <div className="h-4 bg-gray-200"></div>
         </div>
-         {text && <p className="text-sm text-gray-500">{text}</p>}
+         {text && <p className="text-sm text-muted-foreground">{text}</p>}
       </div>
     );
   }
@@ -27,7 +27,7 @@ export default function Loading({ size = 'md', variant = 'spinner', text }: Load
   return (
     <div className="flex flex-col items-center justify-center p-8">
       <div className={`animate-spin rounded-full border-b-2 border-primary ${sizeClasses[size]}`}></div>
-      {text && <p className="text-sm text-gray-500">{text}</p>}
+      {text && <p className="text-sm text-muted-foreground">{text}</p>}
     </div>
   );
 }

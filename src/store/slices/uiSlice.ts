@@ -8,6 +8,7 @@ interface ToastState {
 }
 
 interface UiState {
+  darkMode: boolean;
   sidebarOpen: boolean;
   modalOpen: boolean;
   modalContent: React.ReactNode | null;
@@ -15,6 +16,7 @@ interface UiState {
 }
 
 const initialState: UiState = {
+  darkMode: false,
   sidebarOpen: false,
   modalOpen: false,
   modalContent: null,
@@ -25,6 +27,9 @@ const uiSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
+    toggleDarkMode: (state) => {
+      state.darkMode = !state.darkMode;
+    },
     setSidebarOpen: (state, action: PayloadAction<boolean>) => {
       state.sidebarOpen = action.payload;
     },
@@ -51,5 +56,5 @@ const uiSlice = createSlice({
   },
 });
 
-export const { setSidebarOpen, openModal, closeModal, showToast, hideToast } = uiSlice.actions;
+export const { toggleDarkMode, setSidebarOpen, openModal, closeModal, showToast, hideToast } = uiSlice.actions;
 export default uiSlice.reducer;

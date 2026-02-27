@@ -1,213 +1,327 @@
-// Main landing page component for TerraFund platform
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+'use client';
+
+import { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 import HeroSection from '@/components/HeroSection';
 import FeaturesSection from '@/components/FeaturesSection';
-import { MapPin, Users, Shield } from 'lucide-react';
+import Footer from '@/components/Footer';
+import Navbar from '@/components/Navbar';
+import { ArrowRight, ChevronLeft, ChevronRight, Star, Users, MapPin, DollarSign, Leaf, CheckCircle } from 'lucide-react';
 
-export default function Home() {
+/* =============================================
+   Testimonials Data
+   ============================================= */
+const testimonials = [
+  {
+    id: 1,
+    quote: "TerraFund transformed how I manage my farmland investments. The AI matching connected me with the perfect coffee plantation in Kenya — I've seen 15% returns in just 8 months.",
+    author: 'Sarah Okonkwo',
+    role: 'Agricultural Investor',
+    avatar: 'SO',
+    rating: 5,
+  },
+  {
+    id: 2,
+    quote: "As a landowner, I struggled to find trustworthy investors. TerraFund's verification system and escrow payments gave me peace of mind. My land is now generating sustainable income.",
+    author: 'James Mwangi',
+    role: 'Landowner, Kericho',
+    avatar: 'JM',
+    rating: 5,
+  },
+  {
+    id: 3,
+    quote: "The platform's data-driven approach is incredible. Soil analysis, climate reports, and ROI projections — everything I need to make smart investment decisions in one place.",
+    author: 'Amira Hassan',
+    role: 'Impact Investor',
+    avatar: 'AH',
+    rating: 5,
+  },
+  {
+    id: 4,
+    quote: "From listing my land to receiving my first proposal took just 3 days. The direct messaging feature made negotiations smooth and transparent. Highly recommended!",
+    author: 'David Kamau',
+    role: 'Landowner, Nakuru',
+    avatar: 'DK',
+    rating: 5,
+  },
+];
+
+/* =============================================
+   How It Works Steps
+   ============================================= */
+const steps = [
+  {
+    step: 1,
+    title: 'Create Your Account',
+    description: 'Sign up as a landowner or investor and complete KYC verification to start your journey.',
+    icon: Users,
+    color: 'from-primary to-emerald-400',
+  },
+  {
+    step: 2,
+    title: 'Discover Opportunities',
+    description: 'Browse verified land listings or list your own. Our AI engine suggests the best matches based on your profile.',
+    icon: MapPin,
+    color: 'from-accent to-orange-400',
+  },
+  {
+    step: 3,
+    title: 'Invest & Grow',
+    description: 'Send proposals, sign contracts digitally, and manage payments through our secure escrow system.',
+    icon: DollarSign,
+    color: 'from-primary to-secondary',
+  },
+];
+
+/* =============================================
+   Stats
+   ============================================= */
+const stats = [
+  { value: '1,200+', label: 'Active Users', icon: Users },
+  { value: '89', label: 'Lands Listed', icon: MapPin },
+  { value: '$2.3M+', label: 'Total Invested', icon: DollarSign },
+  { value: '4,500+', label: 'Carbon Credits', icon: Leaf },
+];
+
+/* =============================================
+   Main Landing Page
+   ============================================= */
+export default function LandingPage() {
+  const { t } = useTranslation();
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const nextTestimonial = useCallback(() => {
+    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+  }, []);
+
+  const prevTestimonial = useCallback(() => {
+    setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  }, []);
+
+  // Auto-slide
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(nextTestimonial, 5000);
+    return () => clearInterval(interval);
+  }, [isPaused, nextTestimonial]);
+
+  // Keyboard nav
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') prevTestimonial();
+      if (e.key === 'ArrowRight') nextTestimonial();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [nextTestimonial, prevTestimonial]);
+
   return (
-    <div className="min-h-screen bg-background_light">
+    <div className="min-h-screen">
       <Navbar />
-      <main className="pt-16">
-        <HeroSection />
 
-        {/* How It Works */}
-        <section className="py-24 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900">How It Works</h2>
-              <p className="text-xl text-gray-600">
-                Simple, secure, and sustainable process to connect landowners with investors
-              </p>
-            </div>
+      {/* Hero */}
+      <HeroSection />
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-              {/* Connection lines for desktop */}
-              <div className="hidden md:block absolute top-20 left-1/3 w-1/3 h-0.5 bg-gradient-to-r from-primary to-accent"></div>
-              <div className="hidden md:block absolute top-20 right-1/3 w-1/3 h-0.5 bg-gradient-to-r from-accent to-secondary"></div>
-
-              <div className="text-center group">
-                <div className="relative">
-                  <div className="bg-gradient-to-br from-primary to-primary/80 text-white w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2">
-                    <MapPin className="w-10 h-10" />
-                  </div>
-                  <div className="absolute -top-2 -right-2 bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">
-                    1
-                  </div>
-                </div>
-                <h3 className="text-2xl font-semibold mb-4 text-gray-900">List Your Land</h3>
-                <p className="text-gray-600">
-                  Landowners register and list their unused land with comprehensive details about location, size, soil quality, and agricultural suitability.
-                </p>
-              </div>
-
-              <div className="text-center group">
-                <div className="relative">
-                  <div className="bg-gradient-to-br from-accent to-accent/80 text-white w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2">
-                    <Users className="w-10 h-10" />
-                  </div>
-                  <div className="absolute -top-2 -right-2 bg-secondary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">
-                    2
-                  </div>
-                </div>
-                <h3 className="text-2xl font-semibold mb-4 text-gray-900">Connect with Investors</h3>
-                <p className="text-gray-600">
-                  Investors browse verified lands, filter by criteria, and send personalized investment proposals with competitive terms.
-                </p>
-              </div>
-
-              <div className="text-center group">
-                <div className="relative">
-                  <div className="bg-gradient-to-br from-secondary to-secondary/80 text-white w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:shadow-xl transition-all duration-300 transform group-hover:-translate-y-2">
-                    <Shield className="w-10 h-10" />
-                  </div>
-                  <div className="absolute -top-2 -right-2 bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">
-                    3
-                  </div>
-                </div>
-                <h3 className="text-2xl font-semibold mb-4 text-gray-900">Secure Transactions</h3>
-                <p className="text-gray-600">
-                  Negotiate terms through our platform, sign digital contracts, and complete transactions with built-in escrow protection.
-                </p>
-              </div>
-            </div>
+      {/* How It Works */}
+      <section id="how-it-works" className="py-24 bg-card">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-semibold">
+              How It Works
+            </span>
+            <h2 className="text-4xl lg:text-5xl font-bold text-foreground">
+              Three Steps to{' '}
+              <span className="gradient-text">Success</span>
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Get started in minutes. Our platform guides you from registration to your first investment.
+            </p>
           </div>
-        </section>
 
-        <FeaturesSection />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {steps.map((step, index) => (
+              <div
+                key={step.step}
+                className="group relative bg-background rounded-2xl border border-border p-8 text-center transition-all duration-300 hover:shadow-xl hover:-translate-y-1 fade-in-up"
+                style={{ animationDelay: `${index * 0.15}s` }}
+              >
+                {/* Step number */}
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center shadow-lg">
+                  {step.step}
+                </div>
 
-        {/* Video Demo Section */}
-        <section className="py-24 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900">See TerraFund in Action</h2>
-              <p className="text-xl text-gray-600">
-                Watch how our platform connects landowners and investors seamlessly
-              </p>
-            </div>
+                {/* Icon */}
+                <div className={`w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br ${step.color} flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
+                  <step.icon className="h-8 w-8 text-white" />
+                </div>
 
-            <div className="max-w-4xl mx-auto">
-              <div className="bg-white">
-                <div className="aspect-video bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-                  <div className="text-center text-white">
-                    <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
+                <h3 className="text-xl font-bold text-foreground mb-3">{step.title}</h3>
+                <p className="text-muted-foreground">{step.description}</p>
+
+                {/* Connector line */}
+                {index < steps.length - 1 && (
+                  <div className="hidden md:block absolute top-1/2 -right-4 w-8 border-t-2 border-dashed border-primary/30" />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <FeaturesSection />
+
+      {/* Stats */}
+      <section className="py-20 gradient-primary">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div
+                key={stat.label}
+                className="text-center space-y-2 fade-in-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <stat.icon className="h-8 w-8 mx-auto text-accent mb-2" />
+                <p className="text-4xl font-bold text-white">{stat.value}</p>
+                <p className="text-emerald-200 text-sm">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Carousel */}
+      <section className="py-24 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-accent/10 text-accent text-sm font-semibold">
+              Testimonials
+            </span>
+            <h2 className="text-4xl lg:text-5xl font-bold text-foreground">
+              Trusted by{' '}
+              <span className="gradient-text-accent">Thousands</span>
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Hear from landowners and investors who have transformed their agricultural journey with TerraFund.
+            </p>
+          </div>
+
+          <div
+            className="relative max-w-4xl mx-auto"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
+            {/* Carousel */}
+            <div className="overflow-hidden rounded-2xl">
+              <div
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{ transform: `translateX(-${currentTestimonial * 100}%)` }}
+              >
+                {testimonials.map((testimonial) => (
+                  <div key={testimonial.id} className="w-full flex-shrink-0 px-4">
+                    <div className="bg-card border border-border rounded-2xl p-10 text-center space-y-6">
+                      {/* Stars */}
+                      <div className="flex items-center justify-center gap-1">
+                        {[...Array(testimonial.rating)].map((_, i) => (
+                          <Star key={i} className="h-5 w-5 fill-accent text-accent" />
+                        ))}
+                      </div>
+
+                      {/* Quote */}
+                      <blockquote className="text-lg text-foreground leading-relaxed italic">
+                        &ldquo;{testimonial.quote}&rdquo;
+                      </blockquote>
+
+                      {/* Author */}
+                      <div className="flex items-center justify-center gap-4">
+                        <div className="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-white font-bold">
+                          {testimonial.avatar}
+                        </div>
+                        <div className="text-left">
+                          <p className="font-semibold text-foreground">{testimonial.author}</p>
+                          <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                        </div>
+                      </div>
                     </div>
-                    <p className="text-lg font-semibold">TerraFund Demo Video</p>
-                    <p className="text-sm opacity-90">Coming Soon</p>
                   </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-900">Platform Overview</h3>
-                  <p className="text-gray-600">
-                    Learn how TerraFund revolutionizes land investment with our secure, transparent platform that connects landowners with global investors.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">Secure Transactions</span>
-                    <span className="px-3 py-1 bg-accent/10 text-accent rounded-full text-sm">AI Matching</span>
-                    <span className="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm">Real-time Chat</span>
-                  </div>
-                </div>
+                ))}
               </div>
+            </div>
+
+            {/* Navigation arrows */}
+            <button
+              onClick={prevTestimonial}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-10 h-10 rounded-full bg-card border border-border shadow-lg flex items-center justify-center text-foreground hover:bg-primary hover:text-white transition-all duration-200"
+              aria-label="Previous testimonial"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              onClick={nextTestimonial}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-10 h-10 rounded-full bg-card border border-border shadow-lg flex items-center justify-center text-foreground hover:bg-primary hover:text-white transition-all duration-200"
+              aria-label="Next testimonial"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+
+            {/* Dots */}
+            <div className="flex items-center justify-center gap-2 mt-8">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentTestimonial(index)}
+                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                    currentTestimonial === index
+                      ? 'bg-primary w-8'
+                      : 'bg-border hover:bg-muted-foreground'
+                  }`}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                />
+              ))}
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Stats Section */}
-        <section className="py-20 bg-primary text-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              <div className="animate-in slide-in-from-bottom-4 duration-1000">
-                <div className="text-4xl font-bold mb-2">1,250+</div>
-                <div className="text-primary-100">Active Users</div>
-              </div>
-              <div className="animate-in slide-in-from-bottom-4 duration-1000 delay-200">
-                <div className="text-4xl font-bold mb-2">89</div>
-                <div className="text-primary-100">Lands Listed</div>
-              </div>
-              <div className="animate-in slide-in-from-bottom-4 duration-1000 delay-400">
-                <div className="text-4xl font-bold mb-2">$1.25M</div>
-                <div className="text-primary-100">Invested</div>
-              </div>
-              <div className="animate-in slide-in-from-bottom-4 duration-1000 delay-600">
-                <div className="text-4xl font-bold mb-2">500+</div>
-                <div className="text-primary-100">Carbon Credits</div>
-              </div>
-            </div>
+      {/* Final CTA */}
+      <section className="py-24 gradient-hero relative overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 right-20 w-64 h-64 bg-accent/10 rounded-full blur-3xl float" />
+          <div className="absolute bottom-10 left-20 w-48 h-48 bg-white/5 rounded-full blur-2xl float" style={{ animationDelay: '1s' }} />
+        </div>
+        <div className="relative max-w-4xl mx-auto px-4 text-center space-y-8">
+          <h2 className="text-4xl lg:text-5xl font-bold text-white">
+            Ready to Start Your Agricultural{' '}
+            <span className="gradient-text-accent">Investment Journey</span>?
+          </h2>
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            Join thousands of investors and landowners building a sustainable future for African agriculture.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/auth/register"
+              className="group inline-flex items-center justify-center gap-2 px-10 py-4 bg-accent hover:bg-accent/90 text-secondary font-bold rounded-xl transition-all duration-300 hover:shadow-xl hover:shadow-accent/25 hover:-translate-y-0.5 text-lg"
+            >
+              Create Free Account
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </Link>
+            <Link
+              href="/auth/login"
+              className="inline-flex items-center justify-center gap-2 px-10 py-4 border-2 border-white/30 text-white font-semibold rounded-xl transition-all duration-300 hover:bg-white/10 text-lg"
+            >
+              Sign In
+            </Link>
           </div>
-        </section>
-
-        {/* Testimonials */}
-        <section className="py-24 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900">What Our Users Say</h2>
-              <p className="text-xl text-gray-600">
-                Real stories from landowners and investors using TerraFund
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="bg-white">
-                <div className="absolute top-4 right-4 text-yellow-400">
-                  ★★★★★
-                </div>
-                <p className="text-gray-600">
-                  "TerraFund helped me find investors for my family farm. The process was transparent and secure. I got fair market value and the platform handled all the paperwork."
-                </p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary/80 rounded-full flex items-center justify-center text-white font-bold mr-4 shadow-lg">
-                    J
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900">John Doe</p>
-                    <p className="text-sm text-gray-500">Landowner • Kigali, Rwanda</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white">
-                <div className="absolute top-4 right-4 text-yellow-400">
-                  ★★★★★
-                </div>
-                <p className="text-gray-600">
-                  &ldquo;I found great investment opportunities in sustainable agriculture through TerraFund. The platform&apos;s analytics helped me make informed decisions.&rdquo;
-                </p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-gradient-to-br from-accent to-accent/80 rounded-full flex items-center justify-center text-white font-bold mr-4 shadow-lg">
-                    S
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900">Sarah Smith</p>
-                    <p className="text-sm text-gray-500">Investor • London, UK</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white">
-                <div className="absolute top-4 right-4 text-yellow-400">
-                  ★★★★★
-                </div>
-                <p className="text-gray-600">
-                  &ldquo;The platform&apos;s verification process gives me confidence in every transaction. The carbon credit system is a great bonus for sustainable investing.&rdquo;
-                </p>
-                <div className="flex items-center">
-                  <div className="w-12 h-12 bg-gradient-to-br from-secondary to-secondary/80 rounded-full flex items-center justify-center text-white font-bold mr-4 shadow-lg">
-                    M
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900">Mike Johnson</p>
-                    <p className="text-sm text-gray-500">Landowner • Eastern Rwanda, Rwanda</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="flex items-center justify-center gap-6 pt-4 text-sm text-gray-400">
+            <span className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-accent" /> Free to join</span>
+            <span className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-accent" /> No credit card required</span>
+            <span className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-accent" /> KYC verified listings</span>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );

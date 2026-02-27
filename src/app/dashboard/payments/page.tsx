@@ -63,25 +63,25 @@ export default function Payments() {
       case 'failed':
         return 'text-red-600';
       default:
-        return 'text-gray-600';
+        return 'text-muted-foreground';
     }
   };
 
   return (
     <div className="p-8">
       <div className="max-w-6xl mx-auto">
-         <h1 className="text-3xl font-bold mb-8 text-gray-900">Payments</h1>
+         <h1 className="text-3xl font-bold mb-8 text-foreground">Payments</h1>
 
          {/* Tabs */}
          <div className="mb-6">
-              <div className="border-b border-gray-200">
+              <div className="border-b border-border">
                 <nav className="-mb-px flex space-x-8">
                   <button
                     onClick={() => setActiveTab('history')}
                     className={`py-2 px-1 border-b-2 font-medium text-sm ${
                       activeTab === 'history'
                         ? 'border-primary text-primary'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                        : 'border-transparent text-muted-foreground hover:text-foreground/80 hover:border-border'
                     }`}
                   >
                     Payment History
@@ -91,7 +91,7 @@ export default function Payments() {
                     className={`py-2 px-1 border-b-2 font-medium text-sm ${
                       activeTab === 'methods'
                         ? 'border-primary text-primary'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                        : 'border-transparent text-muted-foreground hover:text-foreground/80 hover:border-border'
                     }`}
                   >
                     Payment Methods
@@ -101,32 +101,32 @@ export default function Payments() {
          </div>
 
          {activeTab === 'history' && (
-              <div className="bg-white">
-                <div className="px-6 py-4 border-b border-gray-200">
-                  <h2 className="text-lg font-semibold text-gray-900">Transaction History</h2>
+              <div className="bg-card rounded-2xl shadow-lg border border-border overflow-hidden">
+                <div className="px-6 py-4 border-b border-border">
+                  <h2 className="text-lg font-semibold text-foreground">Transaction History</h2>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full">
-                    <thead className="bg-gray-50">
+                    <thead className="bg-muted">
                       <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Date</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Description</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Amount</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Status</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Actions</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Date</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Description</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Amount</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Status</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white">
+                    <tbody className="bg-card">
                       {mockPayments.map((payment) => (
                         <tr key={payment.id}>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{payment.date}</td>
-                          <td className="px-6 py-4 text-sm text-gray-900">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground">{payment.date}</td>
+                          <td className="px-6 py-4 text-sm text-foreground">
                             <div>
                               <p className="font-medium">{payment.description}</p>
-                              <p className="text-gray-500">Contract: {payment.contractId}</p>
+                              <p className="text-muted-foreground">Contract: {payment.contractId}</p>
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">
                             ${payment.amount.toLocaleString()}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
@@ -139,7 +139,7 @@ export default function Payments() {
                               <Eye className="h-4 w-4 inline mr-1" />
                               View
                             </button>
-                            <button className="text-gray-600 hover:text-gray-800">
+                            <button className="text-muted-foreground hover:text-foreground">
                               <Download className="h-4 w-4 inline mr-1" />
                               Receipt
                             </button>
@@ -154,18 +154,18 @@ export default function Payments() {
 
          {activeTab === 'methods' && (
               <div className="space-y-6">
-                <div className="bg-white">
+                <div className="bg-card rounded-2xl shadow-lg border border-border p-6">
                   <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-lg font-semibold text-gray-900">Payment Methods</h2>
+                    <h2 className="text-lg font-semibold text-foreground">Payment Methods</h2>
                     <Button>Add New Method</Button>
                   </div>
 
                   <div className="space-y-4">
                     {mockPaymentMethods.map((method) => (
-                      <div key={method.id} className="flex items-center justify-between p-4 border border-gray-200">
+                      <div key={method.id} className="flex items-center justify-between p-4 border border-border">
                         <div className="flex items-center space-x-3">
                           {method.type === 'card' ? (
-                            <CreditCard className="h-8 w-8 text-gray-400" />
+                            <CreditCard className="h-8 w-8 text-muted-foreground" />
                           ) : (
                             <div className="h-8 w-8 bg-blue-600 rounded flex items-center justify-center">
                               <span className="text-white font-bold text-sm">P</span>
@@ -174,17 +174,17 @@ export default function Payments() {
                           <div>
                             {method.type === 'card' ? (
                               <>
-                                <p className="font-medium text-gray-900">
+                                <p className="font-medium text-foreground">
                                   {method.brand} **** {method.last4}
                                 </p>
-                                <p className="text-sm text-gray-500">
+                                <p className="text-sm text-muted-foreground">
                                   Expires {method.expiry}
                                 </p>
                               </>
                             ) : (
                               <>
-                                <p className="font-medium text-gray-900">PayPal</p>
-                                <p className="text-sm text-gray-500">{method.email}</p>
+                                <p className="font-medium text-foreground">PayPal</p>
+                                <p className="text-sm text-muted-foreground">{method.email}</p>
                               </>
                             )}
                           </div>
@@ -201,7 +201,7 @@ export default function Payments() {
                   </div>
                 </div>
 
-                <div className="bg-yellow-50">
+                <div className="bg-yellow-50 rounded-2xl p-4">
                   <div className="flex items-center">
                     <Lock className="h-5 w-5 text-yellow-600" />
                     <p className="text-sm text-yellow-800">

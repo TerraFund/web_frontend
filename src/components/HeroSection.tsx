@@ -2,40 +2,123 @@
 
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
-import { ArrowRight, Award } from 'lucide-react';
+import { ArrowRight, Leaf, TrendingUp, Shield, Globe } from 'lucide-react';
 
 export default function HeroSection() {
   const { t } = useTranslation();
 
   return (
-    <section className="relative bg-gradient-to-br from-primary via-primary to-accent text-white py-24 overflow-hidden">
-      <div className="absolute inset-0 bg-black/10"></div>
-      <div className="absolute top-20 left-10 w-20 h-20 bg-white/10 rounded-full animate-pulse"></div>
-      <div className="absolute bottom-20 right-10 w-32 h-32 bg-white/5 rounded-full animate-pulse delay-1000"></div>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white/5 rounded-full animate-pulse delay-500"></div>
+    <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 gradient-hero" />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="inline-flex items-center bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
-          <span className="text-sm font-medium">Sustainable Agriculture Platform</span>
-        </div>
+      {/* Animated shapes */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-accent/10 rounded-full blur-3xl float" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/10 rounded-full blur-3xl float" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-white/5 rounded-full blur-2xl float" style={{ animationDelay: '0.8s' }} />
+      </div>
 
-        <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-in slide-in-from-bottom-4 duration-1000">
-          {t('landing.hero.title')}
-        </h1>
+      {/* Grid pattern overlay */}
+      <div className="absolute inset-0 opacity-[0.03]" style={{
+        backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
+        backgroundSize: '40px 40px'
+      }} />
 
-        <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90 animate-in slide-in-from-bottom-4 duration-1000 delay-200">
-          {t('landing.hero.subtitle')}
-        </p>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* Left: Content */}
+          <div className="text-white space-y-8 fade-in-up">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm">
+              <Leaf className="h-4 w-4 text-accent" />
+              <span>Sustainable Land Investment Platform</span>
+            </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-in slide-in-from-bottom-4 duration-1000 delay-400">
-          <Link href="/auth/register" className="group bg-white text-primary px-8 py-4 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 inline-flex items-center">
-            {t('landing.hero.getStarted')}
-            <ArrowRight className="inline w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-          </Link>
-          <button className="group border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-primary transition-all duration-300 backdrop-blur-sm">
-            <Award className="inline w-5 h-5 mr-2" />
-            {t('landing.hero.viewStories')}
-          </button>
+            <h1 className="text-5xl lg:text-7xl font-bold leading-tight tracking-tight">
+              Invest in{' '}
+              <span className="gradient-text-accent">Africa&apos;s</span>
+              <br />Agricultural Future
+            </h1>
+
+            <p className="text-lg lg:text-xl text-gray-300 max-w-lg leading-relaxed">
+              {t('hero.subtitle', 'Connect with verified landowners, access AI-powered recommendations, and fund sustainable agriculture across Africa.')}
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                href="/auth/register"
+                className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent hover:bg-accent/90 text-secondary font-bold rounded-xl transition-all duration-300 hover:shadow-xl hover:shadow-accent/25 hover:-translate-y-0.5"
+              >
+                {t('hero.cta', 'Get Started')}
+                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </Link>
+              <Link
+                href="#how-it-works"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-xl transition-all duration-300 hover:bg-white/10 hover:border-white/50"
+              >
+                Learn More
+              </Link>
+            </div>
+
+            {/* Trust indicators */}
+            <div className="flex items-center gap-8 pt-4">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="h-5 w-5 text-accent" />
+                <span className="text-sm text-gray-300"><strong className="text-white">1,200+</strong> Active Users</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Shield className="h-5 w-5 text-accent" />
+                <span className="text-sm text-gray-300"><strong className="text-white">$2.3M</strong> Invested</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Globe className="h-5 w-5 text-accent" />
+                <span className="text-sm text-gray-300"><strong className="text-white">15</strong> Countries</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Visual element */}
+          <div className="hidden lg:block relative fade-in-up" style={{ animationDelay: '0.3s' }}>
+            <div className="relative">
+              {/* Main card */}
+              <div className="glass-card rounded-3xl p-8 space-y-6" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)' }}>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-accent/20 flex items-center justify-center">
+                    <Leaf className="h-6 w-6 text-accent" />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-semibold">Premium Coffee Farm</h3>
+                    <p className="text-gray-400 text-sm">Kericho, Kenya</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="bg-white/5 rounded-xl p-3 text-center">
+                    <p className="text-accent font-bold text-lg">50 ha</p>
+                    <p className="text-gray-400 text-xs">Size</p>
+                  </div>
+                  <div className="bg-white/5 rounded-xl p-3 text-center">
+                    <p className="text-accent font-bold text-lg">87%</p>
+                    <p className="text-gray-400 text-xs">AI Match</p>
+                  </div>
+                  <div className="bg-white/5 rounded-xl p-3 text-center">
+                    <p className="text-accent font-bold text-lg">12%</p>
+                    <p className="text-gray-400 text-xs">Est. ROI</p>
+                  </div>
+                </div>
+                <button className="w-full py-3 bg-primary hover:bg-primary/80 text-white font-semibold rounded-xl transition-all duration-200">
+                  Send Proposal
+                </button>
+              </div>
+
+              {/* Floating badges */}
+              <div className="absolute -top-4 -right-4 bg-accent text-secondary px-4 py-2 rounded-full text-sm font-bold shadow-lg float">
+                ✓ Verified
+              </div>
+              <div className="absolute -bottom-4 -left-4 bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm border border-white/20 float" style={{ animationDelay: '1s' }}>
+                🌱 Sustainable
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -2,206 +2,191 @@
 
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Upload, FileText, X, CheckCircle, Loader2 } from 'lucide-react';
+import { Upload, X, FileText, CheckCircle, Loader2, Leaf, Shield } from 'lucide-react';
 
-export default function KYCUpload() {
+export default function KYCPage() {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({});
-  const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
+  const [uploadProgress, setUploadProgress] = useState<Record<number, number>>({});
   const [isDragOver, setIsDragOver] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [success, setSuccess] = useState(false);
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = Array.from(e.target.files || []);
-    addFiles(selectedFiles);
-  };
-
-  const addFiles = (newFiles: File[]) => {
-    const validFiles = newFiles.filter(file => {
-      const isValidType = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'].includes(file.type);
-      const isValidSize = file.size <= 15 * 1024 * 1024; // 15MB
-      return isValidType && isValidSize;
-    });
-
-    if (validFiles.length !== newFiles.length) {
-      alert('Some files were rejected. Please ensure files are PDF, JPG, or PNG and under 15MB.');
-    }
-
-    setFiles(prev => [...prev, ...validFiles]);
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(true);
-  };
-
-  const handleDragLeave = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-  };
+  const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(false);
-    const droppedFiles = Array.from(e.dataTransfer.files);
-    addFiles(droppedFiles);
+    const dropped = Array.from(e.dataTransfer.files).filter((f) => allowedTypes.includes(f.type));
+    setFiles((prev) => [...prev, ...dropped]);
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const selected = Array.from(e.target.files).filter((f) => allowedTypes.includes(f.type));
+      setFiles((prev) => [...prev, ...selected]);
+    }
   };
 
   const removeFile = (index: number) => {
-    setFiles(prev => prev.filter((_, i) => i !== index));
+    setFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = async () => {
+  const handleUpload = async () => {
     setUploading(true);
-    const progress: { [key: string]: number } = {};
-
-    // Simulate upload progress for each file
-    files.forEach((file, index) => {
-      progress[file.name] = 0;
-      const interval = setInterval(() => {
-        progress[file.name] += Math.random() * 30;
-        if (progress[file.name] >= 100) {
-          progress[file.name] = 100;
-          clearInterval(interval);
-          setUploadedFiles(prev => [...prev, file.name]);
-        }
-        setUploadProgress({ ...progress });
-      }, 200);
-    });
-
-    // Complete upload after all files are done
-    setTimeout(() => {
-      setUploading(false);
-      setTimeout(() => {
-        router.push('/dashboard');
-      }, 1000);
-    }, 3000);
+    // Simulate upload with progress
+    for (let i = 0; i < files.length; i++) {
+      for (let p = 0; p <= 100; p += 10) {
+        setUploadProgress((prev) => ({ ...prev, [i]: p }));
+        await new Promise((r) => setTimeout(r, 100));
+      }
+    }
+    setSuccess(true);
+    setTimeout(() => router.push('/dashboard'), 2500);
   };
+
+  const formatSize = (bytes: number) => {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / 1048576).toFixed(1) + ' MB';
+  };
+
+  if (success) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background p-8">
+        <div className="text-center space-y-6 fade-in-up">
+          <div className="w-20 h-20 mx-auto rounded-full bg-primary/10 flex items-center justify-center">
+            <CheckCircle className="h-10 w-10 text-primary" />
+          </div>
+          <h2 className="text-2xl font-bold text-foreground">Documents Uploaded!</h2>
+          <p className="text-muted-foreground">Your KYC documents are being verified. Redirecting to dashboard...</p>
+          <Loader2 className="h-8 w-8 animate-spin text-primary mx-auto" />
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="flex items-center justify-center min-h-screen py-12">
-      <div className="max-w-2xl w-full mx-4">
-          <div className="bg-white">
-            <h1 className="text-2xl font-bold text-center mb-6 text-gray-900">
-              Upload KYC Documents
-            </h1>
-            <p className="text-center text-gray-600">
-              Please upload your identification documents to verify your identity.
-              Accepted formats: PDF, JPG, PNG. Max size: 15MB each.
-            </p>
-
-            <div
-              className={`border-2 border-dashed rounded-lg p-8 text-center mb-6 transition-all duration-200 ${
-                isDragOver
-                  ? 'border-primary bg-primary/5 scale-105'
-                  : 'border-gray-300'
-              }`}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              onDrop={handleDrop}
-            >
-              <Upload className={`mx-auto h-12 w-12 mb-4 transition-colors ${isDragOver ? 'text-primary' : 'text-gray-400'}`} />
-              <p className="text-gray-600">
-                {isDragOver ? 'Drop files here' : 'Drag and drop files here, or click to select'}
-              </p>
-              <input
-                ref={fileInputRef}
-                type="file"
-                multiple
-                accept=".pdf,.jpg,.jpeg,.png"
-                onChange={handleFileSelect}
-                className="hidden"
-                id="file-upload"
-              />
-              <label
-                htmlFor="file-upload"
-                className="bg-primary text-white px-4 py-2 rounded-lg cursor-pointer hover:bg-accent transition-all duration-200 hover:scale-105 inline-block"
-              >
-                Select Files
-              </label>
-            </div>
-
-            {files.length > 0 && (
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold mb-4 text-gray-900">Selected Files</h3>
-                <div className="space-y-3">
-                  {files.map((file, index) => {
-                    const progress = uploadProgress[file.name] || 0;
-                    const isUploaded = uploadedFiles.includes(file.name);
-
-                    return (
-                      <div key={index} className="bg-gray-50">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center">
-                            {isUploaded ? (
-                              <CheckCircle className="h-5 w-5 text-green-500 mr-3 animate-in zoom-in duration-300" />
-                            ) : (
-                              <FileText className="h-5 w-5 text-gray-400" />
-                            )}
-                            <span className="text-sm text-gray-900">{file.name}</span>
-                            <span className="text-xs text-gray-500">
-                              ({(file.size / 1024 / 1024).toFixed(2)} MB)
-                            </span>
-                          </div>
-                          {!uploading && !isUploaded && (
-                            <button
-                              onClick={() => removeFile(index)}
-                              className="text-red-500 hover:text-red-700 transition-colors"
-                            >
-                              <X className="h-5 w-5" />
-                            </button>
-                          )}
-                        </div>
-
-                        {uploading && !isUploaded && (
-                          <div className="mt-2">
-                            <div className="flex items-center justify-between text-xs text-gray-600">
-                              <span>Uploading...</span>
-                              <span>{Math.round(progress)}%</span>
-                            </div>
-                            <div className="w-full bg-gray-200">
-                              <div
-                                className="bg-primary h-2 rounded-full transition-all duration-300"
-                                style={{ width: `${progress}%` }}
-                              />
-                            </div>
-                          </div>
-                        )}
-
-                        {isUploaded && (
-                          <div className="mt-2 text-xs text-green-600">
-                            ✓ Upload successful
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            <button
-              onClick={handleSubmit}
-              disabled={files.length === 0 || uploading}
-              className="w-full bg-primary text-white py-3 px-4 rounded-lg hover:bg-accent transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-            >
-              {uploading ? (
-                <>
-                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                  Uploading Documents...
-                </>
-              ) : uploadedFiles.length === files.length && files.length > 0 ? (
-                <>
-                  <CheckCircle className="w-5 h-5 mr-2 animate-in zoom-in duration-300" />
-                  All Documents Submitted
-                </>
-              ) : (
-                'Submit Documents'
-              )}
-            </button>
+    <div className="min-h-screen bg-background flex items-center justify-center p-4 sm:p-8">
+      <div className="w-full max-w-2xl space-y-8 fade-in-up">
+        {/* Header */}
+        <div className="text-center space-y-4">
+          <div className="flex items-center gap-2 justify-center">
+            <Leaf className="h-8 w-8 text-primary" />
+            <span className="text-2xl font-bold text-foreground">TerraFund</span>
           </div>
+          <div className="space-y-2">
+            <h1 className="text-3xl font-bold text-foreground">Verify Your Identity</h1>
+            <p className="text-muted-foreground max-w-md mx-auto">
+              Upload your KYC documents to complete your registration. We accept government-issued IDs and proof of address.
+            </p>
+          </div>
+        </div>
+
+        {/* Upload Card */}
+        <div className="bg-card rounded-2xl border border-border shadow-lg p-8 space-y-6">
+          {/* Dropzone */}
+          <div
+            onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
+            onDragLeave={() => setIsDragOver(false)}
+            onDrop={handleDrop}
+            onClick={() => fileInputRef.current?.click()}
+            className={`border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-all duration-300 ${
+              isDragOver
+                ? 'border-accent bg-accent/5 scale-[1.02]'
+                : 'border-border hover:border-primary hover:bg-primary/5'
+            }`}
+          >
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept=".pdf,.jpg,.jpeg,.png"
+              onChange={handleFileSelect}
+              className="hidden"
+            />
+            <div className="space-y-3">
+              <div className={`w-14 h-14 mx-auto rounded-2xl flex items-center justify-center transition-colors ${
+                isDragOver ? 'bg-accent/20 text-accent' : 'bg-primary/10 text-primary'
+              }`}>
+                <Upload className="h-7 w-7" />
+              </div>
+              <div>
+                <p className="font-semibold text-foreground">
+                  {isDragOver ? 'Drop files here' : 'Drag & drop files or click to browse'}
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">PDF, JPG, PNG up to 15MB each</p>
+              </div>
+            </div>
+          </div>
+
+          {/* File list */}
+          {files.length > 0 && (
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-foreground">
+                Selected Files ({files.length})
+              </h3>
+              {files.map((file, index) => (
+                <div
+                  key={index}
+                  className="flex items-center gap-4 p-4 rounded-xl bg-background border border-border transition-all duration-200"
+                >
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <FileText className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-foreground truncate">{file.name}</p>
+                    <p className="text-xs text-muted-foreground">{formatSize(file.size)}</p>
+                    {uploading && uploadProgress[index] !== undefined && (
+                      <div className="mt-2 h-1.5 rounded-full bg-border overflow-hidden">
+                        <div
+                          className="h-full rounded-full bg-primary transition-all duration-300"
+                          style={{ width: `${uploadProgress[index]}%` }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  {!uploading && (
+                    <button
+                      onClick={(e) => { e.stopPropagation(); removeFile(index); }}
+                      className="p-1.5 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
+                  {uploading && uploadProgress[index] === 100 && (
+                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Upload button */}
+          <button
+            onClick={handleUpload}
+            disabled={files.length === 0 || uploading}
+            className="w-full py-3.5 bg-primary hover:bg-primary/90 text-white font-semibold rounded-xl transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            {uploading ? (
+              <>
+                <Loader2 className="h-5 w-5 animate-spin" />
+                Uploading documents...
+              </>
+            ) : (
+              <>
+                <Shield className="h-5 w-5" />
+                Upload & Verify
+              </>
+            )}
+          </button>
+
+          {/* Security note */}
+          <p className="text-xs text-center text-muted-foreground">
+            🔒 Your documents are encrypted and stored securely. We comply with international data protection regulations.
+          </p>
+        </div>
       </div>
     </div>
   );

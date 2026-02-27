@@ -78,7 +78,7 @@ export default function NotificationDropdown() {
       case 'system':
         return <AlertTriangle className="h-5 w-5 text-yellow-500" />;
       default:
-        return <Bell className="h-5 w-5 text-gray-500" />;
+        return <Bell className="h-5 w-5 text-muted-foreground" />;
     }
   };
 
@@ -86,7 +86,7 @@ export default function NotificationDropdown() {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 text-gray-400 hover:text-gray-600"
+        className="relative p-2 text-muted-foreground hover:text-muted-foreground"
       >
         <Bell className={`h-6 w-6 transition-all duration-200 ${unreadCount > 0 ? 'animate-pulse' : ''}`} />
         {unreadCount > 0 && (
@@ -97,19 +97,19 @@ export default function NotificationDropdown() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 bg-white">
-          <div className="p-4 border-b border-gray-200">
+        <div className="absolute right-0 mt-2 w-80 bg-card">
+          <div className="p-4 border-b border-border">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-900">Notifications</h3>
+              <h3 className="text-lg font-semibold text-foreground">Notifications</h3>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-muted-foreground hover:text-muted-foreground"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
             {unreadCount > 0 && (
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-muted-foreground">
                 {unreadCount} unread notification{unreadCount !== 1 ? 's' : ''}
               </p>
             )}
@@ -117,7 +117,7 @@ export default function NotificationDropdown() {
 
           <div className="max-h-96 overflow-y-auto">
             {notifications.length === 0 ? (
-              <div className="p-8 text-center text-gray-500">
+              <div className="p-8 text-center text-muted-foreground">
                 <Bell className="h-8 w-8 mx-auto mb-2 opacity-50" />
                 <p>No notifications yet</p>
               </div>
@@ -125,7 +125,7 @@ export default function NotificationDropdown() {
               notifications.map((notification, index) => (
                 <div
                   key={notification.id}
-                  className="p-4 border-b border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer"
+                  className="p-4 border-b border-border hover:bg-muted transition-colors cursor-pointer"
                   style={{ animationDelay: `${index * 50}ms` }}
                   onClick={() => markAsRead(notification.id)}
                 >
@@ -134,13 +134,13 @@ export default function NotificationDropdown() {
                       {getIcon(notification.type)}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900">
+                      <p className="text-sm font-medium text-foreground">
                         {notification.title}
                       </p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-muted-foreground">
                         {notification.message}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-muted-foreground">
                         {notification.timestamp}
                       </p>
                     </div>
@@ -153,7 +153,7 @@ export default function NotificationDropdown() {
             )}
           </div>
 
-          <div className="p-4 border-t border-gray-200">
+          <div className="p-4 border-t border-border">
             <button className="text-sm text-primary hover:text-accent transition-colors duration-200 hover:underline">
               View all notifications →
             </button>

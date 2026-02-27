@@ -128,7 +128,7 @@ export default function AdminDashboard() {
     return (
       <div className="p-8">
         <div className="max-w-7xl mx-auto text-center">
-          <div className="bg-red-50">
+          <div className="bg-red-50 rounded-2xl p-6">
             <h2 className="text-lg font-semibold text-red-800">Error Loading Data</h2>
             <p className="text-red-600">{error}</p>
             <Button onClick={() => window.location.reload()}>
@@ -143,43 +143,43 @@ export default function AdminDashboard() {
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-gray-900">Admin Dashboard</h1>
+        <h1 className="text-3xl font-bold mb-8 text-foreground">Admin Dashboard</h1>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              <div className="bg-white">
+              <div className="bg-card rounded-2xl shadow-lg border border-border p-6 hover:shadow-xl transition-all duration-300">
                 <div className="flex items-center">
                   <Users className="h-8 w-8 text-primary mr-3" />
                    <div>
-                     <p className="text-2xl font-bold text-gray-900">{currentStats.totalUsers}</p>
-                     <p className="text-sm text-gray-600">Total Users</p>
+                     <p className="text-2xl font-bold text-foreground">{currentStats.totalUsers}</p>
+                     <p className="text-sm text-muted-foreground">Total Users</p>
                    </div>
                 </div>
               </div>
-              <div className="bg-white">
+              <div className="bg-card rounded-2xl shadow-lg border border-border p-6 hover:shadow-xl transition-all duration-300">
                 <div className="flex items-center">
                   <Map className="h-8 w-8 text-accent mr-3" />
                    <div>
-                     <p className="text-2xl font-bold text-gray-900">{currentStats.totalLands}</p>
-                     <p className="text-sm text-gray-600">Total Lands</p>
+                     <p className="text-2xl font-bold text-foreground">{currentStats.totalLands}</p>
+                     <p className="text-sm text-muted-foreground">Total Lands</p>
                    </div>
                 </div>
               </div>
-              <div className="bg-white">
+              <div className="bg-card rounded-2xl shadow-lg border border-border p-6 hover:shadow-xl transition-all duration-300">
                 <div className="flex items-center">
                   <BarChart3 className="h-8 w-8 text-secondary mr-3" />
                    <div>
-                     <p className="text-2xl font-bold text-gray-900">{currentStats.activeDeals}</p>
-                     <p className="text-sm text-gray-600">Active Deals</p>
+                     <p className="text-2xl font-bold text-foreground">{currentStats.activeDeals}</p>
+                     <p className="text-sm text-muted-foreground">Active Deals</p>
                    </div>
                 </div>
               </div>
-              <div className="bg-white">
+              <div className="bg-card rounded-2xl shadow-lg border border-border p-6 hover:shadow-xl transition-all duration-300">
                 <div className="flex items-center">
                   <AlertTriangle className="h-8 w-8 text-yellow-500 mr-3" />
                    <div>
-                     <p className="text-2xl font-bold text-gray-900">{currentStats.pendingVerifications}</p>
-                     <p className="text-sm text-gray-600">Pending Verifications</p>
+                     <p className="text-2xl font-bold text-foreground">{currentStats.pendingVerifications}</p>
+                     <p className="text-sm text-muted-foreground">Pending Verifications</p>
                    </div>
                 </div>
               </div>
@@ -187,7 +187,7 @@ export default function AdminDashboard() {
 
         {/* Tabs */}
         <div className="mb-6">
-              <div className="border-b border-gray-200">
+              <div className="border-b border-border">
                 <nav className="-mb-px flex space-x-8">
                   {[
                       { id: 'overview', label: 'Overview' },
@@ -201,7 +201,7 @@ export default function AdminDashboard() {
                        className={`py-2 px-1 border-b-2 font-medium text-sm ${
                          activeTab === tab.id
                            ? 'border-primary text-primary'
-                           : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                           : 'border-transparent text-muted-foreground hover:text-foreground/80 hover:border-border'
                        }`}
                      >
                        {tab.label}
@@ -214,13 +214,13 @@ export default function AdminDashboard() {
           {/* Tab Content */}
           <div>
             {activeTab === 'users' && (
-            <div className="bg-white">
-              <div className="px-6 py-4 border-b border-gray-200">
+            <div className="bg-card rounded-2xl shadow-lg border border-border overflow-hidden">
+              <div className="px-6 py-4 border-b border-border">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-semibold text-gray-900">User Management</h2>
+                  <h2 className="text-lg font-semibold text-foreground">User Management</h2>
                   {selectedUsers.length > 0 && (
                     <div className="flex items-center space-x-2">
-                      <span className="text-sm text-gray-600">{selectedUsers.length} selected</span>
+                      <span className="text-sm text-muted-foreground">{selectedUsers.length} selected</span>
                       <Button variant="outline" size="sm" onClick={() => handleBulkUserAction('suspend')}>
                         Suspend
                       </Button>
@@ -236,27 +236,27 @@ export default function AdminDashboard() {
               </div>
                 <div className="overflow-x-auto">
                   <table className="w-full">
-                    <thead className="bg-gray-50">
+                    <thead className="bg-muted">
                       <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">
                            <input
                              type="checkbox"
                              checked={selectedUsers.length === users.length}
                              onChange={(e) => setSelectedUsers(e.target.checked ? users.map(u => u.id) : [])}
-                             className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                             className="h-4 w-4 text-primary focus:ring-primary border-border rounded"
                            />
                         </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Name</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Email</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Role</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Status</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Joined</th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Actions</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Name</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Email</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Role</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Status</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Joined</th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Actions</th>
                       </tr>
                     </thead>
-                       <tbody className="bg-white">
+                       <tbody className="bg-card">
                          {users.map((user, index) => (
-                          <tr key={user.id} className="hover:bg-gray-50" style={{ animationDelay: `${index * 50}ms` }}>
+                          <tr key={user.id} className="hover:bg-muted" style={{ animationDelay: `${index * 50}ms` }}>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <input
                                 type="checkbox"
@@ -266,12 +266,12 @@ export default function AdminDashboard() {
                                     ? prev.filter(id => id !== user.id)
                                     : [...prev, user.id]
                                 )}
-                                className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                                className="h-4 w-4 text-primary focus:ring-primary border-border rounded"
                               />
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{user.name}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.email}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.role}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">{user.name}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">{user.email}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">{user.role}</td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
                                 user.kyc_status === 'verified'
@@ -281,7 +281,7 @@ export default function AdminDashboard() {
                                 {user.kyc_status}
                               </span>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(user.created_at).toLocaleDateString()}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">{new Date(user.created_at).toLocaleDateString()}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                               <div className="flex items-center space-x-2">
                                 <button
@@ -308,13 +308,13 @@ export default function AdminDashboard() {
             )}
 
           {activeTab === 'lands' && (
-            <div className="bg-white">
-              <div className="px-6 py-4 border-b border-gray-200">
+            <div className="bg-card rounded-2xl shadow-lg border border-border overflow-hidden">
+              <div className="px-6 py-4 border-b border-border">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-semibold text-gray-900">Land Management</h2>
+                  <h2 className="text-lg font-semibold text-foreground">Land Management</h2>
                   {selectedLands.length > 0 && (
                     <div className="flex items-center space-x-2">
-                      <span className="text-sm text-gray-600">{selectedLands.length} selected</span>
+                      <span className="text-sm text-muted-foreground">{selectedLands.length} selected</span>
                       <Button variant="outline" size="sm" onClick={() => handleBulkLandAction('verify')}>
                         Verify
                       </Button>
@@ -330,26 +330,26 @@ export default function AdminDashboard() {
               </div>
                 <div className="overflow-x-auto">
                   <table className="w-full">
-                     <thead className="bg-gray-50">
+                     <thead className="bg-muted">
                        <tr>
-                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">
+                         <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">
                             <input
                               type="checkbox"
                               checked={selectedLands.length === lands.length}
                               onChange={(e) => setSelectedLands(e.target.checked ? lands.map(l => l.id) : [])}
-                              className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                              className="h-4 w-4 text-primary focus:ring-primary border-border rounded"
                             />
                          </th>
-                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Title</th>
-                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Owner</th>
-                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Status</th>
-                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Listed</th>
-                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Actions</th>
+                         <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Title</th>
+                         <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Owner</th>
+                         <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Status</th>
+                         <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Listed</th>
+                         <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Actions</th>
                        </tr>
                      </thead>
-                       <tbody className="bg-white">
+                       <tbody className="bg-card">
                          {lands.map((land, index) => (
-                          <tr key={land.id} className="hover:bg-gray-50" style={{ animationDelay: `${index * 50}ms` }}>
+                          <tr key={land.id} className="hover:bg-muted" style={{ animationDelay: `${index * 50}ms` }}>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <input
                                 type="checkbox"
@@ -359,11 +359,11 @@ export default function AdminDashboard() {
                                     ? prev.filter(id => id !== land.id)
                                     : [...prev, land.id]
                                 )}
-                                className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+                                className="h-4 w-4 text-primary focus:ring-primary border-border rounded"
                               />
                             </td>
-                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{land.title}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{land.owner}</td>
+                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">{land.title}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">{land.owner}</td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
                                 land.verified
@@ -373,7 +373,7 @@ export default function AdminDashboard() {
                                 {land.verified ? 'verified' : 'pending'}
                               </span>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(land.created_at).toLocaleDateString()}</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">{new Date(land.created_at).toLocaleDateString()}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                               <div className="flex items-center space-x-2">
                                 <button
@@ -402,32 +402,32 @@ export default function AdminDashboard() {
 
 
           {activeTab === 'disputes' && (
-            <div className="bg-white">
-              <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-900">Dispute Management</h2>
+            <div className="bg-card rounded-2xl shadow-lg border border-border overflow-hidden">
+              <div className="px-6 py-4 border-b border-border">
+                <h2 className="text-lg font-semibold text-foreground">Dispute Management</h2>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full">
-                   <thead className="bg-gray-50">
+                   <thead className="bg-muted">
                      <tr>
-                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Title</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Parties</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Status</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Priority</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Created</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Actions</th>
+                       <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Title</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Parties</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Status</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Priority</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Created</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-muted-foreground">Actions</th>
                     </tr>
                   </thead>
-                   <tbody className="bg-white">
+                   <tbody className="bg-card">
                       {disputes.map((dispute, index) => (
-                       <tr key={dispute.id} className="hover:bg-gray-50" style={{ animationDelay: `${index * 50}ms` }}>
+                       <tr key={dispute.id} className="hover:bg-muted" style={{ animationDelay: `${index * 50}ms` }}>
                          <td className="px-6 py-4 whitespace-nowrap">
                            <div>
-                             <div className="text-sm font-medium text-gray-900">{dispute.title}</div>
-                             <div className="text-sm text-gray-500">{dispute.description}</div>
+                             <div className="text-sm font-medium text-foreground">{dispute.title}</div>
+                             <div className="text-sm text-muted-foreground">{dispute.description}</div>
                            </div>
                          </td>
-                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{dispute.parties}</td>
+                         <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">{dispute.parties}</td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full animate-in zoom-in duration-300 ${
                               dispute.status === 'open'
@@ -450,7 +450,7 @@ export default function AdminDashboard() {
                               {dispute.priority}
                            </span>
                          </td>
-                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(dispute.created_at).toLocaleDateString()}</td>
+                         <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">{new Date(dispute.created_at).toLocaleDateString()}</td>
                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                            <div className="flex items-center space-x-2">
                              <button
@@ -476,50 +476,50 @@ export default function AdminDashboard() {
 
           {activeTab === 'overview' && (
            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-             <div className="bg-white">
-               <h3 className="text-lg font-semibold mb-4 text-gray-900">Recent Activity</h3>
+             <div className="bg-card rounded-2xl shadow-lg border border-border p-6">
+               <h3 className="text-lg font-semibold mb-4 text-foreground">Recent Activity</h3>
                <div className="space-y-4">
                  <div className="flex items-center space-x-3">
                    <CheckCircle className="h-5 w-5 text-green-500" />
                    <div>
-                     <p className="text-sm text-gray-900">New user registered: Sarah Smith</p>
-                     <p className="text-xs text-gray-500">2 hours ago</p>
+                     <p className="text-sm text-foreground">New user registered: Sarah Smith</p>
+                     <p className="text-xs text-muted-foreground">2 hours ago</p>
                    </div>
                  </div>
                  <div className="flex items-center space-x-3">
                    <AlertTriangle className="h-5 w-5 text-yellow-500" />
                    <div>
-                     <p className="text-sm text-gray-900">Land verification pending: Coffee Farm #5</p>
-                     <p className="text-xs text-gray-500">4 hours ago</p>
+                     <p className="text-sm text-foreground">Land verification pending: Coffee Farm #5</p>
+                     <p className="text-xs text-muted-foreground">4 hours ago</p>
                    </div>
                  </div>
                  <div className="flex items-center space-x-3">
                    <XCircle className="h-5 w-5 text-red-500" />
                    <div>
-                     <p className="text-sm text-gray-900">Proposal rejected: Maize Field #12</p>
-                     <p className="text-xs text-gray-500">1 day ago</p>
+                     <p className="text-sm text-foreground">Proposal rejected: Maize Field #12</p>
+                     <p className="text-xs text-muted-foreground">1 day ago</p>
                    </div>
                  </div>
                </div>
              </div>
 
-             <div className="bg-white">
-               <h3 className="text-lg font-semibold mb-4 text-gray-900">System Health</h3>
+             <div className="bg-card rounded-2xl shadow-lg border border-border p-6">
+               <h3 className="text-lg font-semibold mb-4 text-foreground">System Health</h3>
                <div className="space-y-4">
                  <div className="flex justify-between items-center">
-                   <span className="text-sm text-gray-600">Server Status</span>
+                   <span className="text-sm text-muted-foreground">Server Status</span>
                    <span className="text-sm font-medium text-green-600">Online</span>
                  </div>
                  <div className="flex justify-between items-center">
-                   <span className="text-sm text-gray-600">Database</span>
+                   <span className="text-sm text-muted-foreground">Database</span>
                    <span className="text-sm font-medium text-green-600">Healthy</span>
                  </div>
                  <div className="flex justify-between items-center">
-                   <span className="text-sm text-gray-600">API Response Time</span>
+                   <span className="text-sm text-muted-foreground">API Response Time</span>
                    <span className="text-sm font-medium text-yellow-600">120ms</span>
                  </div>
                  <div className="flex justify-between items-center">
-                   <span className="text-sm text-gray-600">Active Users</span>
+                   <span className="text-sm text-muted-foreground">Active Users</span>
                    <span className="text-sm font-medium text-blue-600">47</span>
                  </div>
                </div>

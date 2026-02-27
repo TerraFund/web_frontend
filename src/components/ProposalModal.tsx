@@ -101,7 +101,7 @@ export default function ProposalModal({ landId, landTitle, onSubmit }: ProposalM
   return (
     <div className="max-w-md w-full">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold text-gray-900">
+        <h2 className="text-2xl font-bold text-foreground">
           Send Proposal
         </h2>
         <div className={`flex items-center text-sm ${isOnline ? 'text-green-600' : 'text-red-600'}`}>
@@ -109,7 +109,7 @@ export default function ProposalModal({ landId, landTitle, onSubmit }: ProposalM
           {isOnline ? 'Online' : 'Offline'}
         </div>
       </div>
-      <p className="text-gray-600">
+      <p className="text-muted-foreground">
         Submit your investment proposal for <strong>{landTitle}</strong>
       </p>
       {hasDraft && (
@@ -147,11 +147,11 @@ export default function ProposalModal({ landId, landTitle, onSubmit }: ProposalM
         />
 
         <div className="space-y-1">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-foreground/80">
             Message
           </label>
           <textarea
-            className="w-full px-3 py-2 border border-gray-300"
+            className="w-full px-3 py-2 border border-border"
             rows={4}
             placeholder="Describe your investment plan..."
             value={formData.message}

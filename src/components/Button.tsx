@@ -22,8 +22,8 @@ export default function Button({
     const variantClasses = {
       primary: 'bg-primary text-white hover:bg-primary/90 hover:shadow-lg focus:ring-primary rounded-xl',
       secondary: 'bg-secondary text-white hover:bg-secondary/90 hover:shadow-lg focus:ring-secondary rounded-xl',
-      outline: 'border-2 border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-500 rounded-xl',
-      ghost: 'text-gray-700 hover:bg-gray-50 focus:ring-gray-500 rounded-xl',
+      outline: 'border-2 border-border text-foreground/80 hover:bg-muted focus:ring-gray-500 rounded-xl',
+      ghost: 'text-foreground/80 hover:bg-muted focus:ring-gray-500 rounded-xl',
       gradient: 'bg-gradient-to-r from-primary to-accent text-white hover:shadow-xl hover:from-primary/90 hover:to-accent/90 focus:ring-primary rounded-xl',
       danger: 'bg-red-500 text-white hover:bg-red-600 hover:shadow-lg focus:ring-red-500 rounded-xl',
     };

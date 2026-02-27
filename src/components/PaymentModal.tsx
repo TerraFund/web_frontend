@@ -46,27 +46,27 @@ export default function PaymentModal({ amount, contractId, onPayment }: PaymentM
     <div className="max-w-md w-full animate-in zoom-in-95 duration-300">
       <div className="flex items-center mb-6">
         <Shield className="h-6 w-6 text-green-500 mr-2" />
-        <h2 className="text-2xl font-bold text-gray-900">
+        <h2 className="text-2xl font-bold text-foreground">
           Secure Escrow Payment
         </h2>
       </div>
 
       <div className="bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 p-4 rounded-lg mb-6 animate-in slide-in-from-bottom-4 duration-500">
         <div className="flex justify-between items-center mb-2">
-          <span className="text-gray-600">Investment Amount</span>
+          <span className="text-muted-foreground">Investment Amount</span>
           <span className="text-2xl font-bold text-primary">${amount.toLocaleString()}</span>
         </div>
         <div className="space-y-1 text-sm">
           <div className="flex justify-between">
-            <span className="text-gray-500">Principal</span>
-            <span className="text-gray-900">${(amount * 0.95).toLocaleString()}</span>
+            <span className="text-muted-foreground">Principal</span>
+            <span className="text-foreground">${(amount * 0.95).toLocaleString()}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-500">Escrow Fee (5%)</span>
-            <span className="text-gray-900">${(amount * 0.05).toLocaleString()}</span>
+            <span className="text-muted-foreground">Escrow Fee (5%)</span>
+            <span className="text-foreground">${(amount * 0.05).toLocaleString()}</span>
           </div>
         </div>
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-muted-foreground">
           <Lock className="w-3 h-3 mr-1" />
           Funds held securely until project completion
         </p>
@@ -74,14 +74,14 @@ export default function PaymentModal({ amount, contractId, onPayment }: PaymentM
 
       <form onSubmit={handleSubmit} className="space-y-4 animate-in slide-in-from-bottom-4 duration-500 delay-100">
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-foreground/80">
             Payment Method
           </label>
           <div className="space-y-3">
             <label className={`flex items-center p-3 border rounded-lg cursor-pointer transition-all duration-200 ${
               paymentMethod === 'card'
                 ? 'border-primary bg-primary/5'
-                : 'border-gray-300
+                : 'border-border
             }`}>
               <input
                 type="radio"
@@ -92,14 +92,14 @@ export default function PaymentModal({ amount, contractId, onPayment }: PaymentM
               />
               <CreditCard className="h-5 w-5 mr-3 text-primary" />
               <div>
-                <div className="font-medium text-gray-900">Credit/Debit Card</div>
-                <div className="text-sm text-gray-500">Visa, Mastercard, Amex</div>
+                <div className="font-medium text-foreground">Credit/Debit Card</div>
+                <div className="text-sm text-muted-foreground">Visa, Mastercard, Amex</div>
               </div>
             </label>
             <label className={`flex items-center p-3 border rounded-lg cursor-pointer transition-all duration-200 ${
               paymentMethod === 'paypal'
                 ? 'border-primary bg-primary/5'
-                : 'border-gray-300
+                : 'border-border
             }`}>
               <input
                 type="radio"
@@ -112,8 +112,8 @@ export default function PaymentModal({ amount, contractId, onPayment }: PaymentM
                 <span className="text-white text-xs font-bold">P</span>
               </div>
               <div>
-                <div className="font-medium text-gray-900">PayPal</div>
-                <div className="text-sm text-gray-500">Fast and secure</div>
+                <div className="font-medium text-foreground">PayPal</div>
+                <div className="text-sm text-muted-foreground">Fast and secure</div>
               </div>
             </label>
           </div>
@@ -176,7 +176,7 @@ export default function PaymentModal({ amount, contractId, onPayment }: PaymentM
 
       {showSuccess && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-in fade-in duration-300">
-          <div className="bg-white">
+          <div className="bg-card">
             <div className="relative">
               <CheckCircle className="w-20 h-20 text-green-500 mx-auto mb-4 animate-in zoom-in duration-500" />
               {/* Simple confetti effect */}
@@ -202,10 +202,10 @@ export default function PaymentModal({ amount, contractId, onPayment }: PaymentM
                 ))}
               </div>
             </div>
-            <h3 className="text-2xl font-bold text-gray-900">
+            <h3 className="text-2xl font-bold text-foreground">
               Payment Successful!
             </h3>
-            <p className="text-gray-600">
+            <p className="text-muted-foreground">
               ${amount.toLocaleString()} has been deposited into escrow
             </p>
             <div className="bg-green-50">
@@ -217,7 +217,7 @@ export default function PaymentModal({ amount, contractId, onPayment }: PaymentM
         </div>
       )}
 
-      <p className="text-xs text-gray-500">
+      <p className="text-xs text-muted-foreground">
         <Lock className="w-3 h-3 mr-1" />
         Your payment information is encrypted and secure
       </p>

@@ -68,7 +68,7 @@ export default function Profile() {
         </div>
 
         {/* Profile Header */}
-        <div className="bg-card rounded-2xl shadow-lg border border-border">
+        <div className="bg-card rounded-2xl shadow-lg border border-border p-6">
           <div className="flex flex-col md:flex-row items-start md:items-center space-y-6 md:space-y-0 md:space-x-8">
             {/* Profile Picture */}
             <div className="relative">
@@ -93,7 +93,7 @@ export default function Profile() {
                     </div>
                     <div className="flex items-center">
                       <Calendar className="h-4 w-4 mr-1" />
-                      Joined {new Date(user.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                      Joined {user.created_at ? new Date(user.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 'Recently'}
                     </div>
                   </div>
                 </div>
@@ -171,7 +171,7 @@ export default function Profile() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Personal Information */}
               <div className="lg:col-span-2 space-y-6">
-                <div className="bg-card rounded-2xl shadow-lg border border-border">
+                <div className="bg-card rounded-2xl shadow-lg border border-border p-6">
                   <div className="flex items-center justify-between mb-6">
                     <h3 className="text-xl font-semibold text-foreground">
                       <User className="h-5 w-5 mr-2" />
@@ -255,7 +255,7 @@ export default function Profile() {
                 </div>
 
                 {/* Verification Status */}
-                <div className="bg-card rounded-2xl shadow-lg border border-border">
+                <div className="bg-card rounded-2xl shadow-lg border border-border p-6">
                   <h3 className="text-xl font-semibold text-foreground">
                     <Shield className="h-5 w-5 mr-2" />
                     Verification Status
@@ -293,8 +293,8 @@ export default function Profile() {
               {/* Sidebar */}
               <div className="space-y-6">
                 {/* Quick Stats */}
-                <div className="bg-card rounded-2xl shadow-lg border border-border">
-                  <h3 className="text-lg font-semibold text-foreground">Quick Stats</h3>
+                <div className="bg-card rounded-2xl shadow-lg border border-border p-6">
+                  <h3 className="text-lg font-semibold text-foreground mb-4">Quick Stats</h3>
                   <div className="space-y-4">
                     <div className="flex items-center justify-between p-3 bg-muted">
                       <div className="flex items-center">
@@ -321,8 +321,8 @@ export default function Profile() {
                 </div>
 
                 {/* Achievements */}
-                <div className="bg-card rounded-2xl shadow-lg border border-border">
-                  <h3 className="text-lg font-semibold text-foreground">
+                <div className="bg-card rounded-2xl shadow-lg border border-border p-6">
+                  <h3 className="text-lg font-semibold text-foreground mb-4">
                     <Award className="h-5 w-5 mr-2" />
                     Achievements
                   </h3>
@@ -417,7 +417,7 @@ export default function Profile() {
               <div className="p-6 border-b border-border">
                 <h3 className="text-xl font-semibold text-foreground">Recent Activity</h3>
               </div>
-              <div className="divide-y divide-gray-200">
+              <div className="divide-y divide-border">
                 {mockActivity.map((activity) => {
                   const Icon = activity.icon;
                   return (

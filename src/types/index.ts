@@ -8,6 +8,9 @@ export interface User {
   kyc_status: 'pending' | 'verified' | 'rejected';
   created_at: string;
   updated_at: string;
+  bio?: string;
+  location?: string;
+  website?: string;
 }
 
 // Land types

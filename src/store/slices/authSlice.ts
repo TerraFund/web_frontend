@@ -12,11 +12,13 @@ const initialState: AuthState = {
   user: {
     id: 'mock-user-1',
     name: 'Demo User',
-    email: 'demo@terrafund.com',
+    email: 'hello@terrafund.com',
     role: 'investor',
-    phone: '+254 700 000 000',
-    kycStatus: 'verified',
-  } as User,
+    phone: '+250785256553',
+    kyc_status: 'verified',
+    created_at: '2024-01-01T00:00:00Z',
+    updated_at: '2024-01-01T00:00:00Z',
+  },
   token: 'mock-token',
   isAuthenticated: true,
 };

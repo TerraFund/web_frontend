@@ -1,12 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { RootState } from '@/store';
 import { toggleDarkMode } from '@/store/slices/uiSlice';
 import { Bell, Palette, Globe, Shield, Moon, Sun, ChevronRight, Check } from 'lucide-react';
 
 export default function SettingsPage() {
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
   const { darkMode } = useSelector((state: RootState) => state.ui);
   const [notifications, setNotifications] = useState({
@@ -17,7 +19,21 @@ export default function SettingsPage() {
     messages: true,
     marketing: false,
   });
-  const [language, setLanguage] = useState('en');
+  const [language, setLanguage] = useState(i18n.language || 'en');
+
+  // Apply dark mode class to <html> whenever darkMode state changes
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [darkMode]);
+
+  const handleLanguageChange = (lang: string) => {
+    setLanguage(lang);
+    i18n.changeLanguage(lang);
+  };
 
   const toggleNotification = (key: keyof typeof notifications) => {
     setNotifications((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -27,14 +43,14 @@ export default function SettingsPage() {
     { value: 'en', label: 'English' },
     { value: 'fr', label: 'Français' },
     { value: 'sw', label: 'Kiswahili' },
-    { value: 'rw', label: 'Kinyarwanda' },
+    { value: 'es', label: 'Español' },
   ];
 
   return (
     <div className="p-8">
       <div className="max-w-3xl mx-auto space-y-8">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Settings</h1>
+          <h1 className="text-3xl font-bold text-foreground">{t('settings.title')}</h1>
           <p className="text-muted-foreground mt-1">Manage your preferences and account settings</p>
         </div>
 
@@ -45,7 +61,7 @@ export default function SettingsPage() {
               <Bell className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-foreground">Notifications</h2>
+              <h2 className="text-lg font-semibold text-foreground">{t('settings.notifications')}</h2>
               <p className="text-sm text-muted-foreground">Choose how you receive updates</p>
             </div>
           </div>
@@ -71,14 +87,17 @@ export default function SettingsPage() {
               <Palette className="h-5 w-5 text-accent" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-foreground">Appearance</h2>
+              <h2 className="text-lg font-semibold text-foreground">{t('settings.appearance')}</h2>
               <p className="text-sm text-muted-foreground">Customize the look and feel</p>
             </div>
           </div>
           <div className="flex items-center justify-between p-3 rounded-xl hover:bg-muted/50 transition-colors">
             <div className="flex items-center gap-3">
               {darkMode ? <Moon className="h-5 w-5 text-accent" /> : <Sun className="h-5 w-5 text-accent" />}
-              <span className="text-sm font-medium text-foreground">Dark Mode</span>
+              <div>
+                <span className="text-sm font-medium text-foreground">{t('settings.appearance.darkMode')}</span>
+                <p className="text-xs text-muted-foreground">{t('settings.appearance.darkModeDesc')}</p>
+              </div>
             </div>
             <button
               onClick={() => dispatch(toggleDarkMode())}
@@ -96,7 +115,7 @@ export default function SettingsPage() {
               <Globe className="h-5 w-5 text-blue-600 dark:text-blue-400" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-foreground">Language</h2>
+              <h2 className="text-lg font-semibold text-foreground">{t('settings.language')}</h2>
               <p className="text-sm text-muted-foreground">Select your preferred language</p>
             </div>
           </div>
@@ -104,7 +123,7 @@ export default function SettingsPage() {
             {languages.map((lang) => (
               <button
                 key={lang.value}
-                onClick={() => setLanguage(lang.value)}
+                onClick={() => handleLanguageChange(lang.value)}
                 className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-200 ${
                   language === lang.value ? 'bg-primary/10 text-primary' : 'hover:bg-muted/50 text-foreground'
                 }`}
@@ -123,14 +142,14 @@ export default function SettingsPage() {
               <Shield className="h-5 w-5 text-red-600 dark:text-red-400" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-foreground">Security</h2>
+              <h2 className="text-lg font-semibold text-foreground">{t('settings.security')}</h2>
               <p className="text-sm text-muted-foreground">Manage your account security</p>
             </div>
           </div>
           <div className="space-y-1">
             {[
-              { label: 'Change Password', description: 'Update your account password' },
-              { label: 'Two-Factor Authentication', description: 'Add an extra layer of security' },
+              { label: t('settings.security.changePassword'), description: 'Update your account password' },
+              { label: t('settings.security.twoFactor'), description: 'Add an extra layer of security' },
               { label: 'Active Sessions', description: 'Manage your logged-in devices' },
             ].map((item) => (
               <button

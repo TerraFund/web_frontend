@@ -7,18 +7,19 @@ interface AuthState {
   isAuthenticated: boolean;
 }
 
-// Default mock user so the app works without login
+const defaultUser: User = {
+  id: 'mock-user-1',
+  name: 'Demo User',
+  email: 'hello@terrafund.com',
+  role: 'investor',
+  phone: '+250785256553',
+  kyc_status: 'verified',
+  created_at: '2024-01-01T00:00:00Z',
+  updated_at: '2024-01-01T00:00:00Z',
+};
+
 const initialState: AuthState = {
-  user: {
-    id: 'mock-user-1',
-    name: 'Demo User',
-    email: 'hello@terrafund.com',
-    role: 'investor',
-    phone: '+250785256553',
-    kyc_status: 'verified',
-    created_at: '2024-01-01T00:00:00Z',
-    updated_at: '2024-01-01T00:00:00Z',
-  },
+  user: defaultUser,
   token: 'mock-token',
   isAuthenticated: true,
 };
@@ -31,11 +32,18 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isAuthenticated = true;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('terrafund_token', action.payload.token);
+        localStorage.setItem('terrafund_user', JSON.stringify(action.payload.user));
+      }
     },
     logout: (state) => {
-      // No-op: keep user logged in
-      state.user = initialState.user;
-      state.token = initialState.token;
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('terrafund_token');
+        localStorage.removeItem('terrafund_user');
+      }
+      state.user = defaultUser;
+      state.token = 'mock-token';
       state.isAuthenticated = true;
     },
   },

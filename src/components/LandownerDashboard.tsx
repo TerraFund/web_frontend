@@ -464,6 +464,14 @@ export default function LandownerDashboard({ user }: LandownerDashboardProps) {
                       <Button
                         size="sm"
                         variant="outline"
+                        onClick={() => router.push(`/proposals/${prop.id || '1'}`)}
+                        className="text-xs"
+                      >
+                        Details
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
                         onClick={() => router.push('/dashboard/chat')}
                         className="text-xs flex items-center gap-1"
                       >

@@ -1,5 +1,3 @@
-@import 'leaflet/dist/leaflet.css';
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -90,13 +88,14 @@
 }
 
 /* ==========================================
-   Leaflet GIS Map Fixes
+   Leaflet & GIS Map Component Styling
    ========================================== */
 .leaflet-container {
   width: 100%;
   height: 100%;
   z-index: 1;
   border-radius: 1rem;
+  overflow: hidden;
 }
 
 .leaflet-pane {

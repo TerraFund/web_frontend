@@ -94,6 +94,100 @@ export const api = {
         return { success: false, error: err.message };
       }
     },
+    refresh: async () => {
+      try {
+        const res = await request<any>('/api/auth/refresh', { method: 'POST' });
+        return { success: true, ...res };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
+    logout: async () => {
+      try {
+        await request<any>('/api/auth/logout', { method: 'POST' });
+        if (typeof window !== 'undefined') localStorage.removeItem('terrafund_token');
+        return { success: true };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
+    forgotPassword: async (email: string) => {
+      try {
+        const res = await request<any>('/api/auth/forgot-password', {
+          method: 'POST',
+          body: JSON.stringify({ email }),
+        });
+        return { success: true, ...res };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
+    resetPassword: async (data: any) => {
+      try {
+        const res = await request<any>('/api/auth/reset-password', {
+          method: 'POST',
+          body: JSON.stringify(data),
+        });
+        return { success: true, ...res };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
+    chooseRole: async (role: string) => {
+      try {
+        const res = await request<any>('/api/auth/choose-role', {
+          method: 'POST',
+          body: JSON.stringify({ role }),
+        });
+        return { success: true, ...res };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
+    saveInvestorAccountInfo: async (data: any) => {
+      try {
+        const res = await request<any>('/api/auth/account-info/investor', {
+          method: 'POST',
+          body: JSON.stringify(data),
+        });
+        return { success: true, ...res };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
+    saveLandOwnerAccountInfo: async (data: any) => {
+      try {
+        const res = await request<any>('/api/auth/account-info/land-owner', {
+          method: 'POST',
+          body: JSON.stringify(data),
+        });
+        return { success: true, ...res };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
+    updateLandOwnerAccountInfo: async (data: any) => {
+      try {
+        const res = await request<any>('/api/auth/account-info/land-owner/update', {
+          method: 'PUT',
+          body: JSON.stringify(data),
+        });
+        return { success: true, ...res };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
+    updateInvestorAccountInfo: async (data: any) => {
+      try {
+        const res = await request<any>('/api/auth/account-info/investor/update', {
+          method: 'PUT',
+          body: JSON.stringify(data),
+        });
+        return { success: true, ...res };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
     me: async () => {
       try {
         const res = await request<any>('/api/auth/me');
@@ -115,6 +209,17 @@ export const api = {
         return { success: false, error: err.message, land: data };
       }
     },
+    uploadDocuments: async (landId: string | number, data: any) => {
+      try {
+        const res = await request<any>(`/api/land/upload-documents/${landId}`, {
+          method: 'POST',
+          body: JSON.stringify(data),
+        });
+        return { success: true, result: res };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
     list: async (params?: any) => {
       try {
         const res = await request<any[]>('/api/land/list');
@@ -131,6 +236,14 @@ export const api = {
         return { success: false, error: err.message, land: null };
       }
     },
+    getByOwner: async (ownerId: string) => {
+      try {
+        const res = await request<any[]>(`/api/land/owner/${ownerId}`);
+        return { success: true, lands: res || [] };
+      } catch (err: any) {
+        return { success: false, error: err.message, lands: [] };
+      }
+    },
     update: async (id: string, data: any) => {
       try {
         const res = await request<any>(`/api/land/update/${id}`, {
@@ -140,6 +253,16 @@ export const api = {
         return { success: true, land: res };
       } catch (err: any) {
         return { success: false, error: err.message, land: data };
+      }
+    },
+    publish: async (id: string) => {
+      try {
+        const res = await request<any>(`/api/land/publish/${id}`, {
+          method: 'PATCH',
+        });
+        return { success: true, land: res };
+      } catch (err: any) {
+        return { success: false, error: err.message };
       }
     },
     delete: async (id: string) => {
@@ -194,6 +317,16 @@ export const api = {
     reject: async (id: string) => {
       try {
         await request<any>(`/api/land-proposal/reject/${id}`, {
+          method: 'PATCH',
+        });
+        return { success: true };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
+    cancel: async (id: string) => {
+      try {
+        await request<any>(`/api/land-proposal/cancel/${id}`, {
           method: 'PATCH',
         });
         return { success: true };
@@ -263,6 +396,16 @@ export const api = {
         return { success: false, error: err.message };
       }
     },
+    unverifyLand: async (id: string | number) => {
+      try {
+        const res = await request<any>(`/api/admin/unverify/land/${id}`, {
+          method: 'PATCH',
+        });
+        return { success: true, land: res };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
     flagLand: async (id: string | number) => {
       try {
         const res = await request<any>(`/api/admin/flag/listing/${id}`, {
@@ -272,6 +415,34 @@ export const api = {
       } catch (err: any) {
         return { success: false, error: err.message };
       }
+    },
+    unhideLand: async (id: string | number) => {
+      try {
+        const res = await request<any>(`/api/admin/unhide/listing/${id}`, {
+          method: 'PATCH',
+        });
+        return { success: true, land: res };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
+  },
+  files: {
+    upload: async (formData: FormData) => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/api/files/upload`, {
+          method: 'POST',
+          body: formData,
+          headers: getAuthHeader(),
+        });
+        const data = await res.json();
+        return { success: true, data };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
+    download: async (filename: string) => {
+      return `${API_BASE_URL}/api/files/download/${encodeURIComponent(filename)}`;
     },
   },
   chat: {

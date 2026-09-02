@@ -202,6 +202,60 @@ export const api = {
         return { success: false, error: err.message };
       }
     },
+    getAdmin: async () => {
+      try {
+        const res = await request<any>('/api/dashboard/admin');
+        return { success: true, data: res };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
+    getMyDashboard: async () => {
+      try {
+        const res = await request<any>('/api/dashboard/me');
+        return { success: true, data: res };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
+  },
+  admin: {
+    getUsers: async () => {
+      try {
+        const res = await request<any[]>('/api/admin/users');
+        return { success: true, users: res || [] };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
+    getLands: async () => {
+      try {
+        const res = await request<any[]>('/api/admin/lands');
+        return { success: true, lands: res || [] };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
+    verifyLand: async (id: string | number) => {
+      try {
+        const res = await request<any>(`/api/admin/verify/land/${id}`, {
+          method: 'PATCH',
+        });
+        return { success: true, land: res };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
+    flagLand: async (id: string | number) => {
+      try {
+        const res = await request<any>(`/api/admin/flag/listing/${id}`, {
+          method: 'PATCH',
+        });
+        return { success: true, land: res };
+      } catch (err: any) {
+        return { success: false, error: err.message };
+      }
+    },
   },
   chat: {
     start: async (data: any) => {

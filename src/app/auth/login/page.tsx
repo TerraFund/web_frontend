@@ -32,10 +32,18 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (data.success) {
-        dispatch(setCredentials({ user: data.user, token: data.token }));
-        router.push('/dashboard');
+        const userObj = data.user || data.data?.user;
+        const tokenStr = data.token || data.data?.token;
+        if (userObj) {
+          dispatch(setCredentials({ user: userObj, token: tokenStr }));
+        }
+        if (userObj?.role === 'admin') {
+          router.push('/admin');
+        } else {
+          router.push('/dashboard');
+        }
       } else {
-        setError(data.message || 'Invalid credentials');
+        setError(data.error || data.message || 'Invalid credentials');
       }
     } catch {
       setError('Something went wrong. Please try again.');

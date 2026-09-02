@@ -1,492 +1,399 @@
 'use client';
 
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
 import { RootState } from '@/store';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
-import { User, Shield, FileText, Star, Camera, MapPin, Calendar, TrendingUp, Award, Users, Settings, Edit3, Upload, CheckCircle, Clock, DollarSign } from 'lucide-react';
+import {
+  User,
+  Shield,
+  FileText,
+  Star,
+  Camera,
+  MapPin,
+  Calendar,
+  TrendingUp,
+  Award,
+  Users,
+  Settings,
+  Edit3,
+  Upload,
+  CheckCircle2,
+  Clock,
+  DollarSign,
+  Phone,
+  Mail,
+  Building,
+  ShieldCheck,
+  Check,
+  ExternalLink,
+  Sparkles,
+} from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-export default function Profile() {
+export default function ProfilePage() {
+  const router = useRouter();
   const { user } = useSelector((state: RootState) => state.auth);
+
+  const currentUser = user || {
+    name: 'Geofrey Kayin',
+    email: 'geofreykayin@gmail.com',
+    role: 'landowner',
+    phone: '+250 788 123 456',
+    location: 'Kigali, Rwanda',
+    bio: 'Pioneer agricultural landowner specializing in high-altitude organic coffee estates and automated drip-irrigated farmland.',
+    kyc_status: 'verified',
+    created_at: '2024-01-10T00:00:00Z',
+  };
+
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
+  const [saveSuccess, setSaveSuccess] = useState(false);
+
   const [formData, setFormData] = useState({
-    name: user?.name || '',
-    email: user?.email || '',
-    phone: user?.phone || '',
-    bio: user?.bio || '',
-    location: user?.location || '',
-    website: user?.website || '',
+    name: currentUser.name || 'Geofrey Kayin',
+    email: currentUser.email || 'geofreykayin@gmail.com',
+    phone: currentUser.phone || '+250 788 123 456',
+    bio: currentUser.bio || 'Pioneer agricultural landowner specializing in high-altitude organic coffee estates and automated drip-irrigated farmland.',
+    location: currentUser.location || 'Kigali, Rwanda',
+    website: 'https://terrafund.org',
   });
 
   const handleSave = () => {
-    // Mock save
-    setIsEditing(false);
+    setSaveSuccess(true);
+    setTimeout(() => {
+      setSaveSuccess(false);
+      setIsEditing(false);
+    }, 1500);
   };
 
   const mockReviews = [
-    { id: '1', from: 'Sarah Johnson', rating: 5, comment: 'Great landowner, very professional and transparent throughout the entire process.', date: '2024-01-15' },
-    { id: '2', from: 'Mike Chen', rating: 4, comment: 'Good communication and fair pricing. Would work with again.', date: '2024-01-10' },
-    { id: '3', from: 'David Kim', rating: 5, comment: 'Excellent experience. The land exceeded expectations and the documentation was perfect.', date: '2024-01-08' },
+    { id: '1', from: 'Sarah Johnson (Impact Investor)', rating: 5, comment: 'Exceptional transparency during title deed verification. Soil pH report was 100% accurate.', date: '2024-01-15' },
+    { id: '2', from: 'Mike Chen (AgroFund Africa)', rating: 5, comment: 'Punctual lease milestone payouts and seamless escrow workflow. Highly recommended landowner.', date: '2024-01-10' },
+    { id: '3', from: 'David Kim (AgriTech Ventures)', rating: 5, comment: 'Great communication during proposal negotiations. Irrigation infrastructure was top-notch.', date: '2024-01-08' },
   ];
 
   const mockActivity = [
-    { id: '1', type: 'land_listed', title: 'Listed new land plot', description: '25-acre coffee farm in Central Rwanda', date: '2024-01-20', icon: MapPin },
-    { id: '2', type: 'deal_closed', title: 'Investment deal completed', description: 'Successfully closed deal for $45,000 investment', date: '2024-01-18', icon: CheckCircle },
-    { id: '3', type: 'review_received', title: 'New review received', description: '5-star review from Sarah Johnson', date: '2024-01-15', icon: Star },
-    { id: '4', type: 'kyc_verified', title: 'KYC verification completed', description: 'Your account is now fully verified', date: '2024-01-12', icon: Shield },
-  ];
-
-  const mockPortfolio = user?.role === 'landowner' ? [
-    { id: '1', name: 'Coffee Farm Plot #5', location: 'Central Rwanda', size: 25, status: 'listed', price: 1500, image: '/lands/coffee-farm.jpg' },
-    { id: '2', name: 'Maize Field #12', location: 'Rift Valley', size: 50, status: 'sold', price: 1200, image: '/lands/maize-field.jpg' },
-  ] : [
-    { id: '1', name: 'Coffee Farm Investment', location: 'Central Rwanda', amount: 25000, roi: 12.5, status: 'active' },
-    { id: '2', name: 'Fruit Orchard Partnership', location: 'Western Rwanda', amount: 15000, roi: 8.3, status: 'active' },
+    { id: '1', type: 'land_listed', title: 'Listed new plot: Musanze Avocado Valley', description: '28 Hectares in Northern Province', date: '2024-01-20', icon: MapPin },
+    { id: '2', type: 'deal_closed', title: 'Accepted Escrow Lease Contract', description: 'Agreed $42,000 annual lease for Coffee Estate #5', date: '2024-01-18', icon: CheckCircle2 },
+    { id: '3', type: 'review_received', title: 'Received 5-Star Investor Review', description: 'Review left by Sarah Johnson', date: '2024-01-15', icon: Star },
+    { id: '4', type: 'kyc_verified', title: 'KYC Level 2 Audit Approved', description: 'National ID and Title Deed validated', date: '2024-01-12', icon: ShieldCheck },
   ];
 
   const portfolioGrowthData = [
-    { month: 'Jan', value: 10000 },
-    { month: 'Feb', value: 15000 },
-    { month: 'Mar', value: 22000 },
-    { month: 'Apr', value: 28000 },
-    { month: 'May', value: 35000 },
-    { month: 'Jun', value: 42000 },
+    { month: 'Jan', value: 120000 },
+    { month: 'Feb', value: 145000 },
+    { month: 'Mar', value: 180000 },
+    { month: 'Apr', value: 210000 },
+    { month: 'May', value: 250000 },
+    { month: 'Jun', value: 285000 },
   ];
 
-  if (!user) return null;
-
   return (
-    <div className="min-h-screen bg-muted">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-background text-foreground p-4 md:p-8 space-y-8">
+      <div className="max-w-7xl mx-auto space-y-8">
+
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-foreground">Profile</h1>
-          <p className="text-lg text-muted-foreground">Manage your account and view your activity</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight">Account Profile</h1>
+            <p className="text-muted-foreground text-sm">Manage your identity details, verified credentials, and activity log.</p>
+          </div>
+          <Button
+            variant="outline"
+            onClick={() => router.push('/dashboard/settings')}
+            className="flex items-center gap-2 text-xs"
+          >
+            <Settings className="w-4 h-4" /> Account Settings
+          </Button>
         </div>
 
-        {/* Profile Header */}
-        <div className="bg-card rounded-2xl shadow-lg border border-border p-6">
-          <div className="flex flex-col md:flex-row items-start md:items-center space-y-6 md:space-y-0 md:space-x-8">
-            {/* Profile Picture */}
-            <div className="relative">
-              <div className="w-32 h-32 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white text-4xl font-bold">
-                {user.name?.charAt(0).toUpperCase()}
+        {/* Profile Card Header */}
+        <div className="bg-card border border-border rounded-3xl p-6 md:p-8 shadow-md relative overflow-hidden">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+            {/* Avatar Circle */}
+            <div className="relative group shrink-0">
+              <div className="w-28 h-28 bg-gradient-to-br from-primary via-emerald-600 to-teal-800 rounded-2xl flex items-center justify-center text-white text-4xl font-extrabold shadow-xl border-4 border-card">
+                {formData.name.charAt(0)}
               </div>
-              <button className="absolute bottom-0 right-0 bg-primary text-white p-3 rounded-full hover:bg-accent transition-colors shadow-lg">
-                <Camera className="h-5 w-5" />
-              </button>
+              <div className="absolute -bottom-2 -right-2 bg-emerald-500 text-white p-2 rounded-xl shadow-md border border-card cursor-pointer hover:bg-emerald-600 transition-colors">
+                <Camera className="w-4 h-4" />
+              </div>
             </div>
 
             {/* Profile Info */}
-            <div className="flex-1">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+            <div className="flex-1 space-y-3">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                  <h2 className="text-3xl font-bold text-foreground">{user.name}</h2>
-                  <p className="text-lg text-muted-foreground">{user.role}</p>
-                  <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                    <div className="flex items-center">
-                      <MapPin className="h-4 w-4 mr-1" />
-                      Kigali, Rwanda
-                    </div>
-                    <div className="flex items-center">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      Joined {user.created_at ? new Date(user.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 'Recently'}
-                    </div>
+                  <div className="flex items-center gap-2">
+                    <h2 className="text-2xl font-bold text-foreground">{formData.name}</h2>
+                    <span className="px-2.5 py-0.5 bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1">
+                      <ShieldCheck className="w-3.5 h-3.5" /> Verified {currentUser.role}
+                    </span>
                   </div>
+                  <p className="text-xs text-muted-foreground flex items-center gap-3 mt-1">
+                    <span className="flex items-center gap-1"><Mail className="w-3.5 h-3.5 text-primary" /> {formData.email}</span>
+                    <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5 text-emerald-500" /> {formData.location}</span>
+                  </p>
                 </div>
-                <div className="flex space-x-3 mt-4 md:mt-0">
-                  <Button variant="outline" size="sm">
-                    <Edit3 className="h-4 w-4 mr-2" />
-                    Edit Profile
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <Settings className="h-4 w-4 mr-2" />
-                    Settings
+
+                <div className="flex items-center gap-3">
+                  <Button
+                    variant="outline"
+                    onClick={() => setIsEditing(!isEditing)}
+                    className="flex items-center gap-2 text-xs"
+                  >
+                    <Edit3 className="w-3.5 h-3.5" /> {isEditing ? 'Cancel Edit' : 'Edit Profile'}
                   </Button>
                 </div>
               </div>
 
-              {/* Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-primary">4.8</div>
-                  <div className="text-sm text-muted-foreground">
-                    <Star className="h-4 w-4 text-yellow-400 fill-current mr-1" />
-                    Rating
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-accent">12</div>
-                  <div className="text-sm text-muted-foreground">Total Deals</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-secondary">$125K</div>
-                  <div className="text-sm text-muted-foreground">Portfolio Value</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-primary">98%</div>
-                  <div className="text-sm text-muted-foreground">Success Rate</div>
-                </div>
-              </div>
+              <p className="text-xs text-muted-foreground max-w-2xl">{formData.bio}</p>
             </div>
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="mb-8">
-          <div className="border-b border-border overflow-x-auto no-scrollbar scroll-smooth">
-            <nav className="-mb-px flex space-x-4 md:space-x-8 min-w-max px-1">
-              {[
-                { id: 'overview', label: 'Overview', icon: User },
-                { id: 'portfolio', label: user.role === 'landowner' ? 'My Lands' : 'Investments', icon: TrendingUp },
-                { id: 'activity', label: 'Activity', icon: Clock },
-                { id: 'reviews', label: 'Reviews', icon: Star },
-              ].map((tab) => {
-                const Icon = tab.icon;
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center ${
-                      activeTab === tab.id
-                        ? 'border-primary text-primary'
-                        : 'border-transparent text-muted-foreground'
-                    }`}
-                  >
-                    <Icon className="h-4 w-4 mr-2" />
-                    {tab.label}
-                  </button>
-                );
-              })}
-            </nav>
-          </div>
+        {/* Navigation Tabs */}
+        <div className="border-b border-border">
+          <nav className="flex space-x-6 overflow-x-auto no-scrollbar py-2">
+            {[
+              { id: 'overview', label: 'Profile Overview', icon: User },
+              { id: 'portfolio', label: 'Portfolio Growth', icon: TrendingUp },
+              { id: 'activity', label: 'Activity Log', icon: Clock },
+              { id: 'reviews', label: 'Investor Reviews (3)', icon: Star },
+            ].map((tab) => {
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`py-2 px-4 rounded-xl text-xs font-bold flex items-center gap-2 transition-all ${
+                    activeTab === tab.id
+                      ? 'bg-primary text-white shadow-md'
+                      : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  {tab.label}
+                </button>
+              );
+            })}
+          </nav>
         </div>
 
         {/* Tab Content */}
-        <div className="space-y-8">
-          {activeTab === 'overview' && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Personal Information */}
-              <div className="lg:col-span-2 space-y-6">
-                <div className="bg-card rounded-2xl shadow-lg border border-border p-6">
-                  <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-xl font-semibold text-foreground">
-                      <User className="h-5 w-5 mr-2" />
-                      Personal Information
-                    </h3>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setIsEditing(!isEditing)}
-                    >
-                      {isEditing ? 'Cancel' : 'Edit'}
-                    </Button>
-                  </div>
+        {activeTab === 'overview' && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Main Form / Info Column */}
+            <div className="lg:col-span-2 space-y-6">
+              <div className="bg-card border border-border rounded-2xl p-6 shadow-sm space-y-6">
+                <div className="flex items-center justify-between border-b border-border pb-4">
+                  <h3 className="font-bold text-foreground text-base flex items-center gap-2">
+                    <User className="w-5 h-5 text-primary" /> Personal Information
+                  </h3>
+                  {saveSuccess && (
+                    <span className="text-xs font-bold text-emerald-500 flex items-center gap-1 animate-in fade-in">
+                      <Check className="w-4 h-4" /> Saved Successfully!
+                    </span>
+                  )}
+                </div>
 
-                  {isEditing ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <Input
-                        label="Full Name"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      />
-                      <Input
-                        label="Email"
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      />
-                      <Input
-                        label="Phone"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      />
-                      <Input
-                        label="Location"
-                        value={formData.location}
-                        onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                      />
-                      <div className="md:col-span-2">
-                        <label className="block text-sm font-medium text-foreground/80">Bio</label>
-                        <textarea
-                          className="w-full px-3 py-2 border border-border"
-                          rows={3}
-                          value={formData.bio}
-                          onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                          placeholder="Tell us about yourself..."
+                {isEditing ? (
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-semibold uppercase text-muted-foreground mb-1">Full Name</label>
+                        <input
+                          type="text"
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          className="w-full px-3 py-2.5 bg-muted/40 border border-border rounded-xl text-xs font-semibold focus:ring-2 focus:ring-primary focus:outline-none"
                         />
                       </div>
-                      <div className="md:col-span-2 flex justify-end space-x-3">
-                        <Button variant="outline" onClick={() => setIsEditing(false)}>Cancel</Button>
-                        <Button onClick={handleSave}>Save Changes</Button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="space-y-6">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <label className="block text-sm font-medium text-foreground/80">Full Name</label>
-                          <p className="text-foreground">{user.name}</p>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-foreground/80">Email</label>
-                          <p className="text-foreground">{user.email}</p>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-foreground/80">Phone</label>
-                          <p className="text-foreground">{user.phone || 'Not provided'}</p>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-foreground/80">Location</label>
-                          <p className="text-foreground">Kigali, Rwanda</p>
-                        </div>
+                      <div>
+                        <label className="block text-xs font-semibold uppercase text-muted-foreground mb-1">Email Address</label>
+                        <input
+                          type="email"
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          className="w-full px-3 py-2.5 bg-muted/40 border border-border rounded-xl text-xs font-semibold focus:ring-2 focus:ring-primary focus:outline-none"
+                        />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-foreground/80">Bio</label>
-                        <p className="text-muted-foreground">
-                          Experienced landowner with over 10 years in sustainable agriculture. Passionate about connecting investors with high-quality agricultural opportunities in Rwanda.
-                        </p>
+                        <label className="block text-xs font-semibold uppercase text-muted-foreground mb-1">Phone Number</label>
+                        <input
+                          type="text"
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          className="w-full px-3 py-2.5 bg-muted/40 border border-border rounded-xl text-xs font-semibold focus:ring-2 focus:ring-primary focus:outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold uppercase text-muted-foreground mb-1">Location</label>
+                        <input
+                          type="text"
+                          value={formData.location}
+                          onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                          className="w-full px-3 py-2.5 bg-muted/40 border border-border rounded-xl text-xs font-semibold focus:ring-2 focus:ring-primary focus:outline-none"
+                        />
                       </div>
                     </div>
-                  )}
-                </div>
 
-                {/* Verification Status */}
-                <div className="bg-card rounded-2xl shadow-lg border border-border p-6">
-                  <h3 className="text-xl font-semibold text-foreground">
-                    <Shield className="h-5 w-5 mr-2" />
-                    Verification Status
-                  </h3>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className={`w-4 h-4 rounded-full ${
-                        user.kyc_status === 'verified' ? 'bg-green-500' :
-                        user.kyc_status === 'pending' ? 'bg-yellow-500' : 'bg-red-500'
-                      }`}></div>
-                      <div>
-                        <span className="text-foreground">{user.kyc_status}</span>
-                        {user.kyc_status === 'verified' && (
-                          <p className="text-sm text-muted-foreground">Your account is fully verified</p>
-                        )}
-                      </div>
+                    <div>
+                      <label className="block text-xs font-semibold uppercase text-muted-foreground mb-1">Public Bio</label>
+                      <textarea
+                        rows={3}
+                        value={formData.bio}
+                        onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                        className="w-full px-3 py-2.5 bg-muted/40 border border-border rounded-xl text-xs font-medium focus:ring-2 focus:ring-primary focus:outline-none"
+                      />
                     </div>
-                    {user.kyc_status !== 'verified' && (
-                      <Button variant="outline" size="sm">
-                        <Upload className="h-4 w-4 mr-2" />
-                        Upload Documents
-                      </Button>
-                    )}
+
+                    <div className="flex justify-end gap-3 pt-2">
+                      <Button variant="outline" size="sm" onClick={() => setIsEditing(false)}>Cancel</Button>
+                      <Button size="sm" onClick={handleSave}>Save Profile</Button>
+                    </div>
                   </div>
-                  {user.kyc_status === 'pending' && (
-                    <div className="mt-4 p-4 bg-yellow-50">
-                      <p className="text-sm text-yellow-800">
-                        Your documents are being reviewed. This usually takes 1-2 business days.
-                      </p>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+                    <div className="p-3 bg-muted/30 rounded-xl space-y-1">
+                      <span className="text-muted-foreground uppercase text-[10px]">Full Name</span>
+                      <p className="font-bold text-foreground text-sm">{formData.name}</p>
                     </div>
-                  )}
-                </div>
+                    <div className="p-3 bg-muted/30 rounded-xl space-y-1">
+                      <span className="text-muted-foreground uppercase text-[10px]">Email Address</span>
+                      <p className="font-bold text-foreground text-sm">{formData.email}</p>
+                    </div>
+                    <div className="p-3 bg-muted/30 rounded-xl space-y-1">
+                      <span className="text-muted-foreground uppercase text-[10px]">Phone Contact</span>
+                      <p className="font-bold text-foreground text-sm">{formData.phone}</p>
+                    </div>
+                    <div className="p-3 bg-muted/30 rounded-xl space-y-1">
+                      <span className="text-muted-foreground uppercase text-[10px]">Location</span>
+                      <p className="font-bold text-foreground text-sm">{formData.location}</p>
+                    </div>
+                  </div>
+                )}
               </div>
 
-              {/* Sidebar */}
-              <div className="space-y-6">
-                {/* Quick Stats */}
-                <div className="bg-card rounded-2xl shadow-lg border border-border p-6">
-                  <h3 className="text-lg font-semibold text-foreground mb-4">Quick Stats</h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between p-3 bg-muted">
-                      <div className="flex items-center">
-                        <TrendingUp className="h-5 w-5 text-green-500 mr-3" />
-                        <span className="text-sm text-muted-foreground">Portfolio Growth</span>
-                      </div>
-                      <span className="text-lg font-bold text-green-600">+12.5%</span>
+              {/* Identity & Verification Card */}
+              <div className="bg-card border border-border rounded-2xl p-6 shadow-sm space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-emerald-500/10 text-emerald-500 rounded-xl">
+                      <ShieldCheck className="w-6 h-6" />
                     </div>
-                    <div className="flex items-center justify-between p-3 bg-muted">
-                      <div className="flex items-center">
-                        <DollarSign className="h-5 w-5 text-blue-500 mr-3" />
-                        <span className="text-sm text-muted-foreground">Total Invested</span>
-                      </div>
-                      <span className="text-lg font-bold text-blue-600">$125K</span>
-                    </div>
-                    <div className="flex items-center justify-between p-3 bg-muted">
-                      <div className="flex items-center">
-                        <Users className="h-5 w-5 text-purple-500 mr-3" />
-                        <span className="text-sm text-muted-foreground">Active Partners</span>
-                      </div>
-                      <span className="text-lg font-bold text-purple-600">8</span>
+                    <div>
+                      <h4 className="font-bold text-sm text-foreground">KYC Identity Verification</h4>
+                      <p className="text-xs text-emerald-500 font-semibold">Level 2 Verified (National ID & Title Deed)</p>
                     </div>
                   </div>
-                </div>
-
-                {/* Achievements */}
-                <div className="bg-card rounded-2xl shadow-lg border border-border p-6">
-                  <h3 className="text-lg font-semibold text-foreground mb-4">
-                    <Award className="h-5 w-5 mr-2" />
-                    Achievements
-                  </h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center space-x-3 p-3 bg-yellow-50">
-                      <Award className="h-6 w-6 text-yellow-500" />
-                      <div>
-                        <p className="text-sm font-medium text-foreground">Top Landowner</p>
-                        <p className="text-xs text-muted-foreground">Highest rated in Q4 2024</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-3 p-3 bg-blue-50">
-                      <CheckCircle className="h-6 w-6 text-blue-500" />
-                      <div>
-                        <p className="text-sm font-medium text-foreground">Verified Partner</p>
-                        <p className="text-xs text-muted-foreground">Completed 50+ successful deals</p>
-                      </div>
-                    </div>
-                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => router.push('/auth/kyc')}
+                    className="text-xs flex items-center gap-1"
+                  >
+                    View Status <ExternalLink className="w-3.5 h-3.5" />
+                  </Button>
                 </div>
               </div>
             </div>
-          )}
 
-          {activeTab === 'portfolio' && (
-            <div className="space-y-8">
-              {/* Portfolio Summary Chart */}
-              <div className="bg-card rounded-2xl shadow-lg border border-border">
-                <h3 className="text-xl font-semibold text-foreground">
-                  <TrendingUp className="h-5 w-5 mr-2" />
-                  Portfolio Performance
-                </h3>
-                <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={portfolioGrowthData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <Tooltip formatter={(value) => [`$${value}`, 'Portfolio Value']} />
-                    <Line type="monotone" dataKey="value" stroke="#0B6E4F" strokeWidth={2} />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-
-              {/* Portfolio Items */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {mockPortfolio.map((item) => (
-                  <div key={item.id} className="bg-card">
-                    {user.role === 'landowner' && 'image' in item && (
-                      <div className="h-48 bg-gradient-to-br from-primary to-accent relative">
-                        <div className="absolute top-4 right-4">
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            item.status === 'listed' ? 'bg-green-500 text-white' : 'bg-muted0 text-white'
-                          }`}>
-                            {item.status}
-                          </span>
-                        </div>
-                      </div>
-                    )}
-                    <div className="p-6">
-                      <h4 className="text-lg font-semibold text-foreground">{item.name}</h4>
-                      <p className="text-sm text-muted-foreground">
-                        <MapPin className="h-4 w-4 mr-1" />
-                        {item.location}
-                      </p>
-                      {user.role === 'landowner' && 'size' in item && (
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">{item.size} acres</span>
-                          <span className="text-lg font-bold text-primary">${item.price}/acre</span>
-                        </div>
-                      )}
-                      {user.role === 'investor' && 'amount' in item && (
-                        <div className="space-y-2">
-                          <div className="flex justify-between">
-                            <span className="text-sm text-muted-foreground">Invested</span>
-                            <span className="text-sm font-medium text-foreground">${item.amount.toLocaleString()}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-sm text-muted-foreground">ROI</span>
-                            <span className="text-sm font-medium text-green-600">+{item.roi}%</span>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'activity' && (
-            <div className="bg-card rounded-2xl shadow-lg border border-border">
-              <div className="p-6 border-b border-border">
-                <h3 className="text-xl font-semibold text-foreground">Recent Activity</h3>
-              </div>
-              <div className="divide-y divide-border">
-                {mockActivity.map((activity) => {
-                  const Icon = activity.icon;
-                  return (
-                    <div key={activity.id} className="p-6 hover:bg-muted">
-                      <div className="flex items-start space-x-4">
-                        <div className="flex-shrink-0">
-                          <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                            <Icon className="h-5 w-5 text-primary" />
-                          </div>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-foreground">{activity.title}</p>
-                          <p className="text-sm text-muted-foreground">{activity.description}</p>
-                          <p className="text-xs text-muted-foreground">{activity.date}</p>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'reviews' && (
+            {/* Sidebar Column */}
             <div className="space-y-6">
-              <div className="bg-card rounded-2xl shadow-lg border border-border">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-semibold text-foreground">Reviews & Ratings</h3>
-                  <div className="flex items-center space-x-2">
-                    <div className="flex items-center">
-                      <Star className="h-5 w-5 text-yellow-400 fill-current" />
-                      <span className="text-lg font-bold text-foreground">4.8</span>
+              <div className="bg-card border border-border rounded-2xl p-6 shadow-sm space-y-4">
+                <h4 className="font-bold text-sm text-foreground flex items-center gap-2">
+                  <Award className="w-4 h-4 text-amber-400" /> Platform Badges & Trust Score
+                </h4>
+                <div className="space-y-3 text-xs">
+                  <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0" />
+                    <div>
+                      <p className="font-bold text-foreground">Verified Landowner</p>
+                      <p className="text-muted-foreground text-[11px]">Validated 100% legal title deeds.</p>
                     </div>
-                    <span className="text-sm text-muted-foreground">(12 reviews)</span>
                   </div>
-                </div>
 
-                <div className="space-y-6">
-                  {mockReviews.map((review) => (
-                    <div key={review.id} className="border-b border-border">
-                      <div className="flex items-start justify-between mb-3">
-                        <div className="flex items-center space-x-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-white font-bold">
-                            {review.from.charAt(0)}
-                          </div>
-                          <div>
-                            <p className="text-sm font-medium text-foreground">{review.from}</p>
-                            <div className="flex items-center">
-                              {[...Array(5)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={`h-4 w-4 ${
-                                    i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                                  }`}
-                                />
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                        <span className="text-xs text-muted-foreground">{review.date}</span>
-                      </div>
-                      <p className="text-foreground/80">{review.comment}</p>
+                  <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-center gap-3">
+                    <Star className="w-5 h-5 text-amber-500 shrink-0 fill-amber-500" />
+                    <div>
+                      <p className="font-bold text-foreground">Top-Rated Host</p>
+                      <p className="text-muted-foreground text-[11px]">5.0 rating across all investor offers.</p>
                     </div>
-                  ))}
+                  </div>
                 </div>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
+
+        {/* Portfolio Tab */}
+        {activeTab === 'portfolio' && (
+          <div className="bg-card border border-border rounded-2xl p-6 shadow-sm space-y-6">
+            <h3 className="font-bold text-foreground text-base">Portfolio Valuation Over Time ($ USD)</h3>
+            <div className="h-[300px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={portfolioGrowthData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                  <XAxis dataKey="month" stroke="#888" />
+                  <YAxis stroke="#888" />
+                  <Tooltip formatter={(val) => [`$${val}`, 'Portfolio Capital']} />
+                  <Line type="monotone" dataKey="value" stroke="#0B6E4F" strokeWidth={3} dot={{ r: 6 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
+
+        {/* Activity Tab */}
+        {activeTab === 'activity' && (
+          <div className="bg-card border border-border rounded-2xl p-6 shadow-sm space-y-4">
+            <h3 className="font-bold text-foreground text-base mb-4">Recent Account Activity</h3>
+            <div className="space-y-4">
+              {mockActivity.map((act) => {
+                const Icon = act.icon;
+                return (
+                  <div key={act.id} className="p-4 bg-muted/30 border border-border rounded-xl flex items-start gap-4 text-xs">
+                    <div className="p-2 bg-primary/10 text-primary rounded-xl shrink-0">
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-bold text-foreground">{act.title}</p>
+                      <p className="text-muted-foreground">{act.description}</p>
+                      <span className="text-[10px] text-muted-foreground font-mono">{act.date}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Reviews Tab */}
+        {activeTab === 'reviews' && (
+          <div className="bg-card border border-border rounded-2xl p-6 shadow-sm space-y-4">
+            <h3 className="font-bold text-foreground text-base mb-4">Verified Investor Ratings</h3>
+            <div className="space-y-4">
+              {mockReviews.map((rev) => (
+                <div key={rev.id} className="p-4 bg-muted/30 border border-border rounded-xl space-y-2 text-xs">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-foreground">{rev.from}</span>
+                    <div className="flex items-center text-amber-400">
+                      {[...Array(rev.rating)].map((_, i) => (
+                        <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
+                      ))}
+                    </div>
+                  </div>
+                  <p className="text-muted-foreground">{rev.comment}</p>
+                  <span className="text-[10px] text-muted-foreground font-mono">{rev.date}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -8,11 +8,11 @@ interface AuthState {
 }
 
 const defaultUser: User = {
-  id: 'mock-user-1',
-  name: 'Demo User',
-  email: 'hello@terrafund.com',
-  role: 'investor',
-  phone: '+250785256553',
+  id: 'admin-1',
+  name: 'Geofrey Kayin',
+  email: 'geofreykayin@gmail.com',
+  role: 'admin',
+  phone: '+250788000000',
   kyc_status: 'verified',
   created_at: '2024-01-01T00:00:00Z',
   updated_at: '2024-01-01T00:00:00Z',

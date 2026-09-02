@@ -12,12 +12,14 @@ export async function POST(request: Request) {
       );
     }
 
+    const isAdmin = email.toLowerCase() === 'geofreykayin@gmail.com';
+
     // Mock successful login
     const user = {
-      id: '1',
-      name: 'John Doe',
+      id: isAdmin ? 'admin-1' : '1',
+      name: isAdmin ? 'Geofrey Kayin' : 'John Doe',
       email,
-      role: 'investor',
+      role: isAdmin ? 'admin' : 'investor',
       kyc_status: 'verified',
     };
 

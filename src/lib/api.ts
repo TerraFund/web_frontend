@@ -40,6 +40,23 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
 }
 
 export const api = {
+  healthCheck: async (): Promise<{ connected: boolean; version: string; error?: string }> => {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2000);
+      const res = await fetch(`${API_BASE_URL}/actuator/health`, {
+        signal: controller.signal,
+      }).catch(() => null);
+
+      clearTimeout(timeoutId);
+      if (res && res.ok) {
+        return { connected: true, version: '1.1.0-SPRING' };
+      }
+      return { connected: false, version: '1.1.0-STANDALONE', error: 'Spring Boot server offline' };
+    } catch {
+      return { connected: false, version: '1.1.0-STANDALONE', error: 'Connection refused' };
+    }
+  },
   auth: {
     register: async (data: any) => {
       try {

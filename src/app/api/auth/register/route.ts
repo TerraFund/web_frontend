@@ -28,6 +28,8 @@ export async function POST(request: Request) {
 
     const response = NextResponse.json({
       success: true,
+      user,
+      token,
       data: { user, token },
       message: 'Registration successful. Please verify your email.',
     });

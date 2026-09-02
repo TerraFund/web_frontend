@@ -167,6 +167,43 @@ export default function LoginPage() {
             </button>
           </form>
 
+          {/* Quick Demo Sign In Shortcuts */}
+          <div className="pt-2 border-t border-border space-y-2 text-center">
+            <p className="text-xs font-semibold text-muted-foreground">Quick Demo Sign In:</p>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setEmail('landowner@terrafund.com');
+                  setPassword('password123');
+                }}
+                className="px-3 py-1.5 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/20 rounded-lg text-xs font-semibold transition-colors"
+              >
+                Landowner
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setEmail('investor@terrafund.com');
+                  setPassword('password123');
+                }}
+                className="px-3 py-1.5 bg-teal-500/10 text-teal-700 dark:text-teal-300 hover:bg-teal-500/20 rounded-lg text-xs font-semibold transition-colors"
+              >
+                Investor
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setEmail('geofreykayin@gmail.com');
+                  setPassword('geo654@!');
+                }}
+                className="px-3 py-1.5 bg-amber-500/10 text-amber-700 dark:text-amber-300 hover:bg-amber-500/20 rounded-lg text-xs font-semibold transition-colors"
+              >
+                Admin
+              </button>
+            </div>
+          </div>
+
           <p className="text-center text-sm text-muted-foreground">
             Don&apos;t have an account?{' '}
             <Link href="/auth/register" className="text-primary hover:text-accent font-semibold transition-colors">

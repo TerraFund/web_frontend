@@ -43,8 +43,12 @@ export default function RegisterPage() {
         setSuccess(true);
         // Auto-login
         setTimeout(() => {
-          dispatch(setCredentials({ user: data.user, token: data.token }));
-          router.push('/auth/kyc');
+          const userObj = data.user || data.data?.user;
+          const tokenStr = data.token || data.data?.token;
+          if (userObj) {
+            dispatch(setCredentials({ user: userObj, token: tokenStr }));
+          }
+          router.push('/dashboard');
         }, 2000);
       } else {
         setError(data.message || 'Registration failed');

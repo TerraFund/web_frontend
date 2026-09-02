@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
-    const { email, password } = await request.json();
+    const { email, password, role: requestedRole } = await request.json();
 
     // Mock authentication - in real app, verify credentials
     if (!email || !password) {
@@ -12,14 +12,18 @@ export async function POST(request: Request) {
       );
     }
 
-    const isAdmin = email.toLowerCase() === 'geofreykayin@gmail.com';
+    const emailLower = email.toLowerCase();
+    const isAdmin = emailLower === 'geofreykayin@gmail.com';
+    const isLandowner = requestedRole === 'landowner' || emailLower.includes('landowner') || emailLower.includes('owner');
+
+    const role = isAdmin ? 'admin' : isLandowner ? 'landowner' : 'investor';
 
     // Mock successful login
     const user = {
-      id: isAdmin ? 'admin-1' : '1',
-      name: isAdmin ? 'Geofrey Kayin' : 'John Doe',
+      id: isAdmin ? 'admin-1' : isLandowner ? 'landowner-1' : '1',
+      name: isAdmin ? 'Geofrey Kayin' : isLandowner ? 'Landowner User' : 'John Doe',
       email,
-      role: isAdmin ? 'admin' : 'investor',
+      role,
       kyc_status: 'verified',
     };
 

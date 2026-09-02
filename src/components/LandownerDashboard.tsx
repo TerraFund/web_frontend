@@ -217,7 +217,7 @@ export default function LandownerDashboard({ user }: LandownerDashboardProps) {
               Refresh
             </Button>
             <Button
-              onClick={() => router.push('/lands/create')}
+              onClick={() => router.push('/dashboard/add-land')}
               className="bg-accent text-white hover:bg-accent/90 shadow-lg text-xs sm:text-sm"
             >
               <Plus className="h-4 w-4 mr-2" /> List New Land
@@ -328,7 +328,7 @@ export default function LandownerDashboard({ user }: LandownerDashboardProps) {
                 <h2 className="text-xl font-bold text-foreground">My Property Listings</h2>
                 <p className="text-xs text-muted-foreground">Manage your published agricultural land plots.</p>
               </div>
-              <Button onClick={() => router.push('/lands/create')} className="flex items-center gap-2">
+              <Button onClick={() => router.push('/dashboard/add-land')} className="flex items-center gap-2">
                 <Plus className="h-4 w-4" /> List New Plot
               </Button>
             </div>

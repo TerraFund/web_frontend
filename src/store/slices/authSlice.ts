@@ -24,6 +24,17 @@ const initialState: AuthState = {
   isAuthenticated: true,
 };
 
+const setCookie = (name: string, value: string, days = 7) => {
+  if (typeof document === 'undefined') return;
+  const expires = new Date(Date.now() + days * 864e5).toUTCString();
+  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`;
+};
+
+const deleteCookie = (name: string) => {
+  if (typeof document === 'undefined') return;
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+};
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -35,19 +46,34 @@ const authSlice = createSlice({
       if (typeof window !== 'undefined') {
         localStorage.setItem('terrafund_token', action.payload.token);
         localStorage.setItem('terrafund_user', JSON.stringify(action.payload.user));
+        setCookie('terrafund_token', action.payload.token);
+        setCookie('terrafund_role', action.payload.user.role);
+      }
+    },
+    updateUser: (state, action: PayloadAction<Partial<User>>) => {
+      if (state.user) {
+        state.user = { ...state.user, ...action.payload };
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('terrafund_user', JSON.stringify(state.user));
+          if (action.payload.role) {
+            setCookie('terrafund_role', action.payload.role);
+          }
+        }
       }
     },
     logout: (state) => {
       if (typeof window !== 'undefined') {
         localStorage.removeItem('terrafund_token');
         localStorage.removeItem('terrafund_user');
+        deleteCookie('terrafund_token');
+        deleteCookie('terrafund_role');
       }
-      state.user = defaultUser;
-      state.token = 'mock-token';
-      state.isAuthenticated = true;
+      state.user = null;
+      state.token = null;
+      state.isAuthenticated = false;
     },
   },
 });
 
-export const { setCredentials, logout } = authSlice.actions;
+export const { setCredentials, updateUser, logout } = authSlice.actions;
 export default authSlice.reducer;

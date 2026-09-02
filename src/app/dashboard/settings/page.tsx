@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useTranslation } from 'react-[#18next]' || 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { RootState } from '@/store';
 import { toggleDarkMode } from '@/store/slices/uiSlice';
 import {

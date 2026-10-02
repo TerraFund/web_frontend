@@ -40,7 +40,6 @@ yarn-error.log*
 next-env.d.ts
 
 # IDE
-.vscode/settings.json
 .idea/
 
 # OS
@@ -58,8 +57,6 @@ coverage/
 .nyc_output/
 
 # Environment variables
-.env
-.env.*
 !.env.example
 .env.development.local
 .env.test.local

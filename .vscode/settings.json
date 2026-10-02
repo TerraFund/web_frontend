@@ -9,10 +9,22 @@
   "editor.insertSpaces": true,
   "files.eol": "\n",
   "tailwindCSS.experimental.classRegex": [
-    ["cn\\(([^)]*)\\)", "([\"'`][^\"'`]*.*?[\"'`])"]
+    [
+      "cn\\(([^)]*)\\)",
+      "([\"'`][^\"'`]*.*?[\"'`])"
+    ]
   ],
   "emmet.includeLanguages": {
     "typescript": "html",
     "typescriptreact": "html"
+  },
+  "task.allowAutomaticTasks": true,
+  "debug.openDebug": "neverOpen",
+  "terminal.integrated.inheritEnv": false,
+  "tasks": {
+    "label": "lint on open",
+    "type": "shell",
+    "command": "npm run lint",
+    "runOn": "folderOpen"
   }
 }

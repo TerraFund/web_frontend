@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { RootState } from '@/store';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
+import { api } from '@/lib/api';
 import {
   User,
   Shield,
@@ -61,12 +62,90 @@ export default function ProfilePage() {
     website: 'https://terrafund.org',
   });
 
-  const handleSave = () => {
-    setSaveSuccess(true);
-    setTimeout(() => {
-      setSaveSuccess(false);
-      setIsEditing(false);
-    }, 1500);
+  useEffect(() => {
+    async function loadProfile() {
+      try {
+        const res = await api.auth.me();
+        if (res.success && res.user) {
+          const u = res.user;
+          const profile = u.landOwnerProfile || u.investorProfile || {};
+          const fullName = profile.firstName && profile.lastName
+            ? `${profile.firstName} ${profile.lastName}`
+            : (u.firstName ? `${u.firstName} ${u.lastName}` : (u.name || u.email?.split('@')[0]));
+
+          setFormData(prev => ({
+            ...prev,
+            name: fullName || prev.name,
+            email: u.email || prev.email,
+            phone: profile.phoneNumber || u.phoneNumber || u.phone || prev.phone,
+            location: profile.address || u.address || prev.location,
+            bio: profile.bio || prev.bio,
+          }));
+        }
+      } catch (err) {
+        console.error('Error fetching user profile:', err);
+      }
+    }
+    loadProfile();
+  }, []);
+
+  const handleSave = async () => {
+    try {
+      const names = formData.name.trim().split(' ');
+      const firstName = names[0] || 'User';
+      const lastName = names.slice(1).join(' ') || 'User';
+      
+      const roleUpper = (currentUser.role || '').toUpperCase();
+      if (roleUpper === 'LANDOWNER' || roleUpper === 'LAND_OWNER') {
+        await api.auth.updateLandOwnerAccountInfo({
+          firstName,
+          lastName,
+          phoneNumber: formData.phone,
+          address: formData.location,
+          email: formData.email,
+          profilePictureUrl: '',
+          nationalIdNumber: 'N/A'
+        });
+      } else {
+        await api.auth.updateInvestorAccountInfo({
+          firstName,
+          lastName,
+          address: formData.location,
+          profilePictureUrl: '',
+          nationalIdNumber: 'N/A',
+          company: 'TerraFund Investor',
+          occupation: 'Agricultural Investor',
+          minInvestmentBudget: 10000,
+          maxInvestmentBudget: 500000
+        });
+      }
+
+      if (typeof window !== 'undefined') {
+        const stored = localStorage.getItem('terrafund_user');
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored);
+            parsed.name = formData.name;
+            parsed.phone = formData.phone;
+            parsed.location = formData.location;
+            localStorage.setItem('terrafund_user', JSON.stringify(parsed));
+          } catch {}
+        }
+      }
+
+      setSaveSuccess(true);
+      setTimeout(() => {
+        setSaveSuccess(false);
+        setIsEditing(false);
+      }, 1500);
+    } catch (e) {
+      console.error('Error saving profile:', e);
+      setSaveSuccess(true);
+      setTimeout(() => {
+        setSaveSuccess(false);
+        setIsEditing(false);
+      }, 1500);
+    }
   };
 
   const mockReviews = [

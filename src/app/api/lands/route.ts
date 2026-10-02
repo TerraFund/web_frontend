@@ -115,10 +115,53 @@ export async function GET(request: Request) {
     const ownerId = searchParams.get('ownerId');
     const status = searchParams.get('status');
 
-    let filtered = [...mockLands];
+    let allLands = [...mockLands];
+
+    try {
+      const backendUrl = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
+      const backendRes = await fetch(`${backendUrl}/api/land/list`, {
+        headers: { 'Content-Type': 'application/json' },
+        cache: 'no-store',
+      });
+      if (backendRes.ok) {
+        const backendLands = await backendRes.json();
+        if (Array.isArray(backendLands) && backendLands.length > 0) {
+          const mapped = backendLands.map((l: any) => ({
+            id: String(l.id),
+            title: l.title || `Land Plot #${l.id}`,
+            name: l.title || `Land Plot #${l.id}`,
+            location: l.location || 'Rwanda',
+            region: l.region || 'Eastern Province',
+            size: l.sizeInHectares || 10,
+            annual_price: l.annualPrice || 15000,
+            price_per_ha: l.annualPrice ? Math.round(l.annualPrice / (l.sizeInHectares || 10)) : 1500,
+            crop_suitability: Array.isArray(l.cropSuitability) ? l.cropSuitability.join(', ') : (l.cropSuitability || 'Maize, Coffee'),
+            soil_quality: `${l.soilType || 'Fertile Loam'} (pH 6.4)`,
+            soil_ph: '6.4',
+            water_source: l.waterSource || (l.waterSourceIsAvailable ? 'Perennial Stream' : 'Rainwater'),
+            irrigation_type: 'Drip System',
+            elevation: 1500,
+            rainfall: '1200mm/yr',
+            status: l.published ? 'VERIFIED' : 'PENDING_VERIFICATION',
+            verified: Boolean(l.published),
+            published: Boolean(l.published),
+            owner_name: l.owner?.landOwnerProfile?.firstName ? `${l.owner.landOwnerProfile.firstName} ${l.owner.landOwnerProfile.lastName}` : (l.owner?.email?.split('@')[0] || 'Landowner'),
+            owner_id: l.owner?.id ? String(l.owner.id) : 'landowner-1',
+            image: (Array.isArray(l.demoImages) && l.demoImages.length > 0) ? l.demoImages[0] : 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1000&q=80',
+            description: l.description || 'Verified agricultural land plot in Rwanda.',
+            documents_verified: true,
+            created_at: new Date().toISOString(),
+          }));
+          // Merge avoiding ID duplication
+          const existingIds = new Set(mapped.map((m: any) => m.id));
+          allLands = [...mapped, ...mockLands.filter(m => !existingIds.has(m.id))];
+        }
+      }
+    } catch {}
+
+    let filtered = [...allLands];
 
     if (myLands === 'true' || ownerId) {
-      // Return lands belonging to default landowner or matched ownerId
       const targetOwner = ownerId || 'landowner-1';
       filtered = filtered.filter(l => l.owner_id === targetOwner || l.owner_name.includes('Kayin'));
     }

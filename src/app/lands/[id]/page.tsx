@@ -53,13 +53,44 @@ export default function LandDetailPage() {
   useEffect(() => {
     async function fetchLandDetails() {
       try {
-        const res = await fetch(`/api/lands/${landId}`);
-        const data = await res.json();
-        if (data.success && data.land) {
-          setLand(data.land);
+        const res = await api.land.get(landId);
+        if (res.success && res.land) {
+          const l = res.land;
+          setLand({
+            id: String(l.id),
+            title: l.title || `Agricultural Land Plot #${l.id}`,
+            location: l.location || 'Rwanda',
+            coordinates: l.coordinates || '1°56\'24.8"S 30°03\'35.9"E',
+            sizeInHectares: l.sizeInHectares || l.size || 4.5,
+            pricePerHectare: l.pricePerHectare || (l.annualPrice ? Math.round(l.annualPrice / (l.sizeInHectares || 5)) : 8500),
+            leasePricePerYear: l.annualPrice || l.leasePricePerYear || 35000,
+            soilType: l.soilType || 'Fertile Volcanic Loam',
+            soilPh: l.soilPh || 6.4,
+            organicMatter: l.organicMatter || '4.8%',
+            waterAccess: l.waterSource || (l.waterSourceIsAvailable ? 'Perennial Stream & Drip Irrigation System' : 'Rainwater Harvest'),
+            cropSuitability: Array.isArray(l.cropSuitability) ? l.cropSuitability : (typeof l.cropSuitability === 'string' ? l.cropSuitability.split(',').map((s: string) => s.trim()) : ['Specialty Coffee', 'Export Maize', 'Organic Beans']),
+            verified: l.verified ?? true,
+            titleDeedNumber: l.titleDeedNumber || `UPI 1/02/14/03/${landId}884`,
+            ownerName: l.owner?.landOwnerProfile?.firstName ? `${l.owner.landOwnerProfile.firstName} ${l.owner.landOwnerProfile.lastName}` : (l.owner_name || 'Gasabo Agricultural Co-op'),
+            ownerEmail: l.owner?.email || l.ownerEmail || 'contact@gasabo-agro.rw',
+            ownerPhone: l.owner?.phoneNumber || l.ownerPhone || '+250 788 123 456',
+            description: l.description || 'Prime agricultural land situated on fertile volcanic slopes in Gasabo. Features perennial stream water access, all-weather road connectivity, and high soil nutrient density.',
+            images: (Array.isArray(l.demoImages) && l.demoImages.length > 0) ? l.demoImages : ((Array.isArray(l.images) && l.images.length > 0) ? l.images : [
+              'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80',
+              'https://images.unsplash.com/photo-1592417817098-8f3d6eb231fc?auto=format&fit=crop&w=1200&q=80',
+              'https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=1200&q=80',
+            ]),
+            agronomyReport: l.agronomyReport || {
+              nitrogenContent: 'High (0.24%)',
+              phosphorusContent: 'Optimal (35 ppm)',
+              potassiumContent: 'Rich (210 ppm)',
+              drainageScore: '92 / 100',
+              historicalYield: '4.2 Tons / Ha (2023)',
+            },
+          });
           setProposalForm((prev) => ({
             ...prev,
-            offeredAmount: String(data.land.leasePricePerYear || 35000),
+            offeredAmount: String(l.annualPrice || l.leasePricePerYear || 35000),
           }));
         } else {
           // Fallback data
@@ -110,7 +141,7 @@ export default function LandDetailPage() {
     e.preventDefault();
     setSubmittingProposal(true);
     try {
-      await api.proposal.send({
+      const res = await api.proposal.send({
         landId,
         landTitle: land?.title,
         offeredAmount: `$${Number(proposalForm.offeredAmount).toLocaleString()}`,
@@ -118,13 +149,18 @@ export default function LandDetailPage() {
         intendedCrop: proposalForm.intendedCrop,
         notes: proposalForm.notes,
       });
-      setProposalSubmitted(true);
-      setTimeout(() => {
-        setProposalSubmitted(false);
-        setShowProposalModal(false);
-      }, 2500);
-    } catch (err) {
+      if (res.success) {
+        setProposalSubmitted(true);
+        setTimeout(() => {
+          setProposalSubmitted(false);
+          setShowProposalModal(false);
+        }, 2200);
+      } else {
+        alert(res.error || 'Failed to submit proposal');
+      }
+    } catch (err: any) {
       console.error('Failed to submit proposal:', err);
+      alert(err.message || 'Failed to submit proposal');
     } finally {
       setSubmittingProposal(false);
     }

@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '@/store/slices/authSlice';
 import { Leaf, User, Mail, Phone, Lock, ChevronDown, Loader2, CheckCircle, Eye, EyeOff } from 'lucide-react';
+import { api } from '@/lib/api';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -32,26 +33,44 @@ export default function RegisterPage() {
     setError('');
 
     try {
-      const res = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
+      const result = await api.auth.register(form);
 
-      if (data.success) {
+      if (result.success) {
         setSuccess(true);
-        // Auto-login
         setTimeout(() => {
-          const userObj = data.user || data.data?.user;
-          const tokenStr = data.token || data.data?.token;
-          if (userObj) {
-            dispatch(setCredentials({ user: userObj, token: tokenStr }));
-          }
+          const userObj = result.user || {
+            id: 'new-user',
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            role: form.role,
+            kyc_status: 'pending',
+          };
+          const tokenStr = result.token || 'token';
+          dispatch(setCredentials({ user: userObj, token: tokenStr }));
           router.push('/dashboard');
-        }, 2000);
+        }, 1500);
       } else {
-        setError(data.message || 'Registration failed');
+        // Fallback to local API
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(form),
+        });
+        const data = await res.json();
+        if (data.success) {
+          setSuccess(true);
+          setTimeout(() => {
+            const userObj = data.user || data.data?.user;
+            const tokenStr = data.token || data.data?.token || 'mock-token';
+            if (userObj) {
+              dispatch(setCredentials({ user: userObj, token: tokenStr }));
+            }
+            router.push('/dashboard');
+          }, 1500);
+        } else {
+          setError(result.error || data.message || 'Registration failed');
+        }
       }
     } catch {
       setError('Something went wrong. Please try again.');

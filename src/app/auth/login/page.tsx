@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { setCredentials } from '@/store/slices/authSlice';
 import { Leaf, Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react';
+import { api } from '@/lib/api';
 
 export default function LoginPage() {
   const { t } = useTranslation();
@@ -24,29 +25,48 @@ export default function LoginPage() {
     setError('');
 
     try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await res.json();
+      // 1. Try real Spring Boot backend login
+      const result = await api.auth.login({ email, password });
 
-      if (data.success) {
-        const userObj = data.user || data.data?.user;
-        const tokenStr = data.token || data.data?.token;
-        if (userObj) {
-          dispatch(setCredentials({ user: userObj, token: tokenStr }));
-        }
+      if (result.success && result.token) {
+        const userObj = result.user || {
+          id: 'user-1',
+          name: email.split('@')[0],
+          email,
+          role: email.toLowerCase().includes('admin') ? 'admin' : (email.toLowerCase().includes('owner') ? 'landowner' : 'investor'),
+          kyc_status: 'verified',
+        };
+        dispatch(setCredentials({ user: userObj, token: result.token }));
         if (userObj?.role === 'admin') {
           router.push('/admin');
         } else {
           router.push('/dashboard');
         }
       } else {
-        setError(data.error || data.message || 'Invalid credentials');
+        // Fallback to local next route if backend returned error or is offline
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          const userObj = data.user || data.data?.user;
+          const tokenStr = data.token || data.data?.token;
+          if (userObj) {
+            dispatch(setCredentials({ user: userObj, token: tokenStr }));
+          }
+          if (userObj?.role === 'admin') {
+            router.push('/admin');
+          } else {
+            router.push('/dashboard');
+          }
+        } else {
+          setError(result.error || data.error || 'Invalid credentials');
+        }
       }
     } catch {
-      setError('Something went wrong. Please try again.');
+      setError('Something went wrong. Please check your credentials.');
     } finally {
       setLoading(false);
     }

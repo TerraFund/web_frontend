@@ -1,15 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/Button';
 import { ArrowLeft, MessageSquare, FileText, CheckCircle, XCircle, AlertTriangle, Send, User, Calendar } from 'lucide-react';
 
-export default function DisputeDetailPage({ params }: { params: { id: string } }) {
+export default function DisputeDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
   const router = useRouter();
   const [resolution, setResolution] = useState('');
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [disputeData, setDisputeData] = useState<{
     id: string;
     title: string;
@@ -32,7 +34,7 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
         // Simulate API delay
         await new Promise(resolve => setTimeout(resolve, 500));
         setDisputeData({
-          id: params.id,
+          id,
           title: 'Contract Breach - Payment Delay',
           parties: 'John Doe vs Sarah Smith',
           status: 'open',
@@ -94,10 +96,10 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
     };
 
     fetchDispute();
-  }, [params.id]);
+  }, [id]);
 
   const handleResolve = (status: 'resolved' | 'dismissed') => {
-    if (!resolution.trim()) return;
+    if (!disputeData || !resolution.trim()) return;
 
     setDisputeData({
       ...disputeData,
@@ -105,11 +107,11 @@ export default function DisputeDetailPage({ params }: { params: { id: string } }
     });
 
     // Mock API call
-    console.log(`Resolving dispute ${params.id} with status: ${status}, resolution: ${resolution}`);
+    console.log(`Resolving dispute ${id} with status: ${status}, resolution: ${resolution}`);
   };
 
   const handleSendMessage = () => {
-    if (!newMessage.trim()) return;
+    if (!disputeData || !newMessage.trim()) return;
 
     const message = {
       id: Date.now().toString(),

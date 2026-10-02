@@ -1,14 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/Button';
 import { ArrowLeft, Edit, Save, X, User, Mail, Shield, MapPin, Phone, FileText, Activity } from 'lucide-react';
 
-export default function UserDetailPage({ params }: { params: { id: string } }) {
+export default function UserDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [userData, setUserData] = useState<{
     id: string;
     name: string;
@@ -33,7 +35,7 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
         // Simulate API delay
         await new Promise(resolve => setTimeout(resolve, 500));
         setUserData({
-          id: params.id,
+          id,
           name: 'John Doe',
           email: 'john@example.com',
           role: 'landowner',
@@ -59,7 +61,7 @@ export default function UserDetailPage({ params }: { params: { id: string } }) {
     };
 
     fetchUser();
-  }, [params.id]);
+  }, [id]);
 
   const [editData, setEditData] = useState<any>(null);
 

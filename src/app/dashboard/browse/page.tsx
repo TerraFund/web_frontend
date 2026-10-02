@@ -169,7 +169,19 @@ export default function BrowseLands() {
             {compareList.length > 0 && (
               <Button
                 onClick={() => {
-                  const compared = lands.filter((l) => compareList.includes(l.id));
+                  const compared = lands
+                    .filter((l) => compareList.includes(l.id))
+                    .map((l) => ({
+                      id: l.id,
+                      title: l.title,
+                      location: l.location,
+                      size: l.size,
+                      cropSuitability: l.crop_suitability,
+                      soilQuality: l.soil_quality,
+                      waterSource: l.water_source,
+                      elevation: l.elevation,
+                      image: l.image,
+                    }));
                   openModal(<CompareModal lands={compared} />);
                 }}
                 className="bg-accent text-secondary hover:bg-accent/90 font-bold text-xs"
@@ -226,7 +238,7 @@ export default function BrowseLands() {
             {/* View Mode & Filter Controls */}
             <div className="flex flex-wrap items-center gap-3">
               <Button
-                variant={showFilters ? 'default' : 'outline'}
+                variant={showFilters ? 'primary' : 'outline'}
                 onClick={() => setShowFilters(!showFilters)}
                 className="flex items-center gap-2 text-xs"
               >

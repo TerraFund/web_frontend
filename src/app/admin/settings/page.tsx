@@ -119,13 +119,12 @@ export default function AdminSettingsPage() {
   const [activeTab, setActiveTab] = useState<'platform' | 'security' | 'payments' | 'notifications' | 'features'>('platform');
 
   const updateSetting = (category: string, key: string, value: any) => {
-    setSettings(prev => ({
-      ...prev,
-      [category]: {
-        ...prev[category as keyof typeof prev],
-        [key]: value,
-      },
-    }));
+    setSettings(prev => {
+      if (!prev) return prev;
+      const next = { ...prev } as Record<string, Record<string, unknown>>;
+      next[category] = { ...next[category], [key]: value };
+      return next as unknown as typeof prev;
+    });
   };
 
   return (

@@ -20,9 +20,9 @@ interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function Card({ className, children, variant = 'default', hover = false, ...props }: CardProps) {
   const variantClasses = {
-    default: 'bg-white
-    elevated: 'bg-white
-    outlined: 'bg-white
+    default: 'bg-white shadow-sm',
+    elevated: 'bg-white shadow-md',
+    outlined: 'bg-white border border-gray-200',
   };
 
   return (
@@ -42,7 +42,7 @@ export function Card({ className, children, variant = 'default', hover = false, 
 
 export function CardHeader({ className, children, ...props }: CardHeaderProps) {
   return (
-    <div className={cn('p-6 border-b border-gray-200
+    <div className={cn('p-6 border-b border-gray-200', className)}>
       {children}
     </div>
   );
@@ -58,7 +58,7 @@ export function CardContent({ className, children, ...props }: CardContentProps)
 
 export function CardFooter({ className, children, ...props }: CardFooterProps) {
   return (
-    <div className={cn('p-6 border-t border-gray-200
+    <div className={cn('p-6 border-t border-gray-200', className)}>
       {children}
     </div>
   );

@@ -437,9 +437,9 @@ export default function Notifications() {
                         {/* Action Button */}
                         {notification.actionUrl && (
                           <div className="mt-4">
-                            <Button variant="outline" size="sm" as="a" href={notification.actionUrl}>
-                              View Details
-                            </Button>
+                            <a href={notification.actionUrl}>
+                              <Button variant="outline" size="sm">View Details</Button>
+                            </a>
                           </div>
                         )}
                       </div>

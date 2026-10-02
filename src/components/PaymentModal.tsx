@@ -81,7 +81,7 @@ export default function PaymentModal({ amount, contractId, onPayment }: PaymentM
             <label className={`flex items-center p-3 border rounded-lg cursor-pointer transition-all duration-200 ${
               paymentMethod === 'card'
                 ? 'border-primary bg-primary/5'
-                : 'border-border
+                : 'border-border bg-background'
             }`}>
               <input
                 type="radio"
@@ -99,7 +99,7 @@ export default function PaymentModal({ amount, contractId, onPayment }: PaymentM
             <label className={`flex items-center p-3 border rounded-lg cursor-pointer transition-all duration-200 ${
               paymentMethod === 'paypal'
                 ? 'border-primary bg-primary/5'
-                : 'border-border
+                : 'border-border bg-background'
             }`}>
               <input
                 type="radio"

@@ -1,14 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/Button';
 import { ArrowLeft, Edit, Save, X, MapPin, User, FileText, CheckCircle, XCircle, Eye, Download, AlertTriangle } from 'lucide-react';
 
-export default function LandDetailPage({ params }: { params: { id: string } }) {
+export default function LandDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [landData, setLandData] = useState<{
     id: string;
     title: string;
@@ -36,7 +38,7 @@ export default function LandDetailPage({ params }: { params: { id: string } }) {
         // Simulate API delay
         await new Promise(resolve => setTimeout(resolve, 500));
         setLandData({
-          id: params.id,
+          id,
           title: 'Coffee Farm Plot #5',
           owner: 'John Doe',
           ownerId: '1',
@@ -69,7 +71,7 @@ export default function LandDetailPage({ params }: { params: { id: string } }) {
     };
 
     fetchLand();
-  }, [params.id]);
+  }, [id]);
 
   const [editData, setEditData] = useState<any>(null);
 

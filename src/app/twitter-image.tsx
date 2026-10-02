@@ -26,7 +26,7 @@ export default function twitter() {
         }}
       >
         <div style={{ fontSize: 60, fontWeight: 'bold', marginBottom: 20 }}>
-          🌱 TerraFund
+          TerraFund
         </div>
         <div style={{ fontSize: 24 }}>
           Connecting landowners with investors for sustainable land development

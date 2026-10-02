@@ -7,6 +7,36 @@ export async function GET(
   try {
     const { id } = await params;
 
+    // Check backend first if available
+    const authHeader = request.headers.get('authorization') || '';
+    const cookieHeader = request.headers.get('cookie') || '';
+    let token = authHeader;
+    if (!token && cookieHeader) {
+      const match = cookieHeader.match(/terrafund_token=([^;]+)/);
+      if (match) token = `Bearer ${match[1]}`;
+    }
+
+    try {
+      const backendUrl = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
+      const backendRes = await fetch(`${backendUrl}/api/land-proposal/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': token } : {}),
+        },
+        cache: 'no-store',
+      });
+      if (backendRes.ok) {
+        const backendProposal = await backendRes.json();
+        if (backendProposal && backendProposal.id) {
+          return NextResponse.json({
+            success: true,
+            data: backendProposal,
+            proposal: backendProposal,
+          });
+        }
+      }
+    } catch {}
+
     // Mock proposal detail payload
     const proposalData: Record<string, any> = {
       '1': {

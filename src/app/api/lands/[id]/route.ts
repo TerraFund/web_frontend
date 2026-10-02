@@ -7,6 +7,56 @@ export async function GET(
   try {
     const { id } = await params;
 
+    // Check backend first if available
+    try {
+      const backendUrl = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
+      const backendRes = await fetch(`${backendUrl}/api/land/${id}`, {
+        headers: { 'Content-Type': 'application/json' },
+        cache: 'no-store',
+      });
+      if (backendRes.ok) {
+        const l = await backendRes.json();
+        if (l && l.id) {
+          const formatted = {
+            id: String(l.id),
+            title: l.title || `Agricultural Land Plot #${l.id}`,
+            location: l.location || 'Rwanda',
+            coordinates: l.coordinates || '1°56\'24.8"S 30°03\'35.9"E',
+            sizeInHectares: l.sizeInHectares || 5.0,
+            pricePerHectare: l.annualPrice ? Math.round(l.annualPrice / (l.sizeInHectares || 5)) : 8500,
+            leasePricePerYear: l.annualPrice || 35000,
+            soilType: l.soilType || 'Fertile Volcanic Loam',
+            soilPh: 6.4,
+            organicMatter: '4.8%',
+            waterAccess: l.waterSource || (l.waterSourceIsAvailable ? 'Perennial Stream & Drip Irrigation' : 'Rainwater'),
+            cropSuitability: Array.isArray(l.cropSuitability) ? l.cropSuitability : (typeof l.cropSuitability === 'string' ? l.cropSuitability.split(',').map((s: string) => s.trim()) : ['Coffee', 'Maize', 'Soybean']),
+            verified: l.verified ?? true,
+            titleDeedNumber: `UPI 1/02/14/03/${l.id}884`,
+            ownerName: l.owner?.landOwnerProfile?.firstName ? `${l.owner.landOwnerProfile.firstName} ${l.owner.landOwnerProfile.lastName}` : (l.owner_name || 'Land Owner'),
+            ownerEmail: l.owner?.email || 'contact@terrafund.org',
+            ownerPhone: l.owner?.phoneNumber || '+250 788 123 456',
+            description: l.description || 'Prime agricultural land plot with high soil nutrient density and road access.',
+            images: (Array.isArray(l.demoImages) && l.demoImages.length > 0) ? l.demoImages : [
+              'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80',
+              'https://images.unsplash.com/photo-1592417817098-8f3d6eb231fc?auto=format&fit=crop&w=1200&q=80',
+            ],
+            agronomyReport: {
+              nitrogenContent: 'Optimal (0.22%)',
+              phosphorusContent: 'Optimal (35 ppm)',
+              potassiumContent: 'Rich (210 ppm)',
+              drainageScore: '92 / 100',
+              historicalYield: '4.5 Tons / Ha (2023)',
+            },
+          };
+          return NextResponse.json({
+            success: true,
+            data: formatted,
+            land: formatted,
+          });
+        }
+      }
+    } catch {}
+
     // Mock detailed land metadata
     const landData: Record<string, any> = {
       '1': {

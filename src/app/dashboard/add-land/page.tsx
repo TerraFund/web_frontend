@@ -21,6 +21,7 @@ import {
   Compass,
 } from 'lucide-react';
 import Button from '@/components/Button';
+import { api } from '@/lib/api';
 
 export default function AddLandWizard() {
   const router = useRouter();
@@ -80,14 +81,22 @@ export default function AddLandWizard() {
     }
   }, [currentStep, generateAiRecommendations]);
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      const names = Array.from(e.target.files).map(f => f.name);
-      setFormData(prev => ({
+      const files = Array.from(e.target.files);
+      const names = files.map((f) => f.name);
+      setFormData((prev) => ({
         ...prev,
         documentsUploaded: true,
         uploadedDocNames: [...prev.uploadedDocNames, ...names],
       }));
+
+      // Upload first file via API in background
+      try {
+        await api.files.upload(files[0]);
+      } catch (err) {
+        console.warn('Background doc upload notice:', err);
+      }
     }
   };
 
@@ -102,18 +111,26 @@ export default function AddLandWizard() {
   const handleSubmit = async () => {
     setSubmitting(true);
     try {
-      const res = await fetch('/api/lands', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-      if (data.success) {
+      const result = await api.land.create(formData);
+      if (result.success) {
         setSubmittedSuccess(true);
         setTimeout(() => {
           router.push('/dashboard/my-lands');
-        }, 1800);
+        }, 1500);
+      } else {
+        // Fallback to local next route
+        const res = await fetch('/api/lands', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+        const data = await res.json();
+        if (data.success) {
+          setSubmittedSuccess(true);
+          setTimeout(() => {
+            router.push('/dashboard/my-lands');
+          }, 1500);
+        }
       }
     } catch (err) {
       console.error('Failed to publish land:', err);

@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { useUI } from '@/hooks/useUI';
 import Button from '@/components/Button';
+import { api } from '@/lib/api';
 
 const Map = lazy(() => import('@/components/Map'));
 
@@ -60,11 +61,37 @@ export default function BrowseLands() {
   const fetchLands = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/lands');
-      const data = await res.json();
-      if (data.success && Array.isArray(data.data)) {
-        setLands(data.data);
+      // 1. Try real Spring Boot backend
+      const res = await api.land.list();
+      let rawLands: any[] = [];
+      if (res.success && Array.isArray(res.lands) && res.lands.length > 0) {
+        rawLands = res.lands;
+      } else {
+        const nextRes = await fetch('/api/lands').then((r) => r.json());
+        if (nextRes.success && Array.isArray(nextRes.data)) {
+          rawLands = nextRes.data;
+        }
       }
+
+      const formatted: LandPlot[] = rawLands.map((l: any) => ({
+        id: String(l.id),
+        title: l.title || l.name || 'Agricultural Land Plot',
+        location: l.location || 'Rwanda',
+        region: l.region || 'Eastern Province',
+        size: Number(l.sizeInHectares || l.size || 10),
+        annual_price: Number(l.annualPrice || l.annual_price || 15000),
+        price_per_ha: Math.round(Number(l.annualPrice || l.annual_price || 15000) / (Number(l.sizeInHectares || l.size || 10) || 1)),
+        crop_suitability: l.cropSuitability || l.crop_suitability || 'Arabica Coffee, Maize',
+        soil_quality: l.soilType || l.soil_quality || 'Volcanic Loam',
+        soil_ph: l.soilPh || l.soil_ph || '6.4',
+        water_source: l.waterSource || l.water_source || 'Stream & Drip System',
+        elevation: Number(l.elevation || 1500),
+        verified: Boolean(l.verified),
+        status: l.verified ? 'VERIFIED' : 'PENDING_VERIFICATION',
+        image: Array.isArray(l.demoImages) && l.demoImages.length > 0 ? l.demoImages[0] : (l.image || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1000&q=80'),
+      }));
+
+      setLands(formatted);
     } catch (err) {
       console.error('Failed to fetch marketplace lands:', err);
     } finally {
